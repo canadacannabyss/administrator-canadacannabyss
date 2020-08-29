@@ -279,7 +279,7 @@ const AddCategory = () => {
   return (
     <>
       <Head>
-        <title>Add Category | Reseller - Canada Cannabyss</title>
+        <title>Add Category | Administrator - Canada Cannabyss</title>
       </Head>
       <BackgroundAdd>
         <Wrapper>

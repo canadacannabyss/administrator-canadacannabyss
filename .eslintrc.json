@@ -21,6 +21,8 @@
     "no-restricted-globals": ["error", "event", "fdescribe"],
     "comma-dangle": ["error", "never"],
     "no-underscore-dangle": ["error"],
-    "array-callback-return": "error"
+    "array-callback-return": "error",
+    "react/jsx-props-no-spreading": "off",
+    "no-console": "off"
   }
 }

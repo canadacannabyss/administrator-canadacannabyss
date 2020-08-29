@@ -316,7 +316,7 @@ const AddProduct = () => {
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
         const res = await publishProduct(productInfo);
-        Router.push(`/product/${res.slug}`);
+        Router.push('/products');
       } else {
         console.log('Slug is invalid');
         setIsSlugValid(false);
@@ -391,7 +391,7 @@ const AddProduct = () => {
   return (
     <>
       <Head>
-        <title>Add Product | Reseller - Canada Cannabyss</title>
+        <title>Add Product | Administrator - Canada Cannabyss</title>
       </Head>
       <BackgroundAdd>
         <Wrapper>
@@ -409,6 +409,7 @@ const AddProduct = () => {
               childRef={childRef}
               handleSetImagesArray={handleSetImagesArray}
               imagesArray={imagesArray}
+              multipleFiles
             />
             <Pricing
               price={price}

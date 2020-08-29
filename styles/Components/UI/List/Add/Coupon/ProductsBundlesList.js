@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 const List = styled.div`
   width: 100%;
-  display: grid;
-  grid-gap: 5px;
   border-radius: 4px;
   overflow-x: scroll;
   &::-webkit-scrollbar {
@@ -15,6 +13,7 @@ const ListLiContent = styled.div`
   background: #efefef;
   border-radius: 4px;
   padding: 7px 10px;
+  margin-bottom: 5px;
   height: 40px;
   display: grid;
   grid-gap: 10px;

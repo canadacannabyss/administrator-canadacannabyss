@@ -2,17 +2,20 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-
+import DateFormatter from '../../../../utils/dateFormatter';
 import {
   List,
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv,
+  SpansDiv
 } from '../../../../styles/Components/UI/List/Bundles/BundleList';
 
 const BundleList = (props) => {
   const { bundles } = props;
+
+  const dateFormatter = new DateFormatter();
+
   return (
     <List>
       <SpansDiv>
@@ -65,12 +68,16 @@ const BundleList = (props) => {
           </div>
           <div className='createdOn'>
             <p>
-              {bundle.createdOn}
+              {dateFormatter.formatDateFullDate(bundle.createdOn)}
             </p>
           </div>
           <div className='updatedOn'>
             <p>
-              {bundle.updatedOn}
+              {bundle.updatedOn ? (
+                <>
+                  {dateFormatter.formatDateFullDate(bundle.updatedOn)}
+                </>
+              ) : ('Not updated')}
             </p>
           </div>
           <div className='featured'>
@@ -96,7 +103,7 @@ const BundleList = (props) => {
 };
 
 BundleList.propTypes = {
-  bundles: PropTypes.shape().isRequired,
+  bundles: PropTypes.shape().isRequired
 };
 
 export default BundleList;

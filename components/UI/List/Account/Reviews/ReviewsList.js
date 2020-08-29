@@ -45,7 +45,7 @@ const ReviewsList = (props) => {
                       </LinkToProfile>
 
                       <PostedOn>
-                        {formatter.formatDateFullDate(review.publishedOn)}
+                        {formatter.formatDateFullDate(review.createdOn)}
                       </PostedOn>
                     </li>
                   </ul>
@@ -85,7 +85,7 @@ const ReviewsList = (props) => {
                       </LinkToProfile>
 
                       <PostedOn>
-                        {formatter.formatDateFullDate(review.publishedOn)}
+                        {formatter.formatDateFullDate(review.createdOn)}
                       </PostedOn>
                     </li>
                   </ul>

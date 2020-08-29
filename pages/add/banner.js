@@ -318,7 +318,7 @@ const AddBanner = () => {
   return (
     <>
       <Head>
-        <title>Add Banner | Reseller - Canada Cannabyss</title>
+        <title>Add Banner | Administrator - Canada Cannabyss</title>
       </Head>
       <BackgroundAdd>
         <Wrapper>

@@ -13,6 +13,7 @@ import Media from '../../components/UI/Add/Media/Media';
 import SEO from '../../components/UI/Add/SEO/SEO';
 import ProductsList from '../../components/UI/List/Add/ProductsList/ProductsList';
 import Organization from '../../components/UI/Add/Organization/Organization';
+import ProductsBundlesList from '../../components/UI/List/Add/Coupon/ProductsBundlesList';
 import {
   Wrapper,
   StickyDiv,
@@ -34,8 +35,9 @@ const AddPromotion = () => {
   const [promotionName, setPromotionName] = useState('');
   const [description, setDescription] = useState('');
 
-  const [productOnBundle, setProductOnBundle] = useState([]);
+  const [itemsOnPromotion, setItemsOnPromotion] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [bundleList, setBundleList] = useState([]);
 
   const [slug, setSlug] = useState('');
 
@@ -175,7 +177,7 @@ const AddPromotion = () => {
   };
 
   const fetchAllProducts = async () => {
-    const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/promotions`, {
+    const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/products`, {
       method: 'GET',
       mode: 'cors',
       cache: 'no-cache',
@@ -188,8 +190,23 @@ const AddPromotion = () => {
     setProductList(data);
   };
 
+  const fetchAllBundles = async () => {
+    const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/bundles`, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await res.json();
+    setBundleList(data);
+  };
+
   useEffect(() => {
-    fetchAllProducts(1, 12);
+    fetchAllProducts();
+    fetchAllBundles();
   }, []);
 
   useEffect(() => {
@@ -235,7 +252,7 @@ const AddPromotion = () => {
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
         const res = await publishProduct(productInfo);
-        Router.push(`/product/${res.slug}`);
+        Router.push('/promotions');
       } else {
         console.log('Slug is invalid');
         setIsSlugValid(false);
@@ -305,13 +322,13 @@ const AddPromotion = () => {
 
   const handleGetElement = (el) => {
     const element = el;
-    if (!productOnBundle.includes(element.id)) {
-      setProductOnBundle((pOnBundle) => pOnBundle.concat(element.id));
+    if (!itemsOnPromotion.includes(element.id)) {
+      setItemsOnPromotion((pOnBundle) => pOnBundle.concat(element.id));
       element.style.backgroundColor = '#18840f';
       element.style.border = '1px solid #18840f';
       element.querySelector('.name').style.color = '#fff';
     } else {
-      setProductOnBundle(removeElementFromArray(productOnBundle, element.id));
+      setItemsOnPromotion(removeElementFromArray(itemsOnPromotion, element.id));
       element.style.backgroundColor = '#efefef';
       element.style.border = '1px solid #efefef';
       element.querySelector('.name').style.color = '#18840f';
@@ -321,7 +338,7 @@ const AddPromotion = () => {
   return (
     <>
       <Head>
-        <title>Add Promotion | Reseller - Canada Cannabyss</title>
+        <title>Add Promotion | Administrator - Canada Cannabyss</title>
       </Head>
       <BackgroundAdd>
         <Wrapper>
@@ -341,10 +358,12 @@ const AddPromotion = () => {
               handleSetImagesArray={handleSetImagesArray}
               imagesArray={imagesArray}
             />
-            <ProductsList
-              title='Products on promotion'
+            <ProductsBundlesList
+              title='Items on promotion'
               products={productList}
+              bundles={bundleList}
               handleGetElement={handleGetElement}
+              applyCouponOn='items'
             />
             <SEO
               onChangeSeoTitle={onChangeSeoTitle}

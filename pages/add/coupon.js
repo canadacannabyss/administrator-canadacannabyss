@@ -378,7 +378,7 @@ const AddCoupon = () => {
   return (
     <>
       <Head>
-        <title>Add Coupon | Reseller - Canada Cannabyss</title>
+        <title>Add Coupon | Administrator - Canada Cannabyss</title>
       </Head>
       <BackgroundAdd>
         <Wrapper>

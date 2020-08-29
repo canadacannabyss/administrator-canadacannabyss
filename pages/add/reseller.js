@@ -87,7 +87,7 @@ const Reseller = (props) => {
   return (
     <>
       <Head>
-        <title>Login | Reseller - Canada Cannabyss</title>
+        <title>Login | Administrator - Canada Cannabyss</title>
       </Head>
       <BackgroundLogin>
         <BlurredBackground bgImg={BackgroundImg}>

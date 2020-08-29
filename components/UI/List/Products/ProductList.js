@@ -2,17 +2,20 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-
+import DateFormatter from '../../../../utils/dateFormatter';
 import {
   List,
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv,
+  SpansDiv
 } from '../../../../styles/Components/UI/List/Products/ProductList';
 
 const ProductList = (props) => {
   const { products } = props;
+
+  const dateFormatter = new DateFormatter();
+
   return (
     <List>
       <SpansDiv>
@@ -65,12 +68,16 @@ const ProductList = (props) => {
           </div>
           <div className='createdOn'>
             <p>
-              {product.createdOn}
+              {dateFormatter.formatDateFullDate(product.createdOn)}
             </p>
           </div>
           <div className='updatedOn'>
             <p>
-              {product.updatedOn}
+              {product.updatedOn ? (
+                <>
+                  {dateFormatter.formatDateFullDate(product.updatedOn)}
+                </>
+              ) : ('Not updated')}
             </p>
           </div>
           <div className='featured'>
@@ -96,7 +103,7 @@ const ProductList = (props) => {
 };
 
 ProductList.propTypes = {
-  products: PropTypes.shape().isRequired,
+  products: PropTypes.shape().isRequired
 };
 
 export default ProductList;

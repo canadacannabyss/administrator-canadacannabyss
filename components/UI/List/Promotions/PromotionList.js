@@ -2,32 +2,25 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-
+import DateFormatter from '../../../../utils/dateFormatter';
 import {
   List,
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv,
+  SpansDiv
 } from '../../../../styles/Components/UI/List/Promotions/PromotionList';
 
 const PromotionList = (props) => {
   const { promotions } = props;
+
+  const dateFormatter = new DateFormatter();
+
   return (
     <List>
       <SpansDiv>
         <div className='promotionName'>
           <span>Promotion Name</span>
-        </div>
-        <div className='price'>
-          <span>
-            Price
-          </span>
-        </div>
-        <div className='compareTo'>
-          <span>
-            Compare To
-          </span>
         </div>
         <div className='createdOn'>
           <span>
@@ -38,9 +31,6 @@ const PromotionList = (props) => {
           <span>
             Updated On
           </span>
-        </div>
-        <div className='featured'>
-          <span>Featured</span>
         </div>
         <div className='buttons'>
           <span>Edit / Delete</span>
@@ -53,28 +43,19 @@ const PromotionList = (props) => {
               {promotion.promotionName}
             </a>
           </div>
-          <div className='price'>
-            <p>
-              {promotion.prices.price}
-            </p>
-          </div>
-          <div className='compareTo'>
-            <p>
-              {promotion.prices.compareTo}
-            </p>
-          </div>
           <div className='createdOn'>
             <p>
-              {promotion.createdOn}
+              {dateFormatter.formatDateFullDate(promotion.createdOn)}
             </p>
           </div>
           <div className='updatedOn'>
             <p>
-              {promotion.updatedOn}
+              {promotion.updatedOn ? (
+                <>
+                  {dateFormatter.formatDateFullDate(promotion.updatedOn)}
+                </>
+              ) : ('Not updated')}
             </p>
-          </div>
-          <div className='featured'>
-            {promotion.featured ? <input type='checkbox' checked /> : <input type='checkbox' />}
           </div>
           <div className='buttons'>
             <Link
@@ -96,7 +77,7 @@ const PromotionList = (props) => {
 };
 
 PromotionList.propTypes = {
-  promotions: PropTypes.shape().isRequired,
+  promotions: PropTypes.shape().isRequired
 };
 
 export default PromotionList;
