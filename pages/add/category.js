@@ -300,6 +300,7 @@ const AddCategory = () => {
               childRef={childRef}
               handleSetImagesArray={handleSetImagesArray}
               imagesArray={imagesArray}
+              apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/category/publish/media`}
             />
             <SEO
               onChangeSeoTitle={onChangeSeoTitle}

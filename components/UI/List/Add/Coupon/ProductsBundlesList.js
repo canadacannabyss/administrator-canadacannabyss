@@ -41,6 +41,7 @@ const ProductsBundlesList = (props) => {
                         <ListLiContent
                           key={product._id}
                           id={product._id}
+                          className='product'
                           onClick={handleSelectProduct}
                         >
                           <div className='media'>
@@ -63,6 +64,7 @@ const ProductsBundlesList = (props) => {
                         <ListLiContent
                           key={bundle._id}
                           id={bundle._id}
+                          className='bundle'
                           onClick={handleSelectProduct}
                         >
                           <div
@@ -93,6 +95,7 @@ const ProductsBundlesList = (props) => {
                         <ListLiContent
                           key={product._id}
                           id={product._id}
+                          className='product'
                           onClick={handleSelectProduct}
                         >
                           <div className='media'>
@@ -118,6 +121,7 @@ const ProductsBundlesList = (props) => {
                       <ListLiContent
                         key={bundle._id}
                         id={bundle._id}
+                        className='bundle'
                         onClick={handleSelectProduct}
                       >
                         <div className='media'>

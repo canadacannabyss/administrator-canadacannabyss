@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FaSearch, FaPlus, FaObjectUngroup
 } from 'react-icons/fa';
@@ -21,135 +21,72 @@ import {
   Content
 } from '../../styles/Pages/Banners/Banners';
 
-const banners = [
-  {
-    promotionName: 'First Promotion',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    promotionName: 'First Promotion',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    promotionName: 'First Promotion',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    promotionName: 'First Promotion',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    promotionName: 'First Promotion',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    promotionName: 'First Promotion',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    promotionName: 'First Promotion',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    promotionName: 'First Promotion',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  }
+const Banners = () => {
+  const [bannerList, setBannerList] = useState([]);
+  const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
+    false
+  );
 
-];
+  const fetchAllBanners = async () => {
+    const response = await fetch(
+      `${process.env.MAIN_API_ENDPOINT}/admin/panel/get/all/banners`,
+      {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    const data = await response.json();
+    console.log('banners:', data);
+    setBannerList(data);
+  };
 
-const Banners = () => (
-  <>
-    <Head>
-      <title>Banners | Reseller - Canada Cannabyss</title>
-    </Head>
-    <Background>
-      <Wrapper>
-        <Container>
-          <ContentContainer>
-            <Content>
-              <TitleSearchBarAddButtonDiv>
-                <TitleDiv>
-                  <FaObjectUngroup />
-                  <h1>Banners</h1>
-                </TitleDiv>
-                <SearchBarAddButtonDiv>
-                  <SearchBar>
-                    <input />
-                    <button type='button'>
-                      <FaSearch />
-                    </button>
-                  </SearchBar>
-                  <Link href='/add/banner' as='/add/banner'>
-                    <AddProductLink>
-                      <FaPlus />
-                    </AddProductLink>
-                  </Link>
-                </SearchBarAddButtonDiv>
-              </TitleSearchBarAddButtonDiv>
-              <BannerList banners={banners} />
-            </Content>
-          </ContentContainer>
-        </Container>
-      </Wrapper>
-    </Background>
-  </>
-);
+  useEffect(() => {
+    fetchAllBanners();
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <title>Banners | Reseller - Canada Cannabyss</title>
+      </Head>
+      <Background>
+        <Wrapper>
+          <Container>
+            <ContentContainer>
+              <Content>
+                <TitleSearchBarAddButtonDiv>
+                  <TitleDiv>
+                    <FaObjectUngroup />
+                    <h1>Banners</h1>
+                  </TitleDiv>
+                  <SearchBarAddButtonDiv>
+                    <SearchBar>
+                      <input />
+                      <button type='button'>
+                        <FaSearch />
+                      </button>
+                    </SearchBar>
+                    <Link href='/add/banner' as='/add/banner'>
+                      <AddProductLink>
+                        <FaPlus />
+                      </AddProductLink>
+                    </Link>
+                  </SearchBarAddButtonDiv>
+                </TitleSearchBarAddButtonDiv>
+                <BannerList banners={bannerList} />
+              </Content>
+            </ContentContainer>
+          </Container>
+        </Wrapper>
+      </Background>
+    </>
+  );
+};
 
 Banners.getInitialProps = async () => {
   const repos = await fetch('https://api.github.com/users/Davi-Silva/repos');

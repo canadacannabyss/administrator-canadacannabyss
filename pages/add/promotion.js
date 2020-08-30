@@ -35,7 +35,8 @@ const AddPromotion = () => {
   const [promotionName, setPromotionName] = useState('');
   const [description, setDescription] = useState('');
 
-  const [itemsOnPromotion, setItemsOnPromotion] = useState([]);
+  const [productsOnPromotion, setProductsOnPromotion] = useState([]);
+  const [bundlesOnPromotion, setBundlesOnPromotion] = useState([]);
   const [productList, setProductList] = useState([]);
   const [bundleList, setBundleList] = useState([]);
 
@@ -234,11 +235,13 @@ const AddPromotion = () => {
       imagesArray.map((image) => {
         imagesArrayObj.push(image.data._id);
       });
-      const productInfo = {
+      const promotionInfo = {
         isSlugValid,
         media: imagesArrayObj,
         promotionName,
         description,
+        products: productsOnPromotion,
+        bundles: bundlesOnPromotion,
         seo: {
           title: seoTitle,
           slug: seoSlug,
@@ -251,7 +254,7 @@ const AddPromotion = () => {
       };
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
-        const res = await publishProduct(productInfo);
+        const res = await publishProduct(promotionInfo);
         Router.push('/promotions');
       } else {
         console.log('Slug is invalid');
@@ -322,16 +325,30 @@ const AddPromotion = () => {
 
   const handleGetElement = (el) => {
     const element = el;
-    if (!itemsOnPromotion.includes(element.id)) {
-      setItemsOnPromotion((pOnBundle) => pOnBundle.concat(element.id));
-      element.style.backgroundColor = '#18840f';
-      element.style.border = '1px solid #18840f';
-      element.querySelector('.name').style.color = '#fff';
-    } else {
-      setItemsOnPromotion(removeElementFromArray(itemsOnPromotion, element.id));
-      element.style.backgroundColor = '#efefef';
-      element.style.border = '1px solid #efefef';
-      element.querySelector('.name').style.color = '#18840f';
+    if (element.classList[2] === 'product') {
+      if (!productsOnPromotion.includes(element.id)) {
+        setProductsOnPromotion((pOnPromotion) => pOnPromotion.concat(element.id));
+        element.style.backgroundColor = '#18840f';
+        element.style.border = '1px solid #18840f';
+        element.querySelector('.name').style.color = '#fff';
+      } else {
+        setProductsOnPromotion(removeElementFromArray(productsOnPromotion, element.id));
+        element.style.backgroundColor = '#efefef';
+        element.style.border = '1px solid #efefef';
+        element.querySelector('.name').style.color = '#18840f';
+      }
+    } else if (element.classList[2] === 'bundle') {
+      if (!bundlesOnPromotion.includes(element.id)) {
+        setBundlesOnPromotion((bOnPromotion) => bOnPromotion.concat(element.id));
+        element.style.backgroundColor = '#18840f';
+        element.style.border = '1px solid #18840f';
+        element.querySelector('.name').style.color = '#fff';
+      } else {
+        setBundlesOnPromotion(removeElementFromArray(bundlesOnPromotion, element.id));
+        element.style.backgroundColor = '#efefef';
+        element.style.border = '1px solid #efefef';
+        element.querySelector('.name').style.color = '#18840f';
+      }
     }
   };
 
@@ -357,6 +374,7 @@ const AddPromotion = () => {
               childRef={childRef}
               handleSetImagesArray={handleSetImagesArray}
               imagesArray={imagesArray}
+              apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/promotions/publish/media`}
             />
             <ProductsBundlesList
               title='Items on promotion'

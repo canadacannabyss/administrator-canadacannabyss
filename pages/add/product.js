@@ -410,6 +410,7 @@ const AddProduct = () => {
               handleSetImagesArray={handleSetImagesArray}
               imagesArray={imagesArray}
               multipleFiles
+              apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/products/publish/media`}
             />
             <Pricing
               price={price}

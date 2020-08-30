@@ -8,7 +8,7 @@ import {
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv,
+  SpansDiv
 } from '../../../../styles/Components/UI/List/Categories/CategoryList';
 
 const CategoryList = (props) => {
@@ -49,7 +49,7 @@ const CategoryList = (props) => {
       {categories.map((category) => (
         <ListLiContent>
           <div className='categoryName'>
-            <a href={`${process.env.STORE_MAIN_DOMAIN}/category/${category.slug}`}>
+            <a href={`${process.env.SECURED_MAIN_DOMAIN}/category/${category.slug}`}>
               {category.categoryName}
             </a>
           </div>
@@ -96,7 +96,7 @@ const CategoryList = (props) => {
 };
 
 CategoryList.propTypes = {
-  categories: PropTypes.shape().isRequired,
+  categories: PropTypes.shape().isRequired
 };
 
 export default CategoryList;

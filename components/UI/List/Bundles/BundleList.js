@@ -52,7 +52,7 @@ const BundleList = (props) => {
       {bundles.map((bundle) => (
         <ListLiContent>
           <div className='bundleName'>
-            <a href={`${process.env.STORE_MAIN_DOMAIN}/bundle/${bundle.slug}`}>
+            <a href={`${process.env.SECURED_MAIN_DOMAIN}/bundle/${bundle.slug}`}>
               {bundle.bundleName}
             </a>
           </div>

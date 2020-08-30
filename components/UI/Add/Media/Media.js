@@ -9,7 +9,7 @@ import {
 
 const Media = (props) => {
   const {
-    childRef, multipleFiles, handleSetImagesArray, imagesArray
+    childRef, multipleFiles, handleSetImagesArray, imagesArray, apiEndpoint
   } = props;
 
   return (
@@ -34,7 +34,7 @@ const Media = (props) => {
               height: '640px'
             }}
             multipleFiles={multipleFiles}
-            apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/products/publish/media`}
+            apiEndpoint={apiEndpoint}
           />
         </Content>
       </ContentContainer>
@@ -46,7 +46,8 @@ Media.propTypes = {
   childRef: PropTypes.shape().isRequired,
   multipleFiles: PropTypes.bool.isRequired,
   handleSetImagesArray: PropTypes.func.isRequired,
-  imagesArray: PropTypes.shape().isRequired
+  imagesArray: PropTypes.shape().isRequired,
+  apiEndpoint: PropTypes.string.isRequired
 };
 
 export default Media;

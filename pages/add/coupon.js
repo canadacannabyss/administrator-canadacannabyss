@@ -24,6 +24,7 @@ import {
 
 const AddCoupon = () => {
   const [couponCode, setCouponCode] = useState('');
+  const [slug, setSlug] = useState('');
   const [discountAmount, setdiscountAmount] = useState('');
   const [discountType, setDiscountType] = useState('percent');
   const [applyCouponOn, setApplyCouponOn] = useState('items');
@@ -87,6 +88,18 @@ const AddCoupon = () => {
   useEffect(() => {
     fetchAllProducts();
   }, []);
+
+  useEffect(() => {
+    setSeoSlug(slug);
+  }, [slug]);
+
+  const changeSlugFromCouponCode = () => {
+    setSlug(slugifyString(couponCode));
+  };
+
+  useEffect(() => {
+    changeSlugFromCouponCode(couponCode);
+  }, [couponCode]);
 
   const fetchValidateCouponName = async () => {
     const res = await fetch(
@@ -367,7 +380,7 @@ const AddCoupon = () => {
         };
         const fetchedCoupon = await fetchNewCoupon(couponObj);
         if (fetchedCoupon.ok === true) {
-          Router.push('/admin/coupons');
+          Router.push('/coupons');
         }
       }
     } else {

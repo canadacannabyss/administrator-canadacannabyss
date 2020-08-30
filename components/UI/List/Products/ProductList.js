@@ -12,9 +12,14 @@ import {
 } from '../../../../styles/Components/UI/List/Products/ProductList';
 
 const ProductList = (props) => {
-  const { products } = props;
+  const { products, handleGetElement } = props;
 
   const dateFormatter = new DateFormatter();
+
+  const handleSelectProduct = (e) => {
+    const getter = handleGetElement;
+    getter(e.currentTarget);
+  };
 
   return (
     <List>
@@ -50,9 +55,11 @@ const ProductList = (props) => {
         </div>
       </SpansDiv>
       {products.map((product) => (
-        <ListLiContent>
+        <ListLiContent id={product._id}>
           <div className='productName'>
-            <a href={`${process.env.STORE_MAIN_DOMAIN}/product/${product.slug}`}>
+            <a
+              href={`${process.env.SECURED_MAIN_DOMAIN}/product/${product.slug}`}
+            >
               {product.productName}
             </a>
           </div>
@@ -92,7 +99,10 @@ const ProductList = (props) => {
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton>
+            <DeleteButton onClick={(e) => {
+              handleSelectProduct(e);
+            }}
+            >
               <FaTrashAlt />
             </DeleteButton>
           </div>

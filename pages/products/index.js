@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import {
   FaBox, FaSearch, FaPlus
 } from 'react-icons/fa';
@@ -19,10 +20,11 @@ import {
   TitleDiv,
   Content
 } from '../../styles/Pages/Products/Products';
+import DeleteConfirmation from '../../components/UI/Confirmations/DeleteProductConfirmation';
 
-const Products = () => {
-  const [productCategories, setProductCategories] = useState([]);
-  const [productList, setProductList] = useState([]);
+const Products = (props) => {
+  const { products } = props;
+
   const [selectedProductId, setSelectedProductId] = useState('');
   const [selectedProductName, setSelectedProductName] = useState('');
   const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
@@ -31,64 +33,12 @@ const Products = () => {
 
   const handleDeleteProduct = () => {};
 
-  const fetchCategories = async () => {
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/panel/get/categories/products`,
-      {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    const data = await response.json();
-    setProductCategories(data);
-  };
-
-  const fetchAllProducts = async () => {
-    const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/products`, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await res.json();
-    setProductList(data);
-  };
-
-  useEffect(() => {
-    fetchCategories();
-    fetchAllProducts();
-  }, []);
-
-  const getProductsByCategory = async (category) => {
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/panel/get/products/by/category/${category}`,
-      {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    const data = await response.json();
-    setProductList(data);
-  };
-
   const handleGetElement = (el) => {
-    const element = el.parentNode.parentNode.parentNode;
-    console.log(element);
+    const element = el.parentNode.parentNode;
+    console.log(element.children[0].children[0].innerHTML);
     setSelectedProductId(element.id);
-    setSelectedProductName(element.querySelector('p').innerHTML);
+    setSelectedProductName(element.children[0].children[0].innerHTML);
+    // console.log('element.querySelector(a):', element.querySelector('a'));
     setToggleDeleteConfirmation(true);
   };
 
@@ -98,7 +48,6 @@ const Products = () => {
 
   const handleGetNewProductsListOnDeletion = () => {
     console.log('handleGetNewProductsListOnDeletion');
-    fetchCategories();
   };
 
   return (
@@ -106,6 +55,16 @@ const Products = () => {
       <Head>
         <title>Products | Reseller - Canada Cannabyss</title>
       </Head>
+      {toggleDeleteConfirmation && (
+        <DeleteConfirmation
+          productId={selectedProductId}
+          productName={selectedProductName}
+          handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
+          handleGetNewProductsListOnDeletion={
+            handleGetNewProductsListOnDeletion
+          }
+        />
+      )}
       <Background>
         <Wrapper>
           <Container>
@@ -130,7 +89,10 @@ const Products = () => {
                     </Link>
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
-                <ProductList products={productList} />
+                <ProductList
+                  products={products}
+                  handleGetElement={handleGetElement}
+                />
               </Content>
             </ContentContainer>
           </Container>
@@ -140,12 +102,23 @@ const Products = () => {
   );
 };
 
-Products.getInitialProps = async () => {
-  const repos = await fetch('https://api.github.com/users/Davi-Silva/repos');
+Products.propTypes = {
+  products: PropTypes.shape().isRequired
+};
 
-  const data = await repos.json();
+Products.getInitialProps = async () => {
+  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/products`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const data = await res.json();
   return {
-    repos: data
+    products: data
   };
 };
 

@@ -39,7 +39,7 @@ const PromotionList = (props) => {
       {promotions.map((promotion) => (
         <ListLiContent>
           <div className='promotionName'>
-            <a href={`${process.env.STORE_MAIN_DOMAIN}/promotion/${promotion.slug}`}>
+            <a href={`${process.env.SECURED_MAIN_DOMAIN}/promotion/${promotion.slug}`}>
               {promotion.promotionName}
             </a>
           </div>

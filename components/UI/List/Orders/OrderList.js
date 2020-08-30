@@ -8,7 +8,7 @@ import {
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv,
+  SpansDiv
 } from '../../../../styles/Components/UI/List/Orders/OrderList';
 
 const OrderList = (props) => {
@@ -49,7 +49,7 @@ const OrderList = (props) => {
       {orders.map((order) => (
         <ListLiContent>
           <div className='orderName'>
-            <a href={`${process.env.STORE_MAIN_DOMAIN}/order/${order.slug}`}>
+            <a href={`${process.env.SECURED_MAIN_DOMAIN}/order/${order.slug}`}>
               {order.orderName}
             </a>
           </div>
@@ -96,7 +96,7 @@ const OrderList = (props) => {
 };
 
 OrderList.propTypes = {
-  orders: PropTypes.shape().isRequired,
+  orders: PropTypes.shape().isRequired
 };
 
 export default OrderList;

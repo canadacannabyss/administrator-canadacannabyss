@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-
+import DateFormatter from '../../../../utils/dateFormatter';
 import {
   List,
   ListLiContent,
@@ -13,21 +13,14 @@ import {
 
 const BannerList = (props) => {
   const { banners } = props;
+
+  const dateFormatter = new DateFormatter();
+
   return (
     <List>
       <SpansDiv>
         <div className='promotionName'>
           <span>Banner Name</span>
-        </div>
-        <div className='price'>
-          <span>
-            Price
-          </span>
-        </div>
-        <div className='compareTo'>
-          <span>
-            Compare To
-          </span>
         </div>
         <div className='createdOn'>
           <span>
@@ -49,28 +42,22 @@ const BannerList = (props) => {
       {banners.map((banner) => (
         <ListLiContent>
           <div className='promotionName'>
-            <a href={`${process.env.STORE_MAIN_DOMAIN}/banner/${banner.slug}`}>
-              {banner.promotionName}
+            <a href={`${process.env.SECURED_MAIN_DOMAIN}/banner/${banner.slug}`}>
+              {banner.bannerName}
             </a>
-          </div>
-          <div className='price'>
-            <p>
-              {banner.prices.price}
-            </p>
-          </div>
-          <div className='compareTo'>
-            <p>
-              {banner.prices.compareTo}
-            </p>
           </div>
           <div className='createdOn'>
             <p>
-              {banner.createdOn}
+              {dateFormatter.formatDateFullDate(banner.createdOn)}
             </p>
           </div>
           <div className='updatedOn'>
             <p>
-              {banner.updatedOn}
+              {banner.updatedOn ? (
+                <>
+                  {dateFormatter.formatDateFullDate(banner.updatedOn)}
+                </>
+              ) : ('Not updated')}
             </p>
           </div>
           <div className='featured'>

@@ -4,13 +4,13 @@ import React from 'react';
 import {
   Wrapper,
   Container,
-  ContainerTitle,
+  ContainerTitle
 } from '../../styles/Pages/Dashboard/Dashboard';
 
 const Dashboard = () => (
   <>
     <Head>
-      <title>Dashboard | Reseller - Canada Cannabyss</title>
+      <title>Dashboard | Administrator - Canada Cannabyss</title>
     </Head>
     <Wrapper>
       <Container className='sales'>
@@ -36,7 +36,7 @@ Dashboard.getInitialProps = async (props) => {
   const { asPath } = props.ctx;
 
   return {
-    asPath,
+    asPath
   };
 };
 

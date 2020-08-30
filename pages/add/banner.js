@@ -108,7 +108,7 @@ const AddBanner = () => {
       title: bannerName
     };
     const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/banners/set/global-variable`,
+      `${process.env.MAIN_API_ENDPOINT}/admin/promotions/banners/set/global-variable`,
       {
         method: 'POST',
         mode: 'cors',
@@ -125,7 +125,7 @@ const AddBanner = () => {
 
   const verifySlug = async () => {
     const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/banners/validation/slug/${slug}`,
+      `${process.env.MAIN_API_ENDPOINT}/admin/promotions/banners/validation/slug/${slug}`,
       {
         method: 'GET',
         mode: 'cors',
@@ -142,7 +142,7 @@ const AddBanner = () => {
 
   const publishProduct = async (product) => {
     const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/banners/publish`,
+      `${process.env.MAIN_API_ENDPOINT}/admin/promotions/banners/publish`,
       {
         method: 'POST',
         mode: 'cors',
@@ -225,6 +225,8 @@ const AddBanner = () => {
         isSlugValid,
         bannerName,
         description,
+        featured,
+        promotions: promotionsOnBanner,
         seo: {
           title: seoTitle,
           slug: seoSlug,
@@ -238,7 +240,7 @@ const AddBanner = () => {
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
         const res = await publishProduct(productInfo);
-        Router.push(`/product/${res.slug}`);
+        Router.push('/banners');
       } else {
         console.log('Slug is invalid');
         setIsSlugValid(false);
