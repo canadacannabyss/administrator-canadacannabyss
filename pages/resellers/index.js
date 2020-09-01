@@ -13,11 +13,14 @@ import {
   SearchBarAddButtonDiv,
   TitleDiv,
   TitleSearchBarAddButtonDiv,
-  AddProductLink,
+  AddProductLink
 } from '../../styles/Pages/Resellers/Resellers';
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import ResellerList from '../../components/UI/List/Resellers/ResellerList';
 
-const Reseller = () => {
+const Resellers = (props) => {
+  const { resellers } = props;
+
   return (
     <BackgroundAdd>
       <Head>
@@ -45,6 +48,7 @@ const Reseller = () => {
                 </Link>
               </SearchBarAddButtonDiv>
             </TitleSearchBarAddButtonDiv>
+            <ResellerList resellers={resellers} />
           </Content>
         </ContentContainer>
       </Container>
@@ -52,4 +56,23 @@ const Reseller = () => {
   );
 };
 
-export default Reseller;
+Resellers.getInitialProps = async () => {
+  const res = await fetch(
+    `${process.env.USER_API_ENDPOINT}/admin/resellers`,
+    {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  const data = await res.json();
+  return {
+    resellers: data
+  };
+};
+
+export default Resellers;

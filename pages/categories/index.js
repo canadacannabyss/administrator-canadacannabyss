@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   FaListUl, FaSearch, FaPlus
@@ -21,143 +22,67 @@ import {
   Content
 } from '../../styles/Pages/Categories/Categories';
 
-const categories = [
-  {
-    categoryName: 'First Category',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    categoryName: 'First Category',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    categoryName: 'First Category',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    categoryName: 'First Category',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    categoryName: 'First Category',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    categoryName: 'First Category',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    categoryName: 'First Category',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  },
-  {
-    categoryName: 'First Category',
-    prices: {
-      price: 32.65,
-      compareTo: 40.00
-    },
-    createdOn: 'December 30, 2019',
-    updatedOn: 'December 31, 2019',
-    featured: false,
-    slug: 'first-product'
-  }
+const Categories = (props) => {
+  const { categories } = props;
 
-];
+  console.log('categories:', categories);
 
-const Categories = () => (
-  <>
-    <Head>
-      <title>Categories | Reseller - Canada Cannabyss</title>
-    </Head>
+  return (
+    <>
+      <Head>
+        <title>Categories | Reseller - Canada Cannabyss</title>
+      </Head>
+      <Background>
+        <Wrapper>
+          <Container>
+            <ContentContainer>
+              <Content>
+                <TitleSearchBarAddButtonDiv>
+                  <TitleDiv>
+                    <FaListUl />
+                    <h1>Categories</h1>
+                  </TitleDiv>
+                  <SearchBarAddButtonDiv>
+                    <SearchBar>
+                      <input />
+                      <button type='button'>
+                        <FaSearch />
+                      </button>
+                    </SearchBar>
+                    <Link href='/add/category' as='/add/category'>
+                      <AddProductLink>
+                        <FaPlus />
+                      </AddProductLink>
+                    </Link>
+                  </SearchBarAddButtonDiv>
+                </TitleSearchBarAddButtonDiv>
+                <CategoryList categories={categories} />
+              </Content>
+            </ContentContainer>
+          </Container>
+        </Wrapper>
+      </Background>
+    </>
+  );
+};
 
-    <Background>
-      <Wrapper>
-        <Container>
-          <ContentContainer>
-            <Content>
-              <TitleSearchBarAddButtonDiv>
-                <TitleDiv>
-                  <FaListUl />
-                  <h1>Categories</h1>
-                </TitleDiv>
-                <SearchBarAddButtonDiv>
-                  <SearchBar>
-                    <input />
-                    <button type='button'>
-                      <FaSearch />
-                    </button>
-                  </SearchBar>
-                  <Link href='/add/category' as='/add/category'>
-                    <AddProductLink>
-                      <FaPlus />
-                    </AddProductLink>
-                  </Link>
-                </SearchBarAddButtonDiv>
-              </TitleSearchBarAddButtonDiv>
-              <CategoryList categories={categories} />
-            </Content>
-          </ContentContainer>
-        </Container>
-      </Wrapper>
-    </Background>
-  </>
-);
+Categories.propTypes = {
+  categories: PropTypes.shape().isRequired
+};
 
 Categories.getInitialProps = async () => {
-  const repos = await fetch('https://api.github.com/users/Davi-Silva/repos');
-
-  const data = await repos.json();
+  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/category`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const data = await res.json();
   return {
-    repos: data
+    categories: data
   };
 };
 

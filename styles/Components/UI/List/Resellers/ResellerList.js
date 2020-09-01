@@ -25,8 +25,8 @@ const ListLiContent = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .orderId {
-    width: 400px;
+  .resellerName {
+    width: 200px;
     @media (max-width: 1190px) {
       width: 300px;
     }
@@ -53,7 +53,7 @@ const ListLiContent = styled.div`
   @media (max-width: 1199px) {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
   }
   @media (max-width: 991px) {
     .price,
@@ -87,8 +87,8 @@ const SpansDiv = styled.div`
     color: #18840f;
     font-weight: 900;
   }
-  .orderId {
-    width: 400px;
+  .resellerName {
+    width: 200px;
     @media (max-width: 1190px) {
       width: 300px;
     }
@@ -115,7 +115,7 @@ const SpansDiv = styled.div`
   @media (max-width: 1199px) {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
   }
   @media (max-width: 991px) {
     .price,

@@ -9,18 +9,18 @@ import {
   EditLink,
   DeleteButton,
   SpansDiv
-} from '../../../../styles/Components/UI/List/Categories/CategoryList';
+} from '../../../../styles/Components/UI/List/Resellers/ResellerList';
 
-const CategoryList = (props) => {
-  const { categories } = props;
+const ResellerList = (props) => {
+  const { resellers } = props;
 
   const dateFormatter = new DateFormatter();
 
   return (
     <List>
       <SpansDiv>
-        <div className='categoryName'>
-          <span>Category Name</span>
+        <div className='resellerName'>
+          <span>Reseller Name</span>
         </div>
         <div className='createdOn'>
           <span>
@@ -33,40 +33,42 @@ const CategoryList = (props) => {
           </span>
         </div>
         <div className='featured'>
-          <span>Featured</span>
+          <span>Verified</span>
         </div>
         <div className='buttons'>
           <span>Edit / Delete</span>
         </div>
       </SpansDiv>
-      {categories.map((category) => (
+      {resellers.map((reseller) => (
         <ListLiContent>
-          <div className='categoryName'>
-            <a href={`${process.env.SECURED_MAIN_DOMAIN}/category/${category.slug}`}>
-              {category.categoryName}
-            </a>
+          <div className='resellerName'>
+            <Link href='/reseller/[username]' as={`/reseller/${reseller.username}`}>
+              <a>
+                {`${reseller.names.firstName} ${reseller.names.lastName}`}
+              </a>
+            </Link>
           </div>
           <div className='createdOn'>
             <p>
-              {dateFormatter.formatDateFullDate(category.createdOn)}
+              {dateFormatter.formatDateFullDate(reseller.createdOn)}
             </p>
           </div>
           <div className='updatedOn'>
             <p>
-              {category.updatedOn ? (
+              {reseller.updatedOn ? (
                 <>
-                  {dateFormatter.formatDateFullDate(category.updatedOn)}
+                  {dateFormatter.formatDateFullDate(reseller.updatedOn)}
                 </>
               ) : ('Not updated')}
             </p>
           </div>
           <div className='featured'>
-            {category.featured ? <input type='checkbox' checked /> : <input type='checkbox' />}
+            {reseller.isVerified ? <input type='checkbox' checked /> : <input type='checkbox' disabled />}
           </div>
           <div className='buttons'>
             <Link
-              href='/categories/edit/[slug]'
-              as={`/categories/edit/${category.slug}`}
+              href='/reseller/edit/[slug]'
+              as={`/reseller/edit/${reseller.slug}`}
             >
               <EditLink>
                 <FaEdit />
@@ -82,8 +84,8 @@ const CategoryList = (props) => {
   );
 };
 
-CategoryList.propTypes = {
-  categories: PropTypes.shape().isRequired
+ResellerList.propTypes = {
+  resellers: PropTypes.shape().isRequired
 };
 
-export default CategoryList;
+export default ResellerList;

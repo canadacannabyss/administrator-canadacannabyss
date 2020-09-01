@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-
+import DateFormatter from '../../../../utils/dateFormatter';
 import {
   List,
   ListLiContent,
@@ -13,20 +13,18 @@ import {
 
 const OrderList = (props) => {
   const { orders } = props;
+
+  const dateFormatter = new DateFormatter();
+
   return (
     <List>
       <SpansDiv>
-        <div className='orderName'>
-          <span>Order Name</span>
+        <div className='orderId'>
+          <span>Order ID</span>
         </div>
         <div className='price'>
           <span>
-            Price
-          </span>
-        </div>
-        <div className='compareTo'>
-          <span>
-            Compare To
+            Total
           </span>
         </div>
         <div className='createdOn'>
@@ -39,55 +37,44 @@ const OrderList = (props) => {
             Updated On
           </span>
         </div>
-        <div className='featured'>
-          <span>Featured</span>
-        </div>
-        <div className='buttons'>
-          <span>Edit / Delete</span>
+        <div className='purchasedAt'>
+          <span>
+            Purchased At
+          </span>
         </div>
       </SpansDiv>
       {orders.map((order) => (
         <ListLiContent>
-          <div className='orderName'>
-            <a href={`${process.env.SECURED_MAIN_DOMAIN}/order/${order.slug}`}>
-              {order.orderName}
-            </a>
+          <div className='orderId'>
+            <Link href='/order/[id]' as={`/order/${order._id}`}>
+              <a>
+                {order._id}
+              </a>
+            </Link>
           </div>
           <div className='price'>
             <p>
-              {order.prices.price}
-            </p>
-          </div>
-          <div className='compareTo'>
-            <p>
-              {order.prices.compareTo}
+              {order.total}
             </p>
           </div>
           <div className='createdOn'>
             <p>
-              {order.createdOn}
+              {dateFormatter.formatDateFullDate(order.createdOn)}
             </p>
           </div>
           <div className='updatedOn'>
             <p>
-              {order.updatedOn}
+              {order.updatedOn ? (
+                <>
+                  {dateFormatter.formatDateFullDate(order.updatedOn)}
+                </>
+              ) : ('Not updated')}
             </p>
           </div>
-          <div className='featured'>
-            {order.featured ? <input type='checkbox' checked /> : <input type='checkbox' />}
-          </div>
-          <div className='buttons'>
-            <Link
-              href='/orders/edit/[slug]'
-              as={`/orders/edit/${order.slug}`}
-            >
-              <EditLink>
-                <FaEdit />
-              </EditLink>
-            </Link>
-            <DeleteButton>
-              <FaTrashAlt />
-            </DeleteButton>
+          <div className='purchasedAt'>
+            <p>
+              {dateFormatter.formatDateFullDate(order.purchasedAt)}
+            </p>
           </div>
         </ListLiContent>
       ))}

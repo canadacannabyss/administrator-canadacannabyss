@@ -89,6 +89,10 @@
   </url>
 
   <url>
+    <loc>https://canadacannabyss.com/order/[id]</loc>
+  </url>
+
+  <url>
     <loc>https://canadacannabyss.com/orders/index</loc>
   </url>
 
@@ -102,6 +106,10 @@
 
   <url>
     <loc>https://canadacannabyss.com/register/[token]</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/reseller/[username]</loc>
   </url>
 
   <url>

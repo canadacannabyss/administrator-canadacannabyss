@@ -1,14 +1,34 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  width: 1200px;
-  margin: 0 auto;
-  @media (max-width: 1460px) {
-    width: 100%;
+export const Wrapper = styled.div`
+  margin: 20px auto;
+  width: 80%;
+  @media (max-width: 991px) {
+    width: 90%;
   }
 `;
 
-const Container = styled.div`
+export const Title = styled.h1`
+  font-size: 18px;
+  margin-bottom: 0.5rem;
+`;
+
+export const ToCreateReseller = styled.a`
+  background: #18840f;
+  border: 1px solid transparent;
+  color: #fff;
+  font-size: 16px;
+  padding: 5px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  svg {
+    color: #fff;
+    margin-left: 5px;
+    font-size: 13px;
+  }
+`;
+
+export const Container = styled.div`
   background: #fff;
   width: 100%;
   /* height: 100vh; */
@@ -20,7 +40,7 @@ const Container = styled.div`
   }
 `;
 
-const ContentContainer = styled.div`
+export const ContentContainer = styled.div`
   height: 100%;
   display: flex;
   flex-wrap: nowrap;
@@ -28,11 +48,11 @@ const ContentContainer = styled.div`
   padding: 10px 14px;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   width: 100%;
 `;
 
-const TitleSearchBarAddButtonDiv = styled.div`
+export const TitleSearchBarAddButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -43,7 +63,7 @@ const TitleSearchBarAddButtonDiv = styled.div`
   }
 `;
 
-const TitleDiv = styled.div`
+export const TitleDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -55,22 +75,19 @@ const TitleDiv = styled.div`
   h1 {
     font-size: 20px;
     color: #18840f;
-    span {
-      color: #000;
-    }
   }
   @media (max-width: 576px) {
     margin-bottom: 1rem;
   }
 `;
 
-const SearchBarAddButtonDiv = styled.div`
+export const SearchBarAddButtonDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
-const SearchBar = styled.div`
+export const SearchBar = styled.div`
   border-radius: 4px;
   border: 1px solid #18440f66;
   width: 100%;
@@ -113,7 +130,7 @@ const SearchBar = styled.div`
   }
 `;
 
-const AddProductLink = styled.a`
+export const AddProductLink = styled.a`
   background: #18840f;
   color: #fff;
   padding: 10px 10px 8px 10px;
@@ -126,15 +143,3 @@ const AddProductLink = styled.a`
     font-size: 15px;
   }
 `;
-
-export {
-  Wrapper,
-  Container,
-  SearchBarAddButtonDiv,
-  TitleSearchBarAddButtonDiv,
-  SearchBar,
-  AddProductLink,
-  TitleDiv,
-  ContentContainer,
-  Content
-};
