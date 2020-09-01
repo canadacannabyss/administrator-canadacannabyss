@@ -2,7 +2,9 @@ import Head from 'next/head';
 import React, { useState, useRef, useEffect } from 'react';
 import { FaTags, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
+import { withAdminAuth } from '../../utils/withAdminAuth';
 
 import { slugifyString } from '../../utils/stringMethods';
 import { roundFloatNumber } from '../../utils/numberConverter';
@@ -24,7 +26,17 @@ import {
   Warning
 } from '../../styles/Pages/Add/Product';
 
-const AddPromotion = () => {
+const mapStateToProps = (state) => {
+  const { user } = state;
+
+  return {
+    user
+  };
+};
+
+const AddPromotion = (props) => {
+  const { user } = props;
+
   const childRef = useRef();
 
   const [warning, setWarning] = useState(false);
@@ -237,6 +249,7 @@ const AddPromotion = () => {
       });
       const promotionInfo = {
         isSlugValid,
+        userId: user.data._id,
         media: imagesArrayObj,
         promotionName,
         description,
@@ -417,4 +430,4 @@ const AddPromotion = () => {
   );
 };
 
-export default AddPromotion;
+export default withAdminAuth(connect(mapStateToProps)(AddPromotion));

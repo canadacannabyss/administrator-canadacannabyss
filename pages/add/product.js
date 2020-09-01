@@ -2,6 +2,7 @@ import Head from 'next/head';
 import React, { useState, useRef, useEffect } from 'react';
 import { FaBox, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import { withAdminAuth } from '../../utils/withAdminAuth';
 
@@ -28,7 +29,17 @@ import {
   Warning
 } from '../../styles/Pages/Add/Product';
 
-const AddProduct = () => {
+const mapStateToProps = (state) => {
+  const { user } = state;
+
+  return {
+    user
+  };
+};
+
+const AddProduct = (props) => {
+  const { user } = props;
+
   const childRef = useRef();
 
   const [warning, setWarning] = useState(false);
@@ -277,6 +288,7 @@ const AddProduct = () => {
     if (allFieldsFilled) {
       const productInfo = {
         isSlugValid,
+        userId: user.data._id,
         media: imagesArrayObj,
         variants: {
           variantsOptionNames,
@@ -474,4 +486,4 @@ const AddProduct = () => {
   );
 };
 
-export default withAdminAuth(AddProduct);
+export default withAdminAuth(connect(mapStateToProps)(AddProduct));

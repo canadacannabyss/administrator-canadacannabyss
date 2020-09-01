@@ -2,7 +2,9 @@ import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import { FaBoxes, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
+import { withAdminAuth } from '../../utils/withAdminAuth';
 
 import { slugifyString } from '../../utils/stringMethods';
 import { roundFloatNumber } from '../../utils/numberConverter';
@@ -27,7 +29,17 @@ import {
   Warning
 } from '../../styles/Pages/Add/Product';
 
-const AddBundle = () => {
+const mapStateToProps = (state) => {
+  const { user } = state;
+
+  return {
+    user
+  };
+};
+
+const AddBundle = (props) => {
+  const { user } = props;
+
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSlugValid, setIsSlugValid] = useState(true);
@@ -278,6 +290,7 @@ const AddBundle = () => {
     disabledSubmitButton();
     if (allFieldsFilled) {
       const productInfo = {
+        userId: user.data._id,
         products: productOnBundle,
         isSlugValid,
         variants: {
@@ -483,4 +496,4 @@ const AddBundle = () => {
   );
 };
 
-export default AddBundle;
+export default withAdminAuth(connect(mapStateToProps)(AddBundle));

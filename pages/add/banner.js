@@ -2,7 +2,9 @@ import Head from 'next/head';
 import React, { useState, useRef, useEffect } from 'react';
 import { FaObjectUngroup, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
+import { withAdminAuth } from '../../utils/withAdminAuth';
 
 import { slugifyString } from '../../utils/stringMethods';
 
@@ -21,7 +23,17 @@ import {
   Warning
 } from '../../styles/Pages/Add/Product';
 
-const AddBanner = () => {
+const mapStateToProps = (state) => {
+  const { user } = state;
+
+  return {
+    user
+  };
+};
+
+const AddBanner = (props) => {
+  const { user } = props;
+
   const childRef = useRef();
 
   const [warning, setWarning] = useState(false);
@@ -158,27 +170,6 @@ const AddBanner = () => {
     return data;
   };
 
-  // const fetchAllPromotions = async () => {
-  //   const res = await fetch(
-  //     `${process.env.MAIN_API_ENDPOINT}/admin/promotions/get/all`,
-  //     {
-  //       method: 'GET',
-  //       mode: 'cors',
-  //       cache: 'no-cache',
-  //       credentials: 'same-origin',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       }
-  //     }
-  //   );
-  //   const data = await res.json();
-  //   setPromotionsList(data);
-  // };
-
-  // useEffect(() => {
-  //   fetchAllPromotions();
-  // }, []);
-
   const fetchAllPromotions = async () => {
     const res = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/promotions/get/all`,
@@ -223,6 +214,7 @@ const AddBanner = () => {
     if (allFieldsFilled) {
       const productInfo = {
         isSlugValid,
+        userId: user.data._id,
         bannerName,
         description,
         featured,
@@ -375,4 +367,4 @@ const AddBanner = () => {
   );
 };
 
-export default AddBanner;
+export default withAdminAuth(connect(mapStateToProps)(AddBanner));
