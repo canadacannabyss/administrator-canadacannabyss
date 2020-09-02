@@ -234,7 +234,6 @@ const AddBanner = (props) => {
         const res = await publishProduct(productInfo);
         Router.push('/banners');
       } else {
-        console.log('Slug is invalid');
         setIsSlugValid(false);
       }
     } else {

@@ -143,7 +143,6 @@ const Register = () => {
       }
     );
     const data = await response.json();
-    console.log('data admin suUsername:', data);
     if (data.ok) {
       setAdminUserRegistrationSubmit(true);
     }

@@ -281,7 +281,6 @@ const Billing = (props) => {
         postalCode: billingPostalCode.toUpperCase()
       };
       const added = await fetchAddBilling(billingObj);
-      console.log('added:', added);
       if (!_.isEmpty(added)) {
         emptyFields();
         dispatch(getBillingAddresses(user.data._id));

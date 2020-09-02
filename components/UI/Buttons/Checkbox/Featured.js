@@ -6,7 +6,6 @@ import {
 
 const FeaturedCheckbox = (props) => {
   const { handleCheckFeatured, featured } = props;
-  console.log('featured:', featured);
 
   const handleToggleFeatured = () => {
     const toggle = handleCheckFeatured;

@@ -59,7 +59,6 @@ const Invite = (props) => {
   }, []);
 
   const onCopyToClipboard = () => {
-    console.log('CLick');
     const range = document.createRange();
     range.selectNode(document.getElementById('referral'));
     window.getSelection().removeAllRanges(); // clear current selection

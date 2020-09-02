@@ -47,7 +47,6 @@ export default function* asyncCreateBillingCheckout(action) {
       action.payload.billingAddressInfo
     );
 
-    console.log('create billing response:', response);
     const responseUpdateOrder = yield call(
       updateOrderBillingAddress,
       action.payload.orderId,

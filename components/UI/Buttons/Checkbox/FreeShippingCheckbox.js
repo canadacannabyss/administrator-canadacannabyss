@@ -1,12 +1,11 @@
 import React from 'react';
 import {
   CheckboxDiv,
-  CheckboxDivChecked,
+  CheckboxDivChecked
 } from '../../../../styles/Components/UI/Buttons/Checkbox/AllowCustomersPurchaseOutOfStockCheckbox';
 
 const FreeShippingCheckbox = (props) => {
   const { handleCheckFreeShipping, freeShipping } = props;
-  console.log('freeShipping:', freeShipping);
 
   const handleToggleFreeShipping = () => {
     const toggle = handleCheckFreeShipping;

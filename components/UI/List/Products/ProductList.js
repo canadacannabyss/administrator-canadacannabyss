@@ -92,8 +92,8 @@ const ProductList = (props) => {
           </div>
           <div className='buttons'>
             <Link
-              href='/products/edit/[slug]'
-              as={`/products/edit/${product.slug}`}
+              href='/edit/product/[slug]'
+              as={`/edit/product/${product.slug}`}
             >
               <EditLink>
                 <FaEdit />

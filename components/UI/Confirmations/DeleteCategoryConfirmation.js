@@ -5,7 +5,7 @@ import {
   Wrapper,
   BtnsDiv,
   BtnNo,
-  BtnYes,
+  BtnYes
 } from '../../../styles/Components/UI/Confirmations/DeleteConfirmation';
 
 const DeleteConfirmationModal = (props) => {
@@ -13,7 +13,7 @@ const DeleteConfirmationModal = (props) => {
     categoryId,
     categoryName,
     handleCloseDeleteConfirmation,
-    handleGetNewCategoryListOnDeletion,
+    handleGetNewCategoryListOnDeletion
   } = props;
 
   const handleDeleteConfirmationClose = () => {
@@ -22,7 +22,6 @@ const DeleteConfirmationModal = (props) => {
   };
 
   const handleDeleteCategory = async () => {
-    console.log('clicked');
     const res = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/category/delete/category/${categoryId}`,
       {
@@ -31,8 +30,8 @@ const DeleteConfirmationModal = (props) => {
         cache: 'no-cache',
         credentials: 'same-origin',
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
       }
     );
     const data = await res.json();
@@ -45,7 +44,10 @@ const DeleteConfirmationModal = (props) => {
       <Background onClick={handleDeleteConfirmationClose} />
       <Wrapper>
         <Statement>
-          Are sure do you want to permanetly delete <span>{categoryName}</span>?
+          Are sure do you want to permanetly delete
+          {' '}
+          <span>{categoryName}</span>
+          ?
         </Statement>
         <BtnsDiv>
           <div>

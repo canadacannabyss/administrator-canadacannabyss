@@ -281,7 +281,6 @@ const Shipping = (props) => {
         postalCode: shippingPostalCode.toUpperCase()
       };
       const added = await fetchAddShipping(shippingObj);
-      console.log('added:', added);
       if (!_.isEmpty(added)) {
         emptyFields();
         dispatch(getShippingAddresses(user.data._id));
