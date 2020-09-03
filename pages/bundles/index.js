@@ -102,7 +102,7 @@ const Bundles = () => {
   return (
     <>
       <Head>
-        <title>Bundles | Reseller - Canada Cannabyss</title>
+        <title>Bundles | Administrator - Canada Cannabyss</title>
       </Head>
       <Background>
         <Wrapper>

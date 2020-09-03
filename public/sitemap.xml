@@ -115,4 +115,12 @@
   <url>
     <loc>https://canadacannabyss.com/resellers/index</loc>
   </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/edit/bundle/[slug]</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/edit/product/[slug]</loc>
+  </url>
 </urlset>

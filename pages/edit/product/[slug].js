@@ -1,25 +1,20 @@
-import Head from 'next/head';
-import React, { useState, useRef, useEffect } from 'react';
-import { FaBox, FaPlus, FaSpinner } from 'react-icons/fa';
-import PropTypes from 'prop-types';
-import Router from 'next/router';
-import { connect } from 'react-redux';
 import _ from 'lodash';
-import { withAdminAuth } from '../../../utils/withAdminAuth';
-
-import { slugifyString } from '../../../utils/stringMethods';
-import { roundFloatNumber } from '../../../utils/numberConverter';
-
-import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
-import ItemNameDescription from '../../../components/UI/Edit/ItemNameDescription/ItemNameDescription';
-import Pricing from '../../../components/UI/Edit/Pricing/Pricing';
-import Media from '../../../components/UI/Edit/Media/Media';
-import ExtraInfo from '../../../components/UI/Edit/ExtraInfo/ExtraInfo';
-import Inventory from '../../../components/UI/Edit/Inventory/Inventory';
-import Shipping from '../../../components/UI/Edit/Shipping/Shipping';
-import Variants from '../../../components/UI/Edit/Variants/Variants';
-import SEO from '../../../components/UI/Edit/SEO/SEO';
-import Organization from '../../../components/UI/Edit/Organization/Organization';
+import Head from 'next/head';
+import Router from 'next/router';
+import React, { useEffect, useState, useRef } from 'react';
+import { FaBox, FaPlus, FaSpinner } from 'react-icons/fa';
+import { connect } from 'react-redux';
+import slugify from 'slugify';
+import PropTypes from 'prop-types';
+import {
+  categoriesArrayToString,
+  tagsArrayToString,
+} from '../../../utils/arrayMethods';
+import {
+  slugifyString,
+  categoriesToArray,
+  tagsToArray,
+} from '../../../utils/stringMethods';
 import {
   Wrapper,
   StickyDiv,
@@ -29,11 +24,19 @@ import {
   Loading,
   Warning,
 } from '../../../styles/Pages/Add/Product';
+import Media from '../../../components/UI/Edit/Media/Media';
+import ItemNameDescription from '../../../components/UI/Edit/ItemNameDescription/ItemNameDescription';
+import Pricing from '../../../components/UI/Edit/Pricing/Pricing';
+import ExtraInfo from '../../../components/UI/Edit/ExtraInfo/ExtraInfo';
+import Inventory from '../../../components/UI/Edit/Inventory/Inventory';
+import Organization from '../../../components/UI/Edit/Organization/Organization';
+import SEO from '../../../components/UI/Edit/SEO/SEO';
+import Shipping from '../../../components/UI/Edit/Shipping/Shipping';
+import Variants from '../../../components/UI/Edit/Variants/Variants';
+import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 
 const mapStateToProps = (state) => {
   const { user } = state;
-
-  console.log('state:', state);
 
   return {
     user,
@@ -41,26 +44,33 @@ const mapStateToProps = (state) => {
 };
 
 const EditProduct = (props) => {
-  const { user, product } = props;
+  const { product } = props;
 
   const childRef = useRef();
 
-  const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSlugValid, setIsSlugValid] = useState(true);
+
+  const [id, setId] = useState();
+
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
+  const [warning, setWarning] = useState(false);
 
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
 
-  const [slug, setSlug] = useState('');
-
   const [imagesArray, setImagesArray] = useState([]);
   const [imagesArrayLength, setImagesArrayLength] = useState(0);
+  const [toDeleteImagesArray, setToDeleteImagesArray] = useState([]);
+  const [isNewImagesUploaded, setIsNewImagesUploaded] = useState(false);
+
+  const [slug, setSlug] = useState('');
 
   const [price, setPrice] = useState(0);
   const [compareTo, setCompareTo] = useState(0);
   const [taxableProduct, setTaxableProduct] = useState(false);
+
+  const [extraInfo, setExtraInfo] = useState([]);
 
   const [sku, setSku] = useState('');
   const [barcode, setBarcode] = useState('');
@@ -70,8 +80,6 @@ const EditProduct = (props) => {
   const [physicalProduct, setPhysicalProduct] = useState(false);
   const [weightAmount, setWeightAmount] = useState(0.0);
   const [weightUnit, setWeightUnit] = useState('kg');
-
-  const [extraInfo, setExtraInfo] = useState([]);
 
   const [variants, setVariants] = useState([]);
   const [variantsOptionNames, setVariantsOptionNames] = useState([]);
@@ -84,178 +92,6 @@ const EditProduct = (props) => {
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [tags, setTags] = useState('');
   const [tagsArray, setTagsArray] = useState([]);
-
-  useEffect(() => {
-    const tagsArrayOfObjects = async () => {
-      const localTagsArray = product.organization.tags.map(
-        async (tag) => tag.tagName
-      );
-      const promisedTags = await Promise.all(localTagsArray);
-      setTagsArray(promisedTags);
-    };
-
-    const categoriesArrayOfObjects = async () => {
-      const localCategoriesArray = product.organization.categories.map(
-        async (category) => category.categoryName
-      );
-      const promisedCategories = await Promise.all(localCategoriesArray);
-      setCategoriesArray(promisedCategories);
-    };
-    setProductName(product.productName);
-    setDescription(product.description);
-    setSlug(product.slug);
-    const imagesObj = [];
-    product.media.map((image) => {
-      imagesObj.push({
-        data: image,
-      });
-    });
-    handleSetImagesArray(imagesObj);
-    setPrice(product.prices.price);
-    setCompareTo(product.prices.compareTo);
-    setTaxableProduct(product.taxableProduct);
-    setSku(product.inventory.sku);
-    setBarcode(product.inventory.barcode);
-    setQuantity(product.inventory.quantity);
-    setAllowPurchaseOutOfStock(product.inventory.allowPurchaseOutOfStock);
-    setPhysicalProduct(product.shipping.physicalProduct);
-    setWeightAmount(product.shipping.weight.amount);
-    setWeightUnit(product.shipping.weight.unit);
-    setExtraInfo(product.extraInfo);
-    handleGetExtraInfo(product.extraInfo);
-    setSeoTitle(product.seo.title);
-    setSeoDescription(product.seo.description);
-    setSeoSlug(product.seo.slug);
-    categoriesArrayOfObjects();
-    tagsArrayOfObjects();
-  }, []);
-
-  useEffect(() => {
-    setImagesArrayLength(imagesArray.length);
-  }, [imagesArray]);
-
-  const handleSetImagesArray = (images) => {
-    setImagesArray(images);
-  };
-
-  const handleCheckTaxableProduct = () => {
-    setTaxableProduct(!taxableProduct);
-  };
-
-  const handleSku = (e) => {
-    setSku(e.target.value);
-  };
-
-  const handleBarcode = (e) => {
-    setBarcode(e.target.value);
-  };
-
-  const handleQuantity = (e) => {
-    setQuantity(parseInt(e.target.value, 10));
-  };
-
-  const handleCheckAllowPurchaseOutOfStock = () => {
-    setAllowPurchaseOutOfStock(!allowPurchaseOutOfStock);
-  };
-
-  const handleCheckPhysicalProduct = () => {
-    setPhysicalProduct(!physicalProduct);
-  };
-
-  const handleWeightAmount = (e) => {
-    setWeightAmount(roundFloatNumber(e.target.value));
-  };
-
-  const handleWeightUnit = (e) => {
-    setWeightUnit(e.target.value);
-  };
-
-  const handleGetVariants = (variantsArray) => {
-    setVariants(variantsArray);
-  };
-
-  const handleGetVariantsOptionNames = (variantsOptionNamesArray) => {
-    setVariantsOptionNames(variantsOptionNamesArray);
-  };
-
-  const onChangeSeoTitle = (e) => {
-    setSeoTitle(e.target.value);
-  };
-
-  const onChangeSeoSlug = (e) => {
-    setSeoSlug(slugifyString(e.target.value));
-  };
-
-  const onChangeSeoDescription = (e) => {
-    setSeoDescription(e.target.value);
-  };
-
-  const changeSlugFromProductName = () => {
-    setSlug(slugifyString(productName));
-  };
-
-  const handleSubmit = async () => {
-    if (allFieldsFilled) {
-      setImagesArrayLength(imagesArray.length);
-      setLoading(true);
-      await childRef.current.handleStartUploadingFiles();
-    }
-  };
-
-  const disabledSubmitButton = () => {
-    if (
-      isSlugValid &&
-      slug.length > 0 &&
-      productName.length > 0 &&
-      price > 0 &&
-      !isNaN(compareTo) &&
-      (taxableProduct || !taxableProduct) &&
-      description.length > 0 &&
-      sku.length > 0 &&
-      barcode.length > 0 &&
-      quantity > 0 &&
-      weightAmount > 0 &&
-      weightUnit.length > 0 &&
-      (weightUnit === 'kg' || weightUnit === 'lbs') &&
-      seoTitle.length > 0 &&
-      seoSlug.length > 0 &&
-      seoDescription.length > 0 &&
-      categories.length > 0 &&
-      tags.length > 0 &&
-      !_.isEmpty(tagsArray) &&
-      !_.isEmpty(extraInfo)
-    ) {
-      setAllFieldsFilled(true);
-    } else {
-      setAllFieldsFilled(false);
-    }
-  };
-
-  useEffect(() => {
-    disabledSubmitButton();
-  }, [
-    isSlugValid,
-    slug,
-    productName,
-    price,
-    compareTo,
-    taxableProduct,
-    description,
-    sku,
-    barcode,
-    quantity,
-    weightAmount,
-    weightUnit,
-    variants,
-    seoTitle,
-    seoSlug,
-    seoDescription,
-    categories,
-    categoriesArray,
-    tags,
-    tagsArray,
-    extraInfo,
-  ]);
 
   const setGlobalVariable = async () => {
     const bodyRequest = {
@@ -295,11 +131,57 @@ const EditProduct = (props) => {
     return data;
   };
 
-  const publishProduct = async (product) => {
+  const deleteProductImage = async (imageId) => {
     const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/products/publish`,
+      `${process.env.MAIN_API_ENDPOINT}/admin/products/delete/cover/${imageId}`,
       {
-        method: 'POST',
+        method: 'DELETE',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  };
+
+  const disabledSubmitButton = () => {
+    if (
+      isSlugValid &&
+      slug.length > 0 &&
+      productName.length > 0 &&
+      price > 0 &&
+      compareTo > 0 &&
+      (taxableProduct || !taxableProduct) &&
+      description.length > 0 &&
+      sku.length > 0 &&
+      barcode.length > 0 &&
+      quantity > 0 &&
+      weightAmount > 0 &&
+      weightUnit.length > 0 &&
+      (weightUnit === 'kg' || weightUnit === 'lbs') &&
+      seoTitle.length > 0 &&
+      seoSlug.length > 0 &&
+      seoDescription.length > 0 &&
+      categories.length > 0 &&
+      tags.length > 0 &&
+      !_.isEmpty(categoriesArray) &&
+      !_.isEmpty(tagsArray)
+    ) {
+      setAllFieldsFilled(true);
+    } else {
+      setAllFieldsFilled(false);
+    }
+  };
+
+  const editProduct = async (product) => {
+    const response = await fetch(
+      `${process.env.MAIN_API_ENDPOINT}/admin/products/update/${id}`,
+      {
+        method: 'PUT',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -313,74 +195,103 @@ const EditProduct = (props) => {
     return data;
   };
 
-  useEffect(() => {
-    setSeoSlug(slug);
-  }, [slug]);
-
-  useEffect(() => {
-    changeSlugFromProductName(productName);
-  }, [productName, price]);
-
-  useEffect(() => {
-    if (slug.length > 0) {
-      const checkSlugValid = async () => {
-        await verifySlug(slug);
-      };
-      checkSlugValid();
-      setGlobalVariable();
-    }
-  }, [productName]);
-
   const onSubmit = async () => {
     disabledSubmitButton();
-    const imagesArrayObj = [];
-    imagesArray.map((image) => {
-      imagesArrayObj.push(image.data._id);
-    });
     if (allFieldsFilled) {
-      const productInfo = {
-        isSlugValid,
-        userId: user.data._id,
-        media: imagesArrayObj,
-        variants: {
-          variantsOptionNames,
-          values: variants,
-        },
-        productName,
-        prices: {
-          price,
-          compareTo,
-        },
-        taxableProduct,
-        description,
-        extraInfo,
-        inventory: {
-          sku,
-          barcode,
-          quantity,
-          allowPurchaseOutOfStock,
-        },
-        shipping: {
-          physicalProduct,
-          weight: {
-            unit: weightUnit,
-            amount: weightAmount,
+      let productInfo = {};
+      if (isNewImagesUploaded) {
+        const imagesArrayObj = [];
+        imagesArray.map((image) => {
+          imagesArrayObj.push(image.data._id);
+        });
+        productInfo = {
+          isSlugValid,
+          media: imagesArrayObj,
+          variants: {
+            variantsOptionNames,
+            values: variants,
           },
-        },
-        seo: {
-          title: seoTitle,
-          slug: seoSlug,
-          description: seoDescription,
-        },
-        organization: {
-          categories: categoriesArray,
-          tags: tagsArray,
-        },
-      };
+          productName,
+          prices: {
+            price,
+            compareTo,
+          },
+          taxableProduct,
+          description,
+          extraInfo,
+          inventory: {
+            sku,
+            barcode,
+            quantity,
+            allowPurchaseOutOfStock,
+          },
+          shipping: {
+            physicalProduct,
+            weight: {
+              unit: weightUnit,
+              amount: weightAmount,
+            },
+          },
+          seo: {
+            title: seoTitle,
+            slug: seoSlug,
+            description: seoDescription,
+          },
+          organization: {
+            categories: categoriesArray,
+            tags: tagsArray,
+          },
+        };
+      } else {
+        productInfo = {
+          isSlugValid,
+          variants: {
+            variantsOptionNames,
+            values: variants,
+          },
+          productName,
+          prices: {
+            price,
+            compareTo,
+          },
+          taxableProduct,
+          description,
+          extraInfo,
+          inventory: {
+            sku,
+            barcode,
+            quantity,
+            allowPurchaseOutOfStock,
+          },
+          shipping: {
+            physicalProduct,
+            weight: {
+              unit: weightUnit,
+              amount: weightAmount,
+            },
+          },
+          seo: {
+            title: seoTitle,
+            slug: seoSlug,
+            description: seoDescription,
+          },
+          organization: {
+            categories: categoriesArray,
+            tags: tagsArray,
+          },
+        };
+      }
+
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
-        const res = await publishProduct(productInfo);
-        Router.push('/products');
+        console.log('productInfo:', productInfo);
+        const res = await editProduct(productInfo);
+        if (isNewImagesUploaded) {
+          toDeleteImagesArray.map(async (image) => {
+            await deleteProductImage(image.data._id);
+          });
+        }
+        await Router.push('/products');
       } else {
         console.log('Slug is invalid');
         setIsSlugValid(false);
@@ -390,29 +301,121 @@ const EditProduct = (props) => {
     }
   };
 
-  const categoriesToArray = () => {
-    const tempCategories = categories.split(',');
-    tempCategories.map((category, i) => {
-      tempCategories[i] = tempCategories[i].trim();
-    });
-    setCategoriesArray(tempCategories);
+  const handleSubmit = async () => {
+    if (allFieldsFilled) {
+      setImagesArrayLength(imagesArray.length);
+      setLoading(true);
+      if (isNewImagesUploaded) {
+        await childRef.current.handleStartUploadingFiles();
+      } else {
+        onSubmit();
+      }
+    }
+  };
+
+  const handleSetImagesArray = (images) => {
+    setImagesArray(images);
+  };
+
+  const handleGetExtraInfo = (extraInfoArray) => {
+    setExtraInfo(extraInfoArray);
+  };
+
+  const handleGetVariants = (variantsArray) => {
+    setVariants(variantsArray);
+  };
+
+  const handleGetVariantsOptionNames = (variantsOptionNamesArray) => {
+    setVariantsOptionNames(variantsOptionNamesArray);
   };
 
   useEffect(() => {
-    categoriesToArray();
-  }, [categories]);
-
-  const tagsToArray = () => {
-    const tempTags = tags.split(',');
-    tempTags.map((tag, i) => {
-      tempTags[i] = tempTags[i].trim();
-    });
-    setTagsArray(tempTags);
-  };
+    if (imagesArray.length > 0 && toDeleteImagesArray.length > 0) {
+      if (imagesArray.length !== toDeleteImagesArray.length) {
+        setIsNewImagesUploaded(true);
+      } else {
+        imagesArray.map((image, index) => {
+          if (image.data === undefined || image.data === null) {
+            if (image.file.name !== toDeleteImagesArray[index].data.name) {
+              setIsNewImagesUploaded(true);
+            }
+          }
+        });
+      }
+    }
+  }, [imagesArray, toDeleteImagesArray]);
 
   useEffect(() => {
-    tagsToArray();
-  }, [tags]);
+    if (!_.isEmpty(product)) {
+      const imagesObj = [];
+      product.media.map((image) => {
+        imagesObj.push({
+          data: image,
+        });
+      });
+      handleSetImagesArray(imagesObj);
+      setToDeleteImagesArray(imagesObj);
+      setId(product._id);
+      setSlug(product.slug);
+      setProductName(product.productName);
+      setPrice(product.prices.price);
+      setCompareTo(product.prices.compareTo);
+      setTaxableProduct(product.taxableProduct);
+      setDescription(product.description);
+      setSku(product.inventory.sku);
+      setBarcode(product.inventory.barcode);
+      setQuantity(product.inventory.quantity);
+      setAllowPurchaseOutOfStock(product.inventory.allowPurchaseOutOfStock);
+      setPhysicalProduct(product.shipping.physicalProduct);
+      setWeightAmount(product.shipping.weight.amount);
+      setWeightUnit(product.shipping.weight.unit);
+      setVariants(product.variants.values);
+      setVariantsOptionNames(product.variants.variantsOptionNames);
+      setSeoTitle(product.seo.title);
+      setSeoSlug(product.seo.slug);
+      setSeoDescription(product.seo.description);
+      setCategoriesArray(product.organization.categories);
+      setCategories(categoriesArrayToString(product.organization.categories));
+      setTags(tagsArrayToString(product.organization.tags));
+      setTagsArray(product.organization.tags);
+      setExtraInfo(product.extraInfo);
+      handleGetExtraInfo(product.extraInfo);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    disabledSubmitButton();
+  }, [
+    isSlugValid,
+    slug,
+    productName,
+    price,
+    compareTo,
+    taxableProduct,
+    description,
+    sku,
+    barcode,
+    quantity,
+    weightAmount,
+    weightUnit,
+    variants,
+    seoTitle,
+    seoSlug,
+    seoDescription,
+    categories,
+    tags,
+    tagsArray,
+  ]);
+
+  useEffect(() => {
+    if (slug.length > 0) {
+      const checkSlugValid = async () => {
+        const isSlugValidRes = await verifySlug(slug);
+      };
+      checkSlugValid();
+      setGlobalVariable();
+    }
+  }, [productName]);
 
   useEffect(() => {
     if (imagesArray.length > 0) {
@@ -432,30 +435,101 @@ const EditProduct = (props) => {
     setTags(e.target.value.toLowerCase());
   };
 
-  const handleGetExtraInfo = (extraInfoArray) => {
-    setExtraInfo(extraInfoArray);
+  useEffect(() => {
+    if (slug.length > 0) {
+      verifySlug();
+    }
+  }, [slug]);
+
+  useEffect(() => {
+    changeSlugFromProductName(productName);
+  }, [productName, price]);
+
+  // Input Handlers
+  const onChangeProductName = (e) => {
+    if (productName.length <= 100) {
+      setProductName(e.target.value);
+    } else {
+      setProductName(productName.substring(0, productName.length - 1));
+    }
   };
 
-  const onChangeProductName = (e) => {
-    setProductName(e.target.value);
+  const onChangePrice = (e) => {
+    setPrice(parseFloat(e.target.value));
+  };
+
+  const onChangeCompareTo = (e) => {
+    setCompareTo(parseFloat(e.target.value));
+  };
+
+  const handleCheckTaxableProduct = () => {
+    setTaxableProduct(!taxableProduct);
   };
 
   const onChangeDescription = (e) => {
     setDescription(e.target.getContent());
   };
 
-  const onChangePrice = (e) => {
-    setPrice(roundFloatNumber(e.target.value));
+  const handleSku = (e) => {
+    setSku(e.target.value);
   };
 
-  const onChangeCompareTo = (e) => {
-    setCompareTo(roundFloatNumber(e.target.value));
+  const handleBarcode = (e) => {
+    setBarcode(e.target.value);
+  };
+
+  const handleQuantity = (e) => {
+    setQuantity(parseInt(e.target.value, 10));
+  };
+
+  const handleCheckAllowPurchaseOutOfStock = () => {
+    setAllowPurchaseOutOfStock(!allowPurchaseOutOfStock);
+  };
+
+  const handleCheckPhysicalProduct = () => {
+    setPhysicalProduct(!physicalProduct);
+  };
+
+  const handleWeightAmount = (e) => {
+    setWeightAmount(parseFloat(e.target.value));
+  };
+
+  const handleWeightUnit = (e) => {
+    setWeightUnit(e.target.value);
+  };
+
+  const onChangeSeoTitle = (e) => {
+    setSeoTitle(e.target.value);
+  };
+
+  const onChangeSeoSlug = (e) => {
+    setSeoSlug(slugify(e.target.value.toLowerCase()));
+  };
+
+  const onChangeSeoDescription = (e) => {
+    setSeoDescription(e.target.value);
+  };
+
+  useEffect(() => {
+    categoriesToArray(categories);
+  }, [categories]);
+
+  useEffect(() => {
+    tagsToArray(tags);
+  }, [tags]);
+
+  useEffect(() => {
+    setSeoSlug(slug);
+  }, [slug]);
+
+  const changeSlugFromProductName = () => {
+    setSlug(slugifyString(productName));
   };
 
   return (
     <>
       <Head>
-        <title>Add Product | Administrator - Canada Cannabyss</title>
+        <title>Edit Product | Administrator - Canada Cannabyss</title>
       </Head>
       <BackgroundAdd>
         <Wrapper>
@@ -463,7 +537,7 @@ const EditProduct = (props) => {
             <ItemNameDescription
               MainIcon={<FaBox className='mainIcon' />}
               PlusIcon={<FaPlus className='plus' />}
-              title='Add Product'
+              title='Edit Product'
               itemName='Product Name'
               itemNameInput={productName}
               onChangeItemName={onChangeProductName}
@@ -485,12 +559,21 @@ const EditProduct = (props) => {
               taxableProduct={taxableProduct}
               handleCheckTaxableProduct={handleCheckTaxableProduct}
             />
-            <ExtraInfo handleGetExtraInfo={handleGetExtraInfo} />
+            {extraInfo.length > 0 && (
+              <ExtraInfo
+                handleGetExtraInfo={handleGetExtraInfo}
+                editable
+                extraInfo={extraInfo}
+              />
+            )}
             <Inventory
               handleSku={handleSku}
               handleBarcode={handleBarcode}
               handleQuantity={handleQuantity}
               allowPurchaseOutOfStock={allowPurchaseOutOfStock}
+              sku={sku}
+              barcode={barcode}
+              quantity={quantity}
               handleCheckAllowPurchaseOutOfStock={
                 handleCheckAllowPurchaseOutOfStock
               }
@@ -499,6 +582,8 @@ const EditProduct = (props) => {
               handleWeightAmount={handleWeightAmount}
               handleWeightUnit={handleWeightUnit}
               physicalProduct={physicalProduct}
+              weightAmount={weightAmount}
+              weightUnit={weightUnit}
               handleCheckPhysicalProduct={handleCheckPhysicalProduct}
             />
             <Variants
@@ -525,7 +610,7 @@ const EditProduct = (props) => {
         </Wrapper>
         {warning && <Warning>Fill all fields before submit</Warning>}
         <SubmitButton type='button' onClick={handleSubmit}>
-          Add Product
+          Update Product
         </SubmitButton>
       </BackgroundAdd>
       {loading && (
@@ -540,7 +625,7 @@ const EditProduct = (props) => {
 };
 
 EditProduct.getInitialProps = async (props) => {
-  const { asPath, store } = props.ctx;
+  const { asPath } = props.ctx;
 
   const slug = asPath.substring(14, asPath.length);
 
@@ -564,7 +649,7 @@ EditProduct.getInitialProps = async (props) => {
 
 EditProduct.propTypes = {
   product: PropTypes.shape().isRequired,
-  user: PropTypes.shape().isRequired,
+  user: PropTypesshape().isRequired,
 };
 
 export default connect(mapStateToProps)(EditProduct);

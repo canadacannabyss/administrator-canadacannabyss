@@ -59,6 +59,8 @@ const ProductList = (props) => {
           <div className='productName'>
             <a
               href={`${process.env.SECURED_MAIN_DOMAIN}/product/${product.slug}`}
+              target='_blank'
+              rel='noreferrer'
             >
               {product.productName}
             </a>

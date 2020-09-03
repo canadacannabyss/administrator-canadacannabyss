@@ -14,7 +14,7 @@ import PhysicalProduct from '../../Buttons/Checkbox/PhysicalProduct';
 
 const Shipping = (props) => {
   const {
-    handleWeightAmount, handleWeightUnit, physicalProduct, handleCheckPhysicalProduct
+    handleWeightAmount, handleWeightUnit, physicalProduct, weightAmount, weightUnit, handleCheckPhysicalProduct
   } = props;
 
   return (
@@ -37,6 +37,7 @@ const Shipping = (props) => {
             min='0'
             step='0.1'
             autoComplete='off'
+            value={weightAmount}
             onChange={handleWeightAmount}
           />
           <WeightUnitSelect onChange={handleWeightUnit}>

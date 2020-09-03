@@ -85,8 +85,8 @@ const BundleList = (props) => {
           </div>
           <div className='buttons'>
             <Link
-              href='/bundles/edit/[slug]'
-              as={`/bundles/edit/${bundle.slug}`}
+              href='/edit/bundle/[slug]'
+              as={`/edit/bundle/${bundle.slug}`}
             >
               <EditLink>
                 <FaEdit />

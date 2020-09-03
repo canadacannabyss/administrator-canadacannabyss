@@ -7,7 +7,7 @@ import {
   HalfGrid,
   Label,
   InputGroupTitle,
-  Input,
+  Input
 } from '../../../../styles/Pages/Add/Product';
 import AllowCustomersPurchaseOutOfStockCheckbox from '../../Buttons/Checkbox/AllowCustomersPurchaseOutOfStockCheckbox';
 
@@ -17,7 +17,10 @@ const Inventory = (props) => {
     handleBarcode,
     handleQuantity,
     allowPurchaseOutOfStock,
-    handleCheckAllowPurchaseOutOfStock,
+    sku,
+    barcode,
+    quantity,
+    handleCheckAllowPurchaseOutOfStock
   } = props;
 
   return (
@@ -33,6 +36,7 @@ const Inventory = (props) => {
                 id='sku'
                 type='text'
                 autoComplete='off'
+                value={sku}
                 onChange={handleSku}
               />
             </div>
@@ -42,6 +46,7 @@ const Inventory = (props) => {
                 id='barcode'
                 type='text'
                 autoComplete='off'
+                value={barcode}
                 onChange={handleBarcode}
               />
             </div>
@@ -56,6 +61,7 @@ const Inventory = (props) => {
                 type='number'
                 min='1'
                 step='1'
+                value={quantity}
                 onChange={handleQuantity}
               />
             </div>
@@ -76,7 +82,7 @@ Inventory.propTypes = {
   handleBarcode: PropTypes.func.isRequired,
   handleQuantity: PropTypes.func.isRequired,
   handleCheckAllowPurchaseOutOfStock: PropTypes.func.isRequired,
-  allowPurchaseOutOfStock: PropTypes.bool.isRequired,
+  allowPurchaseOutOfStock: PropTypes.bool.isRequired
 };
 
 export default Inventory;
