@@ -14,6 +14,8 @@ import {
   slugifyString,
   categoriesToArray,
   tagsToArray,
+  editCategoriesToArray,
+  editTagsToArray,
 } from '../../../utils/stringMethods';
 import {
   Wrapper,
@@ -284,7 +286,6 @@ const EditProduct = (props) => {
 
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
-        console.log('productInfo:', productInfo);
         const res = await editProduct(productInfo);
         if (isNewImagesUploaded) {
           toDeleteImagesArray.map(async (image) => {
@@ -374,10 +375,12 @@ const EditProduct = (props) => {
       setSeoTitle(product.seo.title);
       setSeoSlug(product.seo.slug);
       setSeoDescription(product.seo.description);
-      setCategoriesArray(product.organization.categories);
       setCategories(categoriesArrayToString(product.organization.categories));
+      setCategoriesArray(
+        editCategoriesToArray(product.organization.categories)
+      );
       setTags(tagsArrayToString(product.organization.tags));
-      setTagsArray(product.organization.tags);
+      setTagsArray(editTagsToArray(product.organization.tags));
       setExtraInfo(product.extraInfo);
       handleGetExtraInfo(product.extraInfo);
     }
@@ -511,11 +514,11 @@ const EditProduct = (props) => {
   };
 
   useEffect(() => {
-    categoriesToArray(categories);
+    setCategoriesArray(categoriesToArray(categories));
   }, [categories]);
 
   useEffect(() => {
-    tagsToArray(tags);
+    setTagsArray(tagsToArray(tags));
   }, [tags]);
 
   useEffect(() => {
@@ -649,7 +652,7 @@ EditProduct.getInitialProps = async (props) => {
 
 EditProduct.propTypes = {
   product: PropTypes.shape().isRequired,
-  user: PropTypesshape().isRequired,
+  user: PropTypes.shape().isRequired,
 };
 
 export default connect(mapStateToProps)(EditProduct);

@@ -7,13 +7,11 @@ import _ from 'lodash';
 import { withAdminAuth } from '../../utils/withAdminAuth';
 
 import { slugifyString } from '../../utils/stringMethods';
-import { roundFloatNumber } from '../../utils/numberConverter';
 
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import ItemNameDescription from '../../components/UI/Add/ItemNameDescription/ItemNameDescription';
 import Media from '../../components/UI/Add/Media/Media';
 import SEO from '../../components/UI/Add/SEO/SEO';
-import ProductsList from '../../components/UI/List/Add/ProductsList/ProductsList';
 import Organization from '../../components/UI/Add/Organization/Organization';
 import ProductsBundlesList from '../../components/UI/List/Add/Coupon/ProductsBundlesList';
 import {

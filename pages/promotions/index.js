@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import {
   FaTags, FaSearch, FaPlus
@@ -21,7 +22,9 @@ import {
   Content
 } from '../../styles/Pages/Promotions/Promotions';
 
-const Promotions = () => {
+const Promotions = (props) => {
+  const { promotions } = props;
+
   const [promotionCategories, setPromotionCategories] = useState([]);
   const [promotionList, setPromotionList] = useState([]);
   const [selectedPromotionId, setSelectedPromotionId] = useState('');
@@ -30,60 +33,11 @@ const Promotions = () => {
     false
   );
 
-  const handleDeleteProduct = () => {};
-
-  const fetchCategories = async () => {
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/panel/get/categories/products`,
-      {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    const data = await response.json();
-    setPromotionCategories(data);
-  };
-
-  const fetchAllPromotions = async () => {
-    const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/promotions/get/all`, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await res.json();
-    setPromotionList(data);
-  };
-
   useEffect(() => {
-    fetchCategories();
-    fetchAllPromotions();
+    setPromotionList(promotions);
   }, []);
 
-  const getPromotionsByCategory = async (category) => {
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/panel/get/products/by/category/${category}`,
-      {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    const data = await response.json();
-    setPromotionList(data);
-  };
+  const handleDeleteProduct = () => {};
 
   const handleGetElement = (el) => {
     const element = el.parentNode.parentNode.parentNode;
@@ -99,7 +53,6 @@ const Promotions = () => {
 
   const handleGetNewPromotionsListOnDeletion = () => {
     console.log('handleGetNewPromotionsListOnDeletion');
-    fetchCategories();
   };
 
   return (
@@ -141,12 +94,23 @@ const Promotions = () => {
   );
 };
 
-Promotions.getInitialProps = async () => {
-  const repos = await fetch('https://api.github.com/users/Davi-Silva/repos');
+Promotions.propTypes = {
+  promotions: PropTypes.shape().isRequired
+};
 
-  const data = await repos.json();
+Promotions.getInitialProps = async () => {
+  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/promotions`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const data = await res.json();
   return {
-    repos: data
+    promotions: data
   };
 };
 

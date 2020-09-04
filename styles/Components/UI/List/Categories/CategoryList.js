@@ -139,6 +139,7 @@ const EditLink = styled.a`
   background: #d1e6cf;
   padding: 6px 8px;
   border-radius: 4px;
+  cursor: pointer;
   svg {
     color: #18840f;
   }
@@ -149,6 +150,7 @@ const DeleteButton = styled.button`
   border-radius: 4px;
   border: none;
   padding: 6px 8px;
+  cursor: pointer;
   &:focus {
     outline: none;
   }
@@ -162,5 +164,5 @@ export {
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv,
+  SpansDiv
 };

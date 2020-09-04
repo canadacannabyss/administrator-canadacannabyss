@@ -150,6 +150,7 @@ const DeleteButton = styled.button`
   border-radius: 4px;
   border: none;
   padding: 6px 8px;
+  cursor: pointer;
   &:focus {
     outline: none;
   }

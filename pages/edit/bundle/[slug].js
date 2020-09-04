@@ -16,6 +16,8 @@ import {
   slugifyString,
   categoriesToArray,
   tagsToArray,
+  editCategoriesToArray,
+  editTagsToArray,
 } from '../../../utils/stringMethods';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import ItemNameDescription from '../../../components/UI/Edit/ItemNameDescription/ItemNameDescription';
@@ -110,39 +112,13 @@ const EditBundle = (props) => {
     setSeoTitle(bundle.seo.title);
     setSeoSlug(bundle.seo.slug);
     setSeoDescription(bundle.seo.description);
-    setCategoriesArray(bundle.organization.categories);
     setCategories(categoriesArrayToString(bundle.organization.categories));
+    setCategoriesArray(editCategoriesToArray(bundle.organization.categories));
     setTags(tagsArrayToString(bundle.organization.tags));
-    setTagsArray(bundle.organization.tags);
+    setTagsArray(editTagsToArray(bundle.organization.tags));
     setExtraInfo(bundle.extraInfo);
     handleGetExtraInfo(bundle.extraInfo);
   }, [bundle]);
-
-  useEffect(() => {
-    disabledSubmitButton();
-  }, [
-    isSlugValid,
-    slug,
-    bundleName,
-    price,
-    compareTo,
-    taxableBundle,
-    description,
-    extraInfo,
-    sku,
-    barcode,
-    quantity,
-    weightAmount,
-    weightUnit,
-    variants,
-    seoTitle,
-    seoSlug,
-    seoDescription,
-    categories,
-    categoriesArray,
-    tags,
-    tagsArray,
-  ]);
 
   const disabledSubmitButton = () => {
     if (
@@ -174,6 +150,32 @@ const EditBundle = (props) => {
       setAllFieldsFilled(false);
     }
   };
+
+  useEffect(() => {
+    disabledSubmitButton();
+  }, [
+    isSlugValid,
+    slug,
+    bundleName,
+    price,
+    compareTo,
+    taxableBundle,
+    description,
+    extraInfo,
+    sku,
+    barcode,
+    quantity,
+    weightAmount,
+    weightUnit,
+    variants,
+    seoTitle,
+    seoSlug,
+    seoDescription,
+    categories,
+    categoriesArray,
+    tags,
+    tagsArray,
+  ]);
 
   const fetchAllProducts = async () => {
     const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/products`, {
@@ -339,8 +341,8 @@ const EditBundle = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     disabledSubmitButton();
-    setLoading(true);
     if (allFieldsFilled) {
+      setLoading(true);
       console.log('productOnBundle:', productOnBundle);
       const bundleInfo = {
         products: productOnBundle,
@@ -377,12 +379,13 @@ const EditBundle = (props) => {
           tags: tagsArray,
         },
       };
+      console.log('bundleInfo:', bundleInfo);
 
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
         const res = await editBundle(bundleInfo);
         // setUploaded(res.uploaded);
-        Router.push(`/bundle/${slug}`);
+        Router.push('/bundles');
       } else {
         console.log('Slug is invalid');
         setIsSlugValid(false);
@@ -393,11 +396,11 @@ const EditBundle = (props) => {
   };
 
   useEffect(() => {
-    categoriesToArray(categories);
+    setCategoriesArray(categoriesToArray(categories));
   }, [categories]);
 
   useEffect(() => {
-    tagsToArray(tags);
+    setTagsArray(tagsToArray(tags));
   }, [tags]);
 
   useEffect(() => {
@@ -432,7 +435,7 @@ const EditBundle = (props) => {
               compareTo={compareTo}
               onChangePrice={onChangePrice}
               onChangeCompareTo={onChangeCompareTo}
-              taxableBundle={taxableBundle}
+              taxableProduct={taxableBundle}
               handleCheckTaxableProduct={handleCheckTaxableProduct}
             />
             {extraInfo.length > 0 && (
@@ -482,7 +485,7 @@ const EditBundle = (props) => {
         </Wrapper>
         {warning && <Warning>Fill all fields before submit</Warning>}
         <SubmitButton type='button' onClick={onSubmit}>
-          Add Bundle
+          Update Bundle
         </SubmitButton>
       </BackgroundAdd>
       {loading && (

@@ -20,9 +20,11 @@ import {
   TitleDiv,
   Content
 } from '../../styles/Pages/Bundles/Bundles';
+import DeleteConfirmation from '../../components/UI/Confirmations/DeleteProductConfirmation';
 
-const Bundles = () => {
-  const [bundlesCategories, setBundlesCategories] = useState([]);
+const Bundles = (props) => {
+  const { bundles } = props;
+
   const [bundleList, setBundleList] = useState([]);
   const [selectedBundleId, setSelectedBundleId] = useState('');
   const [selectedBundleName, setSelectedBundleName] = useState('');
@@ -30,64 +32,17 @@ const Bundles = () => {
     false
   );
 
-  const fetchCategories = async () => {
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/panel/get/categories/bundles`,
-      {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    const data = await response.json();
-    setBundlesCategories(data);
-  };
-
-  const fetchAllBundles = async () => {
-    const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/bundles`, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await res.json();
-    setBundleList(data);
-  };
-
   useEffect(() => {
-    fetchCategories();
-    fetchAllBundles();
+    setBundleList(bundles);
   }, []);
 
-  const getProductsByCategory = async (category) => {
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/panel/get/bundles/by/category/${category}`,
-      {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    const data = await response.json();
-    setBundleList(data);
-  };
+  const handleDeleteBundle = () => {};
 
   const handleGetElement = (el) => {
-    const element = el.parentNode.parentNode.parentNode;
-    console.log(element);
+    const element = el.parentNode.parentNode;
+    console.log(element.children[0].children[0].innerHTML);
     setSelectedBundleId(element.id);
-    setSelectedBundleName(element.querySelector('p').innerHTML);
+    setSelectedBundleName(element.children[0].children[0].innerHTML);
     setToggleDeleteConfirmation(true);
   };
 
@@ -95,8 +50,8 @@ const Bundles = () => {
     setToggleDeleteConfirmation(false);
   };
 
-  const handleGetNewBundleListOnDeletion = (products) => {
-    setBundleList(products);
+  const handleGetNewProductsListOnDeletion = () => {
+    console.log('handleGetNewProductsListOnDeletion');
   };
 
   return (
@@ -104,6 +59,16 @@ const Bundles = () => {
       <Head>
         <title>Bundles | Administrator - Canada Cannabyss</title>
       </Head>
+      {toggleDeleteConfirmation && (
+        <DeleteConfirmation
+          productId={selectedBundleId}
+          productName={selectedBundleName}
+          handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
+          handleGetNewProductsListOnDeletion={
+            handleGetNewProductsListOnDeletion
+          }
+        />
+      )}
       <Background>
         <Wrapper>
           <Container>
@@ -128,7 +93,7 @@ const Bundles = () => {
                     </Link>
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
-                <BundleList bundles={bundleList} />
+                <BundleList bundles={bundleList} handleGetElement={handleGetElement} />
               </Content>
             </ContentContainer>
           </Container>
@@ -139,11 +104,18 @@ const Bundles = () => {
 };
 
 Bundles.getInitialProps = async () => {
-  const repos = await fetch('https://api.github.com/users/Davi-Silva/repos');
-
-  const data = await repos.json();
+  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/bundles`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const data = await res.json();
   return {
-    repos: data
+    bundles: data
   };
 };
 

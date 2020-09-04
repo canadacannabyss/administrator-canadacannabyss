@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import {
   FaSearch, FaPlus, FaObjectUngroup
@@ -21,38 +22,43 @@ import {
   Content
 } from '../../styles/Pages/Banners/Banners';
 
-const Banners = () => {
+const Banners = (props) => {
+  const { banners } = props;
+
   const [bannerList, setBannerList] = useState([]);
   const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
     false
   );
 
-  const fetchAllBanners = async () => {
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/panel/get/all/banners`,
-      {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    const data = await response.json();
-    console.log('banners:', data);
-    setBannerList(data);
-  };
+  const [selectedBannersId, setSelectedBannersId] = useState('');
+  const [selectedBannersName, setSelectedBannersName] = useState('');
 
   useEffect(() => {
-    fetchAllBanners();
+    setBannerList(banners);
   }, []);
+
+  const handleDeleteBanner = () => {};
+
+  const handleGetElement = (el) => {
+    const element = el.parentNode.parentNode.parentNode;
+    console.log(element);
+    setSelectedBannersId(element.id);
+    setSelectedBannersName(element.querySelector('p').innerHTML);
+    setToggleDeleteConfirmation(true);
+  };
+
+  const handleCloseDeleteConfirmation = () => {
+    setToggleDeleteConfirmation(false);
+  };
+
+  const handleGetNewBannerssListOnDeletion = () => {
+    console.log('handleGetNewPromotionsListOnDeletion');
+  };
 
   return (
     <>
       <Head>
-        <title>Banners | Reseller - Canada Cannabyss</title>
+        <title>Banners | Administrator - Canada Cannabyss</title>
       </Head>
       <Background>
         <Wrapper>
@@ -88,12 +94,23 @@ const Banners = () => {
   );
 };
 
-Banners.getInitialProps = async () => {
-  const repos = await fetch('https://api.github.com/users/Davi-Silva/repos');
+Banners.propTypes = {
+  banners: PropTypes.shape().isRequired
+};
 
-  const data = await repos.json();
+Banners.getInitialProps = async () => {
+  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/panel/get/all/banners`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const data = await res.json();
   return {
-    repos: data
+    banners: data
   };
 };
 

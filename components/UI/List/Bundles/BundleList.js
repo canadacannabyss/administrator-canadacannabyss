@@ -12,9 +12,14 @@ import {
 } from '../../../../styles/Components/UI/List/Bundles/BundleList';
 
 const BundleList = (props) => {
-  const { bundles } = props;
+  const { bundles, handleGetElement } = props;
 
   const dateFormatter = new DateFormatter();
+
+  const handleSelectProduct = (e) => {
+    const getter = handleGetElement;
+    getter(e.currentTarget);
+  };
 
   return (
     <List>
@@ -50,7 +55,7 @@ const BundleList = (props) => {
         </div>
       </SpansDiv>
       {bundles.map((bundle) => (
-        <ListLiContent>
+        <ListLiContent id={bundle._id}>
           <div className='bundleName'>
             <a href={`${process.env.SECURED_MAIN_DOMAIN}/bundle/${bundle.slug}`}>
               {bundle.bundleName}
@@ -92,7 +97,10 @@ const BundleList = (props) => {
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton>
+            <DeleteButton onClick={(e) => {
+              handleSelectProduct(e);
+            }}
+            >
               <FaTrashAlt />
             </DeleteButton>
           </div>

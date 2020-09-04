@@ -65,8 +65,8 @@ const BannerList = (props) => {
           </div>
           <div className='buttons'>
             <Link
-              href='/banners/edit/[slug]'
-              as={`/banners/edit/${banner.slug}`}
+              href='/edit/banner/[slug]'
+              as={`/edit/banner/${banner.slug}`}
             >
               <EditLink>
                 <FaEdit />

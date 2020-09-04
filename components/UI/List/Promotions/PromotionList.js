@@ -39,7 +39,7 @@ const PromotionList = (props) => {
       {promotions.map((promotion) => (
         <ListLiContent>
           <div className='promotionName'>
-            <a href={`${process.env.SECURED_MAIN_DOMAIN}/promotion/${promotion.slug}`}>
+            <a href={`${process.env.SECURED_MAIN_DOMAIN}/promotion/${promotion.slug}`} target='_blank'>
               {promotion.promotionName}
             </a>
           </div>
@@ -59,8 +59,8 @@ const PromotionList = (props) => {
           </div>
           <div className='buttons'>
             <Link
-              href='/promotions/edit/[slug]'
-              as={`/promotions/edit/${promotion.slug}`}
+              href='/edit/promotion/[slug]'
+              as={`/edit/promotion/${promotion.slug}`}
             >
               <EditLink>
                 <FaEdit />

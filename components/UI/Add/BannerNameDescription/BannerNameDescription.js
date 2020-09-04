@@ -19,6 +19,7 @@ const BannerNameDescription = (props) => {
     PlusIcon,
     title,
     itemName,
+    itemNameInput,
     onChangeItemName,
     description,
     onChangeDescription,
@@ -44,6 +45,7 @@ const BannerNameDescription = (props) => {
             id='itemName'
             type='text'
             autoComplete='off'
+            value={itemNameInput}
             onChange={onChangeItemName}
           />
           <br />
@@ -81,6 +83,7 @@ BannerNameDescription.propTypes = {
   MainIcon: PropTypes.element.isRequired,
   PlusIcon: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
+  itemNameInput: PropTypes.string.isRequired,
   itemName: PropTypes.string.isRequired,
   onChangeItemName: PropTypes.func.isRequired,
   description: PropTypes.string.isRequired,

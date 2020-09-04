@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FaBox, FaSearch, FaPlus
 } from 'react-icons/fa';
@@ -25,11 +25,16 @@ import DeleteConfirmation from '../../components/UI/Confirmations/DeleteProductC
 const Products = (props) => {
   const { products } = props;
 
+  const [productsList, setProductsList] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState('');
   const [selectedProductName, setSelectedProductName] = useState('');
   const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
     false
   );
+
+  useEffect(() => {
+    setProductsList(products);
+  }, []);
 
   const handleDeleteProduct = () => {};
 
@@ -90,7 +95,7 @@ const Products = (props) => {
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
                 <ProductList
-                  products={products}
+                  products={productsList}
                   handleGetElement={handleGetElement}
                 />
               </Content>

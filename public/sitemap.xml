@@ -117,10 +117,18 @@
   </url>
 
   <url>
+    <loc>https://canadacannabyss.com/edit/banner/[slug]</loc>
+  </url>
+
+  <url>
     <loc>https://canadacannabyss.com/edit/bundle/[slug]</loc>
   </url>
 
   <url>
     <loc>https://canadacannabyss.com/edit/product/[slug]</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/edit/promotion/[slug]</loc>
   </url>
 </urlset>
