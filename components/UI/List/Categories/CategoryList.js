@@ -12,9 +12,14 @@ import {
 } from '../../../../styles/Components/UI/List/Categories/CategoryList';
 
 const CategoryList = (props) => {
-  const { categories } = props;
+  const { categories, handleGetElement } = props;
 
   const dateFormatter = new DateFormatter();
+
+  const handleSelectProduct = (e) => {
+    const getter = handleGetElement;
+    getter(e.currentTarget);
+  };
 
   return (
     <List>
@@ -40,7 +45,7 @@ const CategoryList = (props) => {
         </div>
       </SpansDiv>
       {categories.map((category) => (
-        <ListLiContent>
+        <ListLiContent id={category._id}>
           <div className='categoryName'>
             <a href={`${process.env.SECURED_MAIN_DOMAIN}/category/${category.slug}`}>
               {category.categoryName}
@@ -72,7 +77,10 @@ const CategoryList = (props) => {
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton>
+            <DeleteButton onClick={(e) => {
+              handleSelectProduct(e);
+            }}
+            >
               <FaTrashAlt />
             </DeleteButton>
           </div>

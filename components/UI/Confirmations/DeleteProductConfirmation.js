@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaFacebookF, FaGoogle } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import {
   Background,
   Statement,
@@ -8,14 +9,16 @@ import {
   BtnNo,
   BtnYes
 } from '../../../styles/Components/UI/Confirmations/DeleteConfirmation';
+import { getProducts } from '../../../store/actions/products/products';
 
 const DeleteConfirmationModal = (props) => {
   const {
     productId,
     productName,
-    handleCloseDeleteConfirmation,
-    handleGetNewProductsListOnDeletion
+    handleCloseDeleteConfirmation
   } = props;
+
+  const dispatch = useDispatch();
 
   const handleDeleteConfirmationClose = () => {
     const close = handleCloseDeleteConfirmation;
@@ -23,7 +26,7 @@ const DeleteConfirmationModal = (props) => {
   };
 
   const handleDeleteProduct = async () => {
-    const res = await fetch(
+    const deleteRes = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/products/delete/product/${productId}`,
       {
         method: 'DELETE',
@@ -35,9 +38,12 @@ const DeleteConfirmationModal = (props) => {
         }
       }
     );
-    const data = await res.json();
-    handleGetNewProductsListOnDeletion(data);
-    handleDeleteConfirmationClose();
+    const data = await deleteRes.json();
+
+    if (data.ok) {
+      dispatch(getProducts());
+      handleDeleteConfirmationClose();
+    }
   };
 
   return (

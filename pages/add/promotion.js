@@ -428,4 +428,4 @@ const AddPromotion = (props) => {
   );
 };
 
-export default withAdminAuth(connect(mapStateToProps)(AddPromotion));
+export default connect(mapStateToProps)(AddPromotion);

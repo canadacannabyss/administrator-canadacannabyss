@@ -124,4 +124,4 @@ const Invite = (props) => {
   );
 };
 
-export default withAdminAuth(connect(mapStateToProps)(Invite));
+export default connect(mapStateToProps)(Invite);

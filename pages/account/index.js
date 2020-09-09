@@ -156,4 +156,4 @@ Account.propTypes = {
   }).isRequired
 };
 
-export default withAdminAuth(connect(mapStateToProps)(Account));
+export default connect(mapStateToProps)(Account);

@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   FaBoxes, FaSearch, FaPlus
 } from 'react-icons/fa';
@@ -20,23 +22,25 @@ import {
   TitleDiv,
   Content
 } from '../../styles/Pages/Bundles/Bundles';
-import DeleteConfirmation from '../../components/UI/Confirmations/DeleteProductConfirmation';
+import DeleteConfirmation from '../../components/UI/Confirmations/DeleteBundleConfirmation';
+import { getBundles } from '../../store/actions/bundles/bundles';
+
+const mapStateToProps = (state) => {
+  const { bundles } = state;
+
+  return {
+    bundles
+  };
+};
 
 const Bundles = (props) => {
   const { bundles } = props;
 
-  const [bundleList, setBundleList] = useState([]);
   const [selectedBundleId, setSelectedBundleId] = useState('');
   const [selectedBundleName, setSelectedBundleName] = useState('');
   const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
     false
   );
-
-  useEffect(() => {
-    setBundleList(bundles);
-  }, []);
-
-  const handleDeleteBundle = () => {};
 
   const handleGetElement = (el) => {
     const element = el.parentNode.parentNode;
@@ -50,10 +54,6 @@ const Bundles = (props) => {
     setToggleDeleteConfirmation(false);
   };
 
-  const handleGetNewProductsListOnDeletion = () => {
-    console.log('handleGetNewProductsListOnDeletion');
-  };
-
   return (
     <>
       <Head>
@@ -61,12 +61,9 @@ const Bundles = (props) => {
       </Head>
       {toggleDeleteConfirmation && (
         <DeleteConfirmation
-          productId={selectedBundleId}
-          productName={selectedBundleName}
+          bundleId={selectedBundleId}
+          bundleName={selectedBundleName}
           handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
-          handleGetNewProductsListOnDeletion={
-            handleGetNewProductsListOnDeletion
-          }
         />
       )}
       <Background>
@@ -93,7 +90,15 @@ const Bundles = (props) => {
                     </Link>
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
-                <BundleList bundles={bundleList} handleGetElement={handleGetElement} />
+                {!_.isEmpty(bundles.data) &&
+                  bundles.fetched &&
+                  !bundles.error &&
+                  !bundles.loading && (
+                  <BundleList
+                    bundles={bundles.data}
+                    handleGetElement={handleGetElement}
+                  />
+                )}
               </Content>
             </ContentContainer>
           </Container>
@@ -103,20 +108,13 @@ const Bundles = (props) => {
   );
 };
 
-Bundles.getInitialProps = async () => {
-  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/bundles`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await res.json();
-  return {
-    bundles: data
-  };
+Bundles.propTypes = {
+  bundles: PropTypes.shape().isRequired
 };
 
-export default Bundles;
+Bundles.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+  store.dispatch(getBundles());
+};
+
+export default connect(mapStateToProps)(Bundles);

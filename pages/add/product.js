@@ -486,4 +486,4 @@ const AddProduct = (props) => {
   );
 };
 
-export default withAdminAuth(connect(mapStateToProps)(AddProduct));
+export default connect(mapStateToProps)(AddProduct);

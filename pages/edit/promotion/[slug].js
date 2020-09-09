@@ -32,12 +32,14 @@ import {
   Loading,
   Warning,
 } from '../../../styles/Pages/Add/Product';
+import { getPromotion } from '../../../store/actions/promotion/promotion';
 
 const mapStateToProps = (state) => {
-  const { user } = state;
+  const { user, promotion } = state;
 
   return {
     user,
+    promotion,
   };
 };
 
@@ -98,26 +100,33 @@ const EditPromotion = (props) => {
   }, [imagesArray, toDeleteImagesArray]);
 
   useEffect(() => {
-    if (!_.isEmpty(promotion)) {
+    if (
+      !_.isEmpty(promotion.data) &&
+      promotion.fetched &&
+      !promotion.loading &&
+      !promotion.error
+    ) {
       const imagesObj = [];
       imagesObj.push({
-        data: promotion.media,
+        data: promotion.data.media,
       });
       handleSetImagesArray(imagesObj);
       setToDeleteImagesArray(imagesObj);
-      setId(promotion._id);
-      setSlug(promotion.slug);
-      setPromotionName(promotion.promotionName);
-      setDescription(promotion.description);
-      setSeoTitle(promotion.seo.title);
-      setSeoSlug(promotion.seo.slug);
-      setSeoDescription(promotion.seo.description);
-      setCategories(categoriesArrayToString(promotion.organization.categories));
-      setCategoriesArray(
-        editCategoriesToArray(promotion.organization.categories)
+      setId(promotion.data._id);
+      setSlug(promotion.data.slug);
+      setPromotionName(promotion.data.promotionName);
+      setDescription(promotion.data.description);
+      setSeoTitle(promotion.data.seo.title);
+      setSeoSlug(promotion.data.seo.slug);
+      setSeoDescription(promotion.data.seo.description);
+      setCategories(
+        categoriesArrayToString(promotion.data.organization.categories)
       );
-      setTags(tagsArrayToString(promotion.organization.tags));
-      setTagsArray(editTagsToArray(promotion.organization.tags));
+      setCategoriesArray(
+        editCategoriesToArray(promotion.data.organization.categories)
+      );
+      setTags(tagsArrayToString(promotion.data.organization.tags));
+      setTagsArray(editTagsToArray(promotion.data.organization.tags));
     }
   }, [promotion]);
 
@@ -526,27 +535,12 @@ const EditPromotion = (props) => {
   );
 };
 
-EditPromotion.getInitialProps = async (props) => {
-  const { asPath } = props.ctx;
+EditPromotion.getInitialProps = async ({ ctx }) => {
+  const { asPath, store } = ctx;
 
   const slug = asPath.substring(16, asPath.length);
 
-  const res = await fetch(
-    `${process.env.MAIN_API_ENDPOINT}/admin/promotions/${slug}`,
-    {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
-  const data = await res.json();
-  return {
-    promotion: data,
-  };
+  store.dispatch(getPromotion(slug));
 };
 
 EditPromotion.propTypes = {

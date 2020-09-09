@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaFacebookF, FaGoogle } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import {
   Background,
   Statement,
@@ -8,21 +9,23 @@ import {
   BtnNo,
   BtnYes
 } from '../../../styles/Components/UI/Confirmations/DeleteConfirmation';
+import { getPromotions } from '../../../store/actions/promotions/promotions';
 
 const DeleteConfirmationModal = (props) => {
   const {
     promotionId,
     promotionName,
-    handleCloseDeleteConfirmation,
-    handleGetNewPromotionsListOnDeletion
+    handleCloseDeleteConfirmation
   } = props;
+
+  const dispatch = useDispatch();
 
   const handleDeleteConfirmationClose = () => {
     const close = handleCloseDeleteConfirmation;
     close();
   };
 
-  const handleDeleteProduct = async () => {
+  const handleDeletePromotion = async () => {
     const res = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/promotions/delete/promotion/${promotionId}`,
       {
@@ -36,8 +39,13 @@ const DeleteConfirmationModal = (props) => {
       }
     );
     const data = await res.json();
-    handleGetNewPromotionsListOnDeletion(data);
-    handleDeleteConfirmationClose();
+
+    console.log('delete promotion res:', data);
+
+    if (data.ok) {
+      dispatch(getPromotions());
+      handleDeleteConfirmationClose();
+    }
   };
 
   return (
@@ -63,7 +71,7 @@ const DeleteConfirmationModal = (props) => {
           <div>
             <BtnYes
               onClick={() => {
-                handleDeleteProduct();
+                handleDeletePromotion();
               }}
             >
               Yes

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   FaSortAmountDownAlt, FaSearch
 } from 'react-icons/fa';
@@ -18,6 +19,12 @@ import {
   TitleDiv,
   Content
 } from '../../styles/Pages/Orders/Orders';
+import { getOrders } from '../../store/actions/orders/orders';
+
+const mapStateToProps = (state) => {
+  const { orders } = state;
+  return { orders };
+};
 
 const Orders = (props) => {
   const { orders } = props;
@@ -46,7 +53,14 @@ const Orders = (props) => {
                     </SearchBar>
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
-                <OrderList orders={orders} />
+                {!_.isEmpty(orders.data) &&
+                  orders.fetched &&
+                  !orders.error &&
+                  !orders.loading && (
+                    <OrderList
+                      orders={orders.data}
+                    />
+                )}
               </Content>
             </ContentContainer>
           </Container>
@@ -60,23 +74,10 @@ Orders.propTypes = {
   orders: PropTypes.shape().isRequired
 };
 
-Orders.getInitialProps = async () => {
-  const res = await fetch(
-    `${process.env.MAIN_API_ENDPOINT}/admin/orders`,
-    {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  );
-  const data = await res.json();
-  return {
-    orders: data
-  };
+Orders.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getOrders());
 };
 
-export default Orders;
+export default connect(mapStateToProps)(Orders);

@@ -12,9 +12,14 @@ import {
 } from '../../../../styles/Components/UI/List/Coupons/CouponList';
 
 const CouponList = (props) => {
-  const { coupons } = props;
+  const { coupons, handleGetElement } = props;
 
   const dateFormatter = new DateFormatter();
+
+  const handleSelectProduct = (e) => {
+    const getter = handleGetElement;
+    getter(e.currentTarget);
+  };
 
   return (
     <List>
@@ -40,7 +45,7 @@ const CouponList = (props) => {
         </div>
       </SpansDiv>
       {coupons.map((coupon) => (
-        <ListLiContent>
+        <ListLiContent id={coupon._id}>
           <div className='couponName'>
             <a href={`${process.env.SECURED_MAIN_DOMAIN}/coupon/${coupon.slug}`}>
               {coupon.couponName}
@@ -72,7 +77,10 @@ const CouponList = (props) => {
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton>
+            <DeleteButton onClick={(e) => {
+              handleSelectProduct(e);
+            }}
+            >
               <FaTrashAlt />
             </DeleteButton>
           </div>

@@ -43,7 +43,7 @@ const OrderList = (props) => {
           </span>
         </div>
         <div className='buttons'>
-          <span>Edit / Delete</span>
+          <span>Edit</span>
         </div>
       </SpansDiv>
       {orders.map((order) => (
@@ -88,12 +88,6 @@ const OrderList = (props) => {
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton onClick={(e) => {
-              // handleSelectProduct(e);
-            }}
-            >
-              <FaTrashAlt />
-            </DeleteButton>
           </div>
         </ListLiContent>
       ))}

@@ -12,9 +12,14 @@ import {
 } from '../../../../styles/Components/UI/List/Resellers/ResellerList';
 
 const ResellerList = (props) => {
-  const { resellers } = props;
+  const { resellers, handleGetElement } = props;
 
   const dateFormatter = new DateFormatter();
+
+  const handleSelectProduct = (e) => {
+    const getter = handleGetElement;
+    getter(e.currentTarget);
+  };
 
   return (
     <List>
@@ -40,7 +45,7 @@ const ResellerList = (props) => {
         </div>
       </SpansDiv>
       {resellers.map((reseller) => (
-        <ListLiContent>
+        <ListLiContent id={reseller._id}>
           <div className='resellerName'>
             <Link href='/reseller/[username]' as={`/reseller/${reseller.username}`}>
               <a>
@@ -74,7 +79,10 @@ const ResellerList = (props) => {
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton>
+            <DeleteButton onClick={(e) => {
+              handleSelectProduct(e);
+            }}
+            >
               <FaTrashAlt />
             </DeleteButton>
           </div>

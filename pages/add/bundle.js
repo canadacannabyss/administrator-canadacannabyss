@@ -495,4 +495,4 @@ const AddBundle = (props) => {
   );
 };
 
-export default withAdminAuth(connect(mapStateToProps)(AddBundle));
+export default connect(mapStateToProps)(AddBundle);

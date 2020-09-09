@@ -31,11 +31,13 @@ import {
   Loading,
   Warning,
 } from '../../../styles/Pages/Add/Product';
+import { getBanner } from '../../../store/actions/banner/banner';
 
 const mapStateToProps = (state) => {
-  const { user } = state;
+  const { banner, user } = state;
 
   return {
+    banner,
     user,
   };
 };
@@ -85,19 +87,28 @@ const EditBanner = (props) => {
   ]);
 
   useEffect(() => {
-    if (!_.isEmpty(banner)) {
-      setId(banner._id);
-      setFeatured(banner.featured);
-      setSlug(banner.slug);
-      setBannerName(banner.bannerName);
-      setDescription(banner.description);
-      setSeoTitle(banner.seo.title);
-      setSeoSlug(banner.seo.slug);
-      setSeoDescription(banner.seo.description);
-      setCategories(categoriesArrayToString(banner.organization.categories));
-      setCategoriesArray(editCategoriesToArray(banner.organization.categories));
-      setTags(tagsArrayToString(banner.organization.tags));
-      setTagsArray(editTagsToArray(banner.organization.tags));
+    if (
+      !_.isEmpty(banner.data) &&
+      banner.fetched &&
+      !banner.loading &&
+      !banner.error
+    ) {
+      setId(banner.data._id);
+      setFeatured(banner.data.featured);
+      setSlug(banner.data.slug);
+      setBannerName(banner.data.bannerName);
+      setDescription(banner.data.description);
+      setSeoTitle(banner.data.seo.title);
+      setSeoSlug(banner.data.seo.slug);
+      setSeoDescription(banner.data.seo.description);
+      setCategories(
+        categoriesArrayToString(banner.data.organization.categories)
+      );
+      setCategoriesArray(
+        editCategoriesToArray(banner.data.organization.categories)
+      );
+      setTags(tagsArrayToString(banner.data.organization.tags));
+      setTagsArray(editTagsToArray(banner.data.organization.tags));
     }
   }, [banner]);
 
@@ -395,27 +406,12 @@ const EditBanner = (props) => {
   );
 };
 
-EditBanner.getInitialProps = async (props) => {
-  const { asPath } = props.ctx;
+EditBanner.getInitialProps = async ({ ctx }) => {
+  const { asPath, store } = ctx;
 
   const slug = asPath.substring(13, asPath.length);
 
-  const res = await fetch(
-    `${process.env.MAIN_API_ENDPOINT}/admin/promotions/banners/${slug}`,
-    {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
-  const data = await res.json();
-  return {
-    banner: data,
-  };
+  store.dispatch(getBanner(slug));
 };
 
 EditBanner.propTypes = {
@@ -423,4 +419,4 @@ EditBanner.propTypes = {
   // user: PropTypes.shape().isRequired,
 };
 
-export default EditBanner;
+export default connect(mapStateToProps)(EditBanner);

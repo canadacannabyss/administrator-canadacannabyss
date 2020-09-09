@@ -38,17 +38,19 @@ import {
   Loading,
   Warning,
 } from '../../../styles/Pages/Add/Product';
+import { getBundle } from '../../../store/actions/bundle/bundle';
 
 const mapStateToProps = (state) => {
-  const { user } = state;
+  const { bundle, user } = state;
 
   return {
+    bundle,
     user,
   };
 };
 
 const EditBundle = (props) => {
-  const { bundle } = props;
+  const { user, bundle } = props;
 
   const [loading, setLoading] = useState(false);
   const [isSlugValid, setIsSlugValid] = useState(true);
@@ -94,30 +96,41 @@ const EditBundle = (props) => {
   const [tagsArray, setTagsArray] = useState([]);
 
   useEffect(() => {
-    setId(bundle._id);
-    setSlug(bundle.slug);
-    setBundleName(bundle.bundleName);
-    setPrice(bundle.prices.price);
-    setCompareTo(bundle.prices.compareTo);
-    setTaxableBundle(bundle.taxableBundle);
-    setDescription(bundle.description);
-    setSku(bundle.inventory.sku);
-    setBarcode(bundle.inventory.barcode);
-    setQuantity(bundle.inventory.quantity);
-    setAllowPurchaseOutOfStock(bundle.inventory.allowPurchaseOutOfStock);
-    setPhysicalProduct(bundle.shipping.physicalProduct);
-    setWeightAmount(bundle.shipping.weight.amount);
-    setWeightUnit(bundle.shipping.weight.unit);
-    setVariants(bundle.variants);
-    setSeoTitle(bundle.seo.title);
-    setSeoSlug(bundle.seo.slug);
-    setSeoDescription(bundle.seo.description);
-    setCategories(categoriesArrayToString(bundle.organization.categories));
-    setCategoriesArray(editCategoriesToArray(bundle.organization.categories));
-    setTags(tagsArrayToString(bundle.organization.tags));
-    setTagsArray(editTagsToArray(bundle.organization.tags));
-    setExtraInfo(bundle.extraInfo);
-    handleGetExtraInfo(bundle.extraInfo);
+    if (
+      !_.isEmpty(bundle.data) &&
+      bundle.fetched &&
+      !bundle.loading &&
+      !bundle.error
+    ) {
+      setId(bundle.data._id);
+      setSlug(bundle.data.slug);
+      setBundleName(bundle.data.bundleName);
+      setPrice(bundle.data.prices.price);
+      setCompareTo(bundle.data.prices.compareTo);
+      setTaxableBundle(bundle.data.taxableBundle);
+      setDescription(bundle.data.description);
+      setSku(bundle.data.inventory.sku);
+      setBarcode(bundle.data.inventory.barcode);
+      setQuantity(bundle.data.inventory.quantity);
+      setAllowPurchaseOutOfStock(bundle.data.inventory.allowPurchaseOutOfStock);
+      setPhysicalProduct(bundle.data.shipping.physicalProduct);
+      setWeightAmount(bundle.data.shipping.weight.amount);
+      setWeightUnit(bundle.data.shipping.weight.unit);
+      setVariants(bundle.data.variants);
+      setSeoTitle(bundle.data.seo.title);
+      setSeoSlug(bundle.data.seo.slug);
+      setSeoDescription(bundle.data.seo.description);
+      setCategories(
+        categoriesArrayToString(bundle.data.organization.categories)
+      );
+      setCategoriesArray(
+        editCategoriesToArray(bundle.data.organization.categories)
+      );
+      setTags(tagsArrayToString(bundle.data.organization.tags));
+      setTagsArray(editTagsToArray(bundle.data.organization.tags));
+      setExtraInfo(bundle.data.extraInfo);
+      handleGetExtraInfo(bundle.data.extraInfo);
+    }
   }, [bundle]);
 
   const disabledSubmitButton = () => {
@@ -499,27 +512,12 @@ const EditBundle = (props) => {
   );
 };
 
-EditBundle.getInitialProps = async (props) => {
-  const { asPath } = props.ctx;
+EditBundle.getInitialProps = async ({ ctx }) => {
+  const { asPath, store } = ctx;
 
   const slug = asPath.substring(13, asPath.length);
 
-  const res = await fetch(
-    `${process.env.MAIN_API_ENDPOINT}/admin/bundles/${slug}`,
-    {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
-  const data = await res.json();
-  return {
-    bundle: data,
-  };
+  store.dispatch(getBundle(slug));
 };
 
 EditBundle.propTypes = {

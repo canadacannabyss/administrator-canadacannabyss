@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Background,
   Statement,
@@ -7,6 +8,7 @@ import {
   BtnNo,
   BtnYes
 } from '../../../styles/Components/UI/Confirmations/DeleteConfirmation';
+import { getCategories } from '../../../store/actions/categories/categories';
 
 const DeleteConfirmationModal = (props) => {
   const {
@@ -15,6 +17,8 @@ const DeleteConfirmationModal = (props) => {
     handleCloseDeleteConfirmation,
     handleGetNewCategoryListOnDeletion
   } = props;
+
+  const dispatch = useDispatch();
 
   const handleDeleteConfirmationClose = () => {
     const close = handleCloseDeleteConfirmation;
@@ -35,8 +39,13 @@ const DeleteConfirmationModal = (props) => {
       }
     );
     const data = await res.json();
-    handleGetNewCategoryListOnDeletion(data);
-    handleDeleteConfirmationClose();
+
+    console.log('category data:', data);
+
+    if (data.ok) {
+      dispatch(getCategories());
+      handleDeleteConfirmationClose();
+    }
   };
 
   return (

@@ -12,9 +12,14 @@ import {
 } from '../../../../styles/Components/UI/List/Promotions/PromotionList';
 
 const PromotionList = (props) => {
-  const { promotions } = props;
+  const { promotions, handleGetElement } = props;
 
   const dateFormatter = new DateFormatter();
+
+  const handleSelectProduct = (e) => {
+    const getter = handleGetElement;
+    getter(e.currentTarget);
+  };
 
   return (
     <List>
@@ -37,7 +42,7 @@ const PromotionList = (props) => {
         </div>
       </SpansDiv>
       {promotions.map((promotion) => (
-        <ListLiContent>
+        <ListLiContent id={promotion._id}>
           <div className='promotionName'>
             <a href={`${process.env.SECURED_MAIN_DOMAIN}/promotion/${promotion.slug}`} target='_blank'>
               {promotion.promotionName}
@@ -66,7 +71,10 @@ const PromotionList = (props) => {
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton>
+            <DeleteButton onClick={(e) => {
+              handleSelectProduct(e);
+            }}
+            >
               <FaTrashAlt />
             </DeleteButton>
           </div>

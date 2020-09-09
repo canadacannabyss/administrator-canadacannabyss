@@ -550,4 +550,4 @@ const Shipping = (props) => {
   );
 };
 
-export default withAdminAuth(connect(mapStateToProps)(Shipping));
+export default connect(mapStateToProps)(Shipping);

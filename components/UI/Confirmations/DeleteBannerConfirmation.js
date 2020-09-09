@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaFacebookF, FaGoogle } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import {
   Background,
   Statement,
@@ -8,14 +9,16 @@ import {
   BtnNo,
   BtnYes
 } from '../../../styles/Components/UI/Confirmations/DeleteConfirmation';
+import { getBanners } from '../../../store/actions/banners/banners';
 
 const DeleteConfirmationModal = (props) => {
   const {
     bannerId,
     bannerName,
-    handleCloseDeleteConfirmation,
-    handleGetNewBannersListOnDeletion
+    handleCloseDeleteConfirmation
   } = props;
+
+  const dispatch = useDispatch();
 
   const handleDeleteConfirmationClose = () => {
     const close = handleCloseDeleteConfirmation;
@@ -36,8 +39,13 @@ const DeleteConfirmationModal = (props) => {
       }
     );
     const data = await res.json();
-    handleGetNewBannersListOnDeletion(data);
-    handleDeleteConfirmationClose();
+
+    console.log('data delete banner:', data);
+
+    if (data.ok) {
+      dispatch(getBanners());
+      handleDeleteConfirmationClose();
+    }
   };
 
   return (

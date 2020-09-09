@@ -3,7 +3,7 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   FaBox, FaSearch, FaPlus
 } from 'react-icons/fa';
@@ -24,6 +24,7 @@ import {
 } from '../../styles/Pages/Products/Products';
 import DeleteConfirmation from '../../components/UI/Confirmations/DeleteProductConfirmation';
 import { getProducts } from '../../store/actions/products/products';
+import { withAdminAuth } from '../../utils/withAdminAuth';
 
 const mapStateToProps = (state) => {
   const {
@@ -36,13 +37,13 @@ const mapStateToProps = (state) => {
 const Products = (props) => {
   const { products } = props;
 
+  const dispatch = useDispatch();
+
   const [selectedProductId, setSelectedProductId] = useState('');
   const [selectedProductName, setSelectedProductName] = useState('');
   const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
     false
   );
-
-  const handleDeleteProduct = () => {};
 
   const handleGetElement = (el) => {
     const element = el.parentNode.parentNode;
@@ -57,10 +58,6 @@ const Products = (props) => {
     setToggleDeleteConfirmation(false);
   };
 
-  const handleGetNewProductsListOnDeletion = () => {
-    console.log('handleGetNewProductsListOnDeletion');
-  };
-
   return (
     <>
       <Head>
@@ -71,9 +68,6 @@ const Products = (props) => {
           productId={selectedProductId}
           productName={selectedProductName}
           handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
-          handleGetNewProductsListOnDeletion={
-            handleGetNewProductsListOnDeletion
-          }
         />
       )}
       <Background>

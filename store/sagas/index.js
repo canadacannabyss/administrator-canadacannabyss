@@ -43,6 +43,15 @@ import GetCategories from './categories/getCategories';
 import GetReseller from './reseller/getReseller';
 import GetResellers from './resellers/getResellers';
 
+import GetBundle from './bundle/getBundle';
+import GetBundles from './bundles/getBundles';
+
+import GetPromotion from './promotion/getPromotion';
+import GetPromotions from './promotions/getPromotions';
+
+import GetBanner from './banner/getBanner';
+import GetBanners from './banners/getBanners';
+
 export default function* root() {
   yield all([
     takeLatest('REQUEST_CREATE_BILLING', CreateBilling),
@@ -86,6 +95,15 @@ export default function* root() {
     takeLatest('REQUEST_GET_CATEGORIES', GetCategories),
 
     takeLatest('REQUEST_GET_RESELLER', GetReseller),
-    takeLatest('REQUEST_GET_RESELLERS', GetResellers)
+    takeLatest('REQUEST_GET_RESELLERS', GetResellers),
+
+    takeLatest('REQUEST_GET_BUNDLE', GetBundle),
+    takeLatest('REQUEST_GET_BUNDLES', GetBundles),
+
+    takeLatest('REQUEST_GET_PROMOTION', GetPromotion),
+    takeLatest('REQUEST_GET_PROMOTIONS', GetPromotions),
+
+    takeLatest('REQUEST_GET_BANNER', GetBanner),
+    takeLatest('REQUEST_GET_BANNERS', GetBanners)
   ]);
 }

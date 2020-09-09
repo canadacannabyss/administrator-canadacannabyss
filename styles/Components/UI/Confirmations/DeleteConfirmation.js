@@ -23,7 +23,7 @@ export const Wrapper = styled.div`
   border-radius: 4px;
   background-color: #fff;
   overflow-y: scroll;
-  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(0,0,0,0.15) 0px 2px 4px, rgba(0,0,0,0.15) 0px 0px 2px;
   &::-webkit-scrollbar {
     display: none;
   }

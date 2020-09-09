@@ -26,7 +26,7 @@ import {
   Warning,
 } from '../../../styles/Pages/Add/Product';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
-import { getOrder } from '../../../store/actions/order/getOrder';
+import { getOrder } from '../../../store/actions/order/order';
 
 const mapStateToProps = (state) => {
   const { order } = state;
@@ -39,6 +39,19 @@ const mapStateToProps = (state) => {
 const EditOrder = (props) => {
   const { order } = props;
 
+  const [orderId, setOrderId] = useState({});
+
+  useEffect(() => {
+    if (
+      !_.isEmpty(order.data) &&
+      order.fetched &&
+      !order.loading &&
+      !order.error
+    ) {
+      setOrderId(order.data._id);
+    }
+  }, [order]);
+
   return (
     <>
       <Head>
@@ -47,10 +60,7 @@ const EditOrder = (props) => {
       <BackgroundAdd>
         <Wrapper>
           <MainGrid className='main'>
-            {!_.isEmpty(order.data) &&
-              order.fetched &&
-              !order.loading &&
-              !order.error && <h1>Order ID:{order.data._id}</h1>}
+            <h1>Order ID:{orderId}</h1>
           </MainGrid>
         </Wrapper>
       </BackgroundAdd>

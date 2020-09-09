@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import {
   FaSearch, FaPlus, FaObjectUngroup
@@ -21,6 +22,13 @@ import {
   TitleDiv,
   Content
 } from '../../styles/Pages/Banners/Banners';
+import { getBanners } from '../../store/actions/banners/banners';
+import DeleteConfirmation from '../../components/UI/Confirmations/DeleteBannerConfirmation';
+
+const mapStateToProps = (state) => {
+  const { banners } = state;
+  return { banners };
+};
 
 const Banners = (props) => {
   const { banners } = props;
@@ -33,17 +41,12 @@ const Banners = (props) => {
   const [selectedBannersId, setSelectedBannersId] = useState('');
   const [selectedBannersName, setSelectedBannersName] = useState('');
 
-  useEffect(() => {
-    setBannerList(banners);
-  }, []);
-
-  const handleDeleteBanner = () => {};
-
   const handleGetElement = (el) => {
-    const element = el.parentNode.parentNode.parentNode;
-    console.log(element);
+    const element = el.parentNode.parentNode;
+    console.log(element.children[0].children[0].innerHTML);
     setSelectedBannersId(element.id);
-    setSelectedBannersName(element.querySelector('p').innerHTML);
+    setSelectedBannersName(element.children[0].children[0].innerHTML);
+    // console.log('element.querySelector(a):', element.querySelector('a'));
     setToggleDeleteConfirmation(true);
   };
 
@@ -51,15 +54,18 @@ const Banners = (props) => {
     setToggleDeleteConfirmation(false);
   };
 
-  const handleGetNewBannerssListOnDeletion = () => {
-    console.log('handleGetNewPromotionsListOnDeletion');
-  };
-
   return (
     <>
       <Head>
         <title>Banners | Administrator - Canada Cannabyss</title>
       </Head>
+      {toggleDeleteConfirmation && (
+        <DeleteConfirmation
+          bannerId={selectedBannersId}
+          bannerName={selectedBannersName}
+          handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
+        />
+      )}
       <Background>
         <Wrapper>
           <Container>
@@ -84,7 +90,15 @@ const Banners = (props) => {
                     </Link>
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
-                <BannerList banners={bannerList} />
+                {!_.isEmpty(banners.data) &&
+                  banners.fetched &&
+                  !banners.error &&
+                  !banners.loading && (
+                    <BannerList
+                      banners={banners.data}
+                      handleGetElement={handleGetElement}
+                    />
+                )}
               </Content>
             </ContentContainer>
           </Container>
@@ -98,20 +112,10 @@ Banners.propTypes = {
   banners: PropTypes.shape().isRequired
 };
 
-Banners.getInitialProps = async () => {
-  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/panel/get/all/banners`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await res.json();
-  return {
-    banners: data
-  };
+Banners.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getBanners());
 };
 
-export default Banners;
+export default connect(mapStateToProps)(Banners);

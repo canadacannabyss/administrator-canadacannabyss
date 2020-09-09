@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { connect } from 'react-redux';
@@ -21,6 +21,7 @@ import {
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import ResellerList from '../../components/UI/List/Resellers/ResellerList';
 import { getResellers } from '../../store/actions/resellers/resellers';
+import DeleteConfirmation from '../../components/UI/Confirmations/DeleteResellerConfirmation';
 
 const mapStateToProps = (state) => {
   const { resellers } = state;
@@ -33,11 +34,37 @@ const mapStateToProps = (state) => {
 const Resellers = (props) => {
   const { resellers } = props;
 
+  const [selectedResellerId, setSelectedResellerId] = useState('');
+  const [selectedResellerName, setSelectedResellerName] = useState('');
+  const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
+    false
+  );
+
+  const handleGetElement = (el) => {
+    const element = el.parentNode.parentNode;
+    console.log(element.children[0].children[0].innerHTML);
+    setSelectedResellerId(element.id);
+    setSelectedResellerName(element.children[0].children[0].innerHTML);
+    // console.log('element.querySelector(a):', element.querySelector('a'));
+    setToggleDeleteConfirmation(true);
+  };
+
+  const handleCloseDeleteConfirmation = () => {
+    setToggleDeleteConfirmation(false);
+  };
+
   return (
     <BackgroundAdd>
       <Head>
         <title>Resellers | Administrator - Canada Cannabyss</title>
       </Head>
+      {toggleDeleteConfirmation && (
+        <DeleteConfirmation
+          resellerId={selectedResellerId}
+          resellerName={selectedResellerName}
+          handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
+        />
+      )}
       <Container>
         <ContentContainer>
           <Content>
@@ -64,7 +91,10 @@ const Resellers = (props) => {
             resellers.fetched &&
             !resellers.loading &&
             !resellers.error && (
-              <ResellerList resellers={resellers.data} />
+              <ResellerList
+                resellers={resellers.data}
+                handleGetElement={handleGetElement}
+              />
             )}
           </Content>
         </ContentContainer>

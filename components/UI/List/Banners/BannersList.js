@@ -12,9 +12,14 @@ import {
 } from '../../../../styles/Components/UI/List/Banners/BannerList';
 
 const BannerList = (props) => {
-  const { banners } = props;
+  const { banners, handleGetElement } = props;
 
   const dateFormatter = new DateFormatter();
+
+  const handleSelectProduct = (e) => {
+    const getter = handleGetElement;
+    getter(e.currentTarget);
+  };
 
   return (
     <List>
@@ -40,7 +45,7 @@ const BannerList = (props) => {
         </div>
       </SpansDiv>
       {banners.map((banner) => (
-        <ListLiContent>
+        <ListLiContent id={banner._id}>
           <div className='promotionName'>
             <a href={`${process.env.SECURED_MAIN_DOMAIN}/banner/${banner.slug}`}>
               {banner.bannerName}
@@ -72,7 +77,10 @@ const BannerList = (props) => {
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton>
+            <DeleteButton onClick={(e) => {
+              handleSelectProduct(e);
+            }}
+            >
               <FaTrashAlt />
             </DeleteButton>
           </div>

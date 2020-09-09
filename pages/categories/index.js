@@ -3,7 +3,7 @@ import Link from 'next/link';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FaListUl, FaSearch, FaPlus
 } from 'react-icons/fa';
@@ -24,6 +24,7 @@ import {
   Content
 } from '../../styles/Pages/Categories/Categories';
 import { getCategories } from '../../store/actions/categories/categories';
+import DeleteConfirmation from '../../components/UI/Confirmations/DeleteCategoryConfirmation';
 
 const mapStateToProps = (state) => {
   const { categories } = state;
@@ -36,13 +37,38 @@ const mapStateToProps = (state) => {
 const Categories = (props) => {
   const { categories } = props;
 
-  console.log('categories:', categories);
+  const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
+    false
+  );
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [selectedCategoryName, setSelectedCategoryName] = useState('');
+
+  const handleGetElement = (el) => {
+    const element = el.parentNode.parentNode;
+    console.log(element.children[0].children[0].innerHTML);
+    setSelectedCategoryId(element.id);
+    setSelectedCategoryName(element.children[0].children[0].innerHTML);
+    // console.log('element.querySelector(a):', element.querySelector('a'));
+    setToggleDeleteConfirmation(true);
+  };
+
+  const handleCloseDeleteConfirmation = () => {
+    setToggleDeleteConfirmation(false);
+  };
 
   return (
     <>
       <Head>
         <title>Categories | Administrator - Canada Cannabyss</title>
       </Head>
+      {toggleDeleteConfirmation && (
+        <DeleteConfirmation
+          categoryId={selectedCategoryId}
+          categoryName={selectedCategoryName}
+          handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
+        />
+      )}
       <Background>
         <Wrapper>
           <Container>
@@ -71,7 +97,10 @@ const Categories = (props) => {
                 categories.fetched &&
                 !categories.loading &&
                 !categories.error && (
-                  <CategoryList categories={categories.data} />
+                  <CategoryList
+                    categories={categories.data}
+                    handleGetElement={handleGetElement}
+                  />
                 )}
               </Content>
             </ContentContainer>

@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import React, { useState } from 'react';
 import {
   FaTags, FaSearch, FaPlus
 } from 'react-icons/fa';
@@ -21,29 +23,31 @@ import {
   TitleDiv,
   Content
 } from '../../styles/Pages/Promotions/Promotions';
+import DeleteConfirmation from '../../components/UI/Confirmations/DeletePromotionConfirmation';
+import { getPromotions } from '../../store/actions/promotions/promotions';
+
+const mapStateToProps = (state) => {
+  const { promotions } = state;
+  return {
+    promotions
+  };
+};
 
 const Promotions = (props) => {
   const { promotions } = props;
 
-  const [promotionCategories, setPromotionCategories] = useState([]);
-  const [promotionList, setPromotionList] = useState([]);
   const [selectedPromotionId, setSelectedPromotionId] = useState('');
   const [selectedPromotionName, setSelectedPromotionName] = useState('');
   const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
     false
   );
 
-  useEffect(() => {
-    setPromotionList(promotions);
-  }, []);
-
-  const handleDeleteProduct = () => {};
-
   const handleGetElement = (el) => {
-    const element = el.parentNode.parentNode.parentNode;
-    console.log(element);
+    const element = el.parentNode.parentNode;
+    console.log(element.children[0].children[0].innerHTML);
     setSelectedPromotionId(element.id);
-    setSelectedPromotionName(element.querySelector('p').innerHTML);
+    setSelectedPromotionName(element.children[0].children[0].innerHTML);
+    // console.log('element.querySelector(a):', element.querySelector('a'));
     setToggleDeleteConfirmation(true);
   };
 
@@ -51,15 +55,18 @@ const Promotions = (props) => {
     setToggleDeleteConfirmation(false);
   };
 
-  const handleGetNewPromotionsListOnDeletion = () => {
-    console.log('handleGetNewPromotionsListOnDeletion');
-  };
-
   return (
     <>
       <Head>
         <title>Promotions | Reseller - Canada Cannabyss</title>
       </Head>
+      {toggleDeleteConfirmation && (
+        <DeleteConfirmation
+          promotionId={selectedPromotionId}
+          promotionName={selectedPromotionName}
+          handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
+        />
+      )}
       <Background>
         <Wrapper>
           <Container>
@@ -84,7 +91,15 @@ const Promotions = (props) => {
                     </Link>
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
-                <PromotionList promotions={promotionList} />
+                {!_.isEmpty(promotions.data) &&
+                promotions.fetched &&
+                !promotions.loading &&
+                !promotions.error && (
+                  <PromotionList
+                    promotions={promotions.data}
+                    handleGetElement={handleGetElement}
+                  />
+                )}
               </Content>
             </ContentContainer>
           </Container>
@@ -98,20 +113,10 @@ Promotions.propTypes = {
   promotions: PropTypes.shape().isRequired
 };
 
-Promotions.getInitialProps = async () => {
-  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/promotions`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await res.json();
-  return {
-    promotions: data
-  };
+Promotions.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getPromotions());
 };
 
-export default Promotions;
+export default connect(mapStateToProps)(Promotions);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaFacebookF, FaGoogle } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import {
   Background,
   Statement,
@@ -8,14 +9,16 @@ import {
   BtnNo,
   BtnYes
 } from '../../../styles/Components/UI/Confirmations/DeleteConfirmation';
+import { getCoupons } from '../../../store/actions/coupons/coupons';
 
 const DeleteConfirmationModal = (props) => {
   const {
     couponId,
     couponName,
-    handleCloseDeleteConfirmation,
-    handleGetNewCouponsListOnDeletion
+    handleCloseDeleteConfirmation
   } = props;
+
+  const dispatch = useDispatch();
 
   const handleDeleteConfirmationClose = () => {
     const close = handleCloseDeleteConfirmation;
@@ -36,8 +39,11 @@ const DeleteConfirmationModal = (props) => {
       }
     );
     const data = await res.json();
-    handleGetNewCouponsListOnDeletion(data);
-    handleDeleteConfirmationClose();
+
+    if (data.ok) {
+      dispatch(getCoupons());
+      handleDeleteConfirmationClose();
+    }
   };
 
   return (

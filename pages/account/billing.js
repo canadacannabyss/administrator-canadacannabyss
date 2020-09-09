@@ -549,4 +549,4 @@ const Billing = (props) => {
   );
 };
 
-export default withAdminAuth(connect(mapStateToProps)(Billing));
+export default connect(mapStateToProps)(Billing);

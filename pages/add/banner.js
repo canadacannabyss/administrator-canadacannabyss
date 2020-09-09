@@ -366,4 +366,4 @@ const AddBanner = (props) => {
   );
 };
 
-export default withAdminAuth(connect(mapStateToProps)(AddBanner));
+export default connect(mapStateToProps)(AddBanner);
