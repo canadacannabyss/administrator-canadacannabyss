@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import _ from 'lodash';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -21,6 +23,15 @@ import {
   TitleDiv,
   Content
 } from '../../styles/Pages/Categories/Categories';
+import { getCategories } from '../../store/actions/categories/categories';
+
+const mapStateToProps = (state) => {
+  const { categories } = state;
+
+  return {
+    categories
+  };
+};
 
 const Categories = (props) => {
   const { categories } = props;
@@ -30,7 +41,7 @@ const Categories = (props) => {
   return (
     <>
       <Head>
-        <title>Categories | Reseller - Canada Cannabyss</title>
+        <title>Categories | Administrator - Canada Cannabyss</title>
       </Head>
       <Background>
         <Wrapper>
@@ -56,7 +67,12 @@ const Categories = (props) => {
                     </Link>
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
-                <CategoryList categories={categories} />
+                {!_.isEmpty(categories.data) &&
+                categories.fetched &&
+                !categories.loading &&
+                !categories.error && (
+                  <CategoryList categories={categories.data} />
+                )}
               </Content>
             </ContentContainer>
           </Container>
@@ -70,20 +86,10 @@ Categories.propTypes = {
   categories: PropTypes.shape().isRequired
 };
 
-Categories.getInitialProps = async () => {
-  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/category`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await res.json();
-  return {
-    categories: data
-  };
+Categories.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getCategories());
 };
 
-export default Categories;
+export default connect(mapStateToProps)(Categories);

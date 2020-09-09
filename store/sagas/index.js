@@ -28,6 +28,21 @@ import LogoutUserApi from './user/logoutUser';
 import RefreshUserData from './user/refreshUserData';
 import RegisterAdminUserApi from './user/registerAdminUser';
 
+import GetOrder from './order/getOrder';
+import GetOrders from './orders/getOrders';
+
+import GetProduct from './product/getProduct';
+import GetProducts from './products/getProducts';
+
+import GetCoupon from './coupon/getCoupon';
+import GetCoupons from './coupons/getCoupons';
+
+import GetCategory from './category/getCategory';
+import GetCategories from './categories/getCategories';
+
+import GetReseller from './reseller/getReseller';
+import GetResellers from './resellers/getResellers';
+
 export default function* root() {
   yield all([
     takeLatest('REQUEST_CREATE_BILLING', CreateBilling),
@@ -56,6 +71,21 @@ export default function* root() {
     takeLatest('REQUEST_FETCH_LOGIN_RESELLER_USER', FetchLoginResellerUserApi),
     takeLatest('REQUEST_LOGIN_USER_PROVIDER', LoginUserProviderApi),
     takeLatest('REQUEST_LOGOUT_USER', LogoutUserApi),
-    takeLatest('REQUEST_REFRESH_USER_DATA', RefreshUserData)
+    takeLatest('REQUEST_REFRESH_USER_DATA', RefreshUserData),
+
+    takeLatest('REQUEST_GET_ORDER', GetOrder),
+    takeLatest('REQUEST_GET_ORDERS', GetOrders),
+
+    takeLatest('REQUEST_GET_PRODUCT', GetProduct),
+    takeLatest('REQUEST_GET_PRODUCTS', GetProducts),
+
+    takeLatest('REQUEST_GET_COUPON', GetCoupon),
+    takeLatest('REQUEST_GET_COUPONS', GetCoupons),
+
+    takeLatest('REQUEST_GET_CATEGORY', GetCategory),
+    takeLatest('REQUEST_GET_CATEGORIES', GetCategories),
+
+    takeLatest('REQUEST_GET_RESELLER', GetReseller),
+    takeLatest('REQUEST_GET_RESELLERS', GetResellers)
   ]);
 }

@@ -20,8 +20,9 @@ async function fetchLoginAdminUserApi(userInfo) {
 
 async function fetchLoginLocalStorageApi() {
   const bearerToken = `Bearer ${localStorage.getItem('accessToken')}`;
+  console.log('bearerToken:', bearerToken);
   const res = await fetch(
-    `${process.env.USER_API_ENDPOINT}/auth/decode/token`,
+    `${process.env.USER_API_ENDPOINT}/admin/auth/decode/token`,
     {
       method: 'POST',
       mode: 'cors',
@@ -74,6 +75,8 @@ export default function* asyncLoginAdminUser(action) {
     }
   } catch (err) {
     console.error(err);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     yield put({ type: 'FAILURE_FETCH_LOGIN_ADMIN_USER' });
   }
 }

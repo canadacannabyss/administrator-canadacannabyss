@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   FaBox, FaSearch, FaPlus
 } from 'react-icons/fa';
@@ -21,20 +23,24 @@ import {
   Content
 } from '../../styles/Pages/Products/Products';
 import DeleteConfirmation from '../../components/UI/Confirmations/DeleteProductConfirmation';
+import { getProducts } from '../../store/actions/products/products';
+
+const mapStateToProps = (state) => {
+  const {
+    products
+  } = state;
+
+  return { products };
+};
 
 const Products = (props) => {
   const { products } = props;
 
-  const [productsList, setProductsList] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState('');
   const [selectedProductName, setSelectedProductName] = useState('');
   const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
     false
   );
-
-  useEffect(() => {
-    setProductsList(products);
-  }, []);
 
   const handleDeleteProduct = () => {};
 
@@ -95,7 +101,7 @@ const Products = (props) => {
                   </SearchBarAddButtonDiv>
                 </TitleSearchBarAddButtonDiv>
                 <ProductList
-                  products={productsList}
+                  products={products.data}
                   handleGetElement={handleGetElement}
                 />
               </Content>
@@ -111,20 +117,10 @@ Products.propTypes = {
   products: PropTypes.shape().isRequired
 };
 
-Products.getInitialProps = async () => {
-  const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/admin/products`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await res.json();
-  return {
-    products: data
-  };
+Products.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getProducts());
 };
 
-export default Products;
+export default connect(mapStateToProps)(Products);

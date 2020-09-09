@@ -4,7 +4,17 @@ import { FaPercent, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
 import _ from 'lodash';
 
-import { slugifyString } from '../../utils/stringMethods';
+import {
+  categoriesArrayToString,
+  tagsArrayToString
+} from '../../utils/arrayMethods';
+import {
+  slugifyString,
+  categoriesToArray,
+  tagsToArray,
+  editCategoriesToArray,
+  editTagsToArray
+} from '../../utils/stringMethods';
 import { roundFloatNumber } from '../../utils/numberConverter';
 
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
@@ -24,15 +34,21 @@ import {
 
 const AddCoupon = () => {
   const [couponCode, setCouponCode] = useState('');
+
   const [slug, setSlug] = useState('');
+
   const [discountAmount, setdiscountAmount] = useState('');
   const [discountType, setDiscountType] = useState('percent');
+
   const [applyCouponOn, setApplyCouponOn] = useState('items');
+
   const [availableAt, setAvailableAt] = useState('canada');
-  // const [provincesList, setProvincesList] = useState([]);
-  const [itemsOnCoupon, setItemsOnCoupon] = useState([]);
-  const [productsList, setProductsList] = useState([]);
-  const [bundlesList, setBundlesList] = useState([]);
+
+  const [productsOnCoupon, setProductsOnCoupon] = useState([]);
+  const [bundlesOnCoupon, setBundlesOnCoupon] = useState([]);
+  const [productList, setProductList] = useState([]);
+  const [bundleList, setBundleList] = useState([]);
+
   const [description, setDescription] = useState('');
   const [featured, setFeatured] = useState(false);
   const [freeShipping, setFreeShipping] = useState(false);
@@ -68,21 +84,7 @@ const AddCoupon = () => {
       }
     });
     const data = await res.json();
-    setProductsList(data);
-  };
-
-  const fetchAllBunlde = async () => {
-    const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/bundles/`, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await res.json();
-    setProductsList(data);
+    setProductList(data);
   };
 
   useEffect(() => {
@@ -120,9 +122,10 @@ const AddCoupon = () => {
 
   useEffect(() => {
     if (applyCouponOn === 'items') {
-      setProductsList([]);
-      setBundlesList([]);
-      setItemsOnCoupon([]);
+      setProductList([]);
+      setBundleList([]);
+      setProductList([]);
+      setBundleList([]);
       const fetchAllProductsBundlesCategoriesOnChange = async () => {
         const resProducts = await fetch(
           `${process.env.MAIN_API_ENDPOINT}/products/`,
@@ -152,15 +155,16 @@ const AddCoupon = () => {
 
         const dataProducts = await resProducts.json();
         const dataBundles = await resBundles.json();
-        setProductsList(dataProducts);
-        setBundlesList(dataBundles);
+        setProductList(dataProducts);
+        setBundleList(dataBundles);
       };
       fetchAllProductsBundlesCategoriesOnChange();
     }
     if (applyCouponOn === 'products') {
-      setProductsList([]);
-      setBundlesList([]);
-      setItemsOnCoupon([]);
+      setProductList([]);
+      setBundleList([]);
+      setProductList([]);
+      setBundleList([]);
       const fetchAllProductsOnChange = async () => {
         const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/products/`, {
           method: 'GET',
@@ -172,14 +176,15 @@ const AddCoupon = () => {
           }
         });
         const data = await res.json();
-        setProductsList(data);
+        setProductList(data);
       };
       fetchAllProductsOnChange();
     }
     if (applyCouponOn === 'bundles') {
-      setProductsList([]);
-      setBundlesList([]);
-      setItemsOnCoupon([]);
+      setProductList([]);
+      setBundleList([]);
+      setProductList([]);
+      setBundleList([]);
       const fetchAllBundlesOnChange = async () => {
         const res = await fetch(`${process.env.MAIN_API_ENDPOINT}/bundles/`, {
           method: 'GET',
@@ -191,13 +196,10 @@ const AddCoupon = () => {
           }
         });
         const data = await res.json();
-        setBundlesList(data);
+        setBundleList(data);
       };
       fetchAllBundlesOnChange();
     }
-    // if (applyCouponOn === 'categories') {
-    //   setProductsList([]);
-    // }
   }, [applyCouponOn]);
 
   const removeElementFromArray = (arr, element) => {
@@ -210,16 +212,30 @@ const AddCoupon = () => {
 
   const handleGetElement = (el) => {
     const element = el;
-    if (!itemsOnCoupon.includes(element.id)) {
-      setItemsOnCoupon((itemsOnCoupon) => itemsOnCoupon.concat(element.id));
-      element.style.backgroundColor = '#18840f';
-      element.style.border = '1px solid #18840f';
-      element.querySelector('.name').style.color = '#fff';
-    } else {
-      setItemsOnCoupon(removeElementFromArray(itemsOnCoupon, element.id));
-      element.style.backgroundColor = '#efefef';
-      element.style.border = '1px solid #efefef';
-      element.querySelector('.name').style.color = '#18840f';
+    if (element.classList[2] === 'product') {
+      if (!productsOnCoupon.includes(element.id)) {
+        setProductsOnCoupon((pOnPromotion) => pOnPromotion.concat(element.id));
+        element.style.backgroundColor = '#18840f';
+        element.style.border = '1px solid #18840f';
+        element.querySelector('.name').style.color = '#fff';
+      } else {
+        setProductsOnCoupon(removeElementFromArray(productsOnCoupon, element.id));
+        element.style.backgroundColor = '#efefef';
+        element.style.border = '1px solid #efefef';
+        element.querySelector('.name').style.color = '#18840f';
+      }
+    } else if (element.classList[2] === 'bundle') {
+      if (!bundlesOnCoupon.includes(element.id)) {
+        setBundlesOnCoupon((bOnPromotion) => bOnPromotion.concat(element.id));
+        element.style.backgroundColor = '#18840f';
+        element.style.border = '1px solid #18840f';
+        element.querySelector('.name').style.color = '#fff';
+      } else {
+        setBundlesOnCoupon(removeElementFromArray(bundlesOnCoupon, element.id));
+        element.style.backgroundColor = '#efefef';
+        element.style.border = '1px solid #efefef';
+        element.querySelector('.name').style.color = '#18840f';
+      }
     }
   };
 
@@ -314,7 +330,14 @@ const AddCoupon = () => {
         applyCouponOn === 'products' ||
         applyCouponOn === 'bundles') &&
       availableAt === 'canada' &&
-      itemsOnCoupon.length > 0 &&
+      (!_.isEmpty(productsOnCoupon) || !_.isEmpty(bundlesOnCoupon)) &&
+      seoTitle.length > 0 &&
+      seoSlug.length > 0 &&
+      seoDescription.length > 0 &&
+      categories.length > 0 &&
+      tags.length > 0 &&
+      !_.isEmpty(tagsArray) &&
+      !_.isEmpty(categoriesArray) &&
       (featured || !featured) &&
       (freeShipping || !freeShipping)
     ) {
@@ -333,12 +356,19 @@ const AddCoupon = () => {
     discountType,
     applyCouponOn,
     availableAt,
-    itemsOnCoupon,
-    productsList,
-    bundlesList,
+    productsOnCoupon,
+    bundlesOnCoupon,
+    productList,
+    bundleList,
     featured,
     quantity,
-    freeShipping
+    freeShipping,
+    seoTitle,
+    seoSlug,
+    seoDescription,
+    categories,
+    categoriesArray,
+    tags
   ]);
 
   const fetchNewCoupon = async (couponObj) => {
@@ -372,10 +402,20 @@ const AddCoupon = () => {
           freeShipping,
           availableAt,
           quantity: parseInt(quantity),
-          itemsOnCoupon,
+          products: productsOnCoupon,
+          bundles: bundlesOnCoupon,
           discount: {
             type: discountType,
             amount: discountAmount
+          },
+          seo: {
+            title: seoTitle,
+            slug: seoSlug,
+            description: seoDescription
+          },
+          organization: {
+            categories: categoriesArray,
+            tags: tagsArray
           }
         };
         const fetchedCoupon = await fetchNewCoupon(couponObj);
@@ -416,8 +456,8 @@ const AddCoupon = () => {
             />
             <ProductsBundlesList
               title='Items on coupon'
-              products={productsList.results}
-              bundles={bundlesList.results}
+              products={productList.results}
+              bundles={bundleList.results}
               handleGetElement={handleGetElement}
               applyCouponOn={applyCouponOn}
             />

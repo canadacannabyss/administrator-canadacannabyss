@@ -1,6 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
 import { FaUsers, FaSearch, FaPlus } from 'react-icons/fa';
 import {
   Container,
@@ -17,6 +20,15 @@ import {
 } from '../../styles/Pages/Resellers/Resellers';
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import ResellerList from '../../components/UI/List/Resellers/ResellerList';
+import { getResellers } from '../../store/actions/resellers/resellers';
+
+const mapStateToProps = (state) => {
+  const { resellers } = state;
+
+  return {
+    resellers
+  };
+};
 
 const Resellers = (props) => {
   const { resellers } = props;
@@ -48,7 +60,12 @@ const Resellers = (props) => {
                 </Link>
               </SearchBarAddButtonDiv>
             </TitleSearchBarAddButtonDiv>
-            <ResellerList resellers={resellers} />
+            {!_.isEmpty(resellers.data) &&
+            resellers.fetched &&
+            !resellers.loading &&
+            !resellers.error && (
+              <ResellerList resellers={resellers.data} />
+            )}
           </Content>
         </ContentContainer>
       </Container>
@@ -56,23 +73,14 @@ const Resellers = (props) => {
   );
 };
 
-Resellers.getInitialProps = async () => {
-  const res = await fetch(
-    `${process.env.USER_API_ENDPOINT}/admin/resellers`,
-    {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  );
-  const data = await res.json();
-  return {
-    resellers: data
-  };
+Resellers.propTypes = {
+  resellers: PropTypes.shape().isRequired
 };
 
-export default Resellers;
+Resellers.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getResellers());
+};
+
+export default connect(mapStateToProps)(Resellers);

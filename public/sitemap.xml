@@ -89,11 +89,11 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/order/[id]</loc>
+    <loc>https://canadacannabyss.com/orders/index</loc>
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/orders/index</loc>
+    <loc>https://canadacannabyss.com/order/[id]</loc>
   </url>
 
   <url>
@@ -125,10 +125,26 @@
   </url>
 
   <url>
+    <loc>https://canadacannabyss.com/edit/category/[slug]</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/edit/coupon/[slug]</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/edit/order/[id]</loc>
+  </url>
+
+  <url>
     <loc>https://canadacannabyss.com/edit/product/[slug]</loc>
   </url>
 
   <url>
     <loc>https://canadacannabyss.com/edit/promotion/[slug]</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/edit/reseller/[username]</loc>
   </url>
 </urlset>

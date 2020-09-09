@@ -65,8 +65,8 @@ const CategoryList = (props) => {
           </div>
           <div className='buttons'>
             <Link
-              href='/categories/edit/[slug]'
-              as={`/categories/edit/${category.slug}`}
+              href='/edit/category/[slug]'
+              as={`/edit/category/${category.slug}`}
             >
               <EditLink>
                 <FaEdit />

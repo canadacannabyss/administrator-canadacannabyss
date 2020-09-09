@@ -25,7 +25,7 @@ async function loginAdminUserApi(adminUser, adminPassword) {
 
 async function getLoginLocalStorageApi() {
   const bearerToken = `Bearer ${localStorage.getItem('user_token')}`;
-  const res = await fetch(`${process.env.USER_API_ENDPOINT}/auth/user/token`, {
+  const res = await fetch(`${process.env.USER_API_ENDPOINT}/admin/auth/user/token`, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -64,6 +64,8 @@ export default function* asyncLoginAdminUserApi(action) {
       });
     }
   } catch (err) {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     yield put({ type: 'FAILURE_REGISTER_ADMIN_USER' });
   }
 }

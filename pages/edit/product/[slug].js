@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Head from 'next/head';
 import Router from 'next/router';
 import React, { useEffect, useState, useRef } from 'react';
-import { FaBox, FaPlus, FaSpinner } from 'react-icons/fa';
+import { FaBox, FaPen, FaSpinner } from 'react-icons/fa';
 import { connect } from 'react-redux';
 import slugify from 'slugify';
 import PropTypes from 'prop-types';
@@ -26,6 +26,7 @@ import {
   Loading,
   Warning,
 } from '../../../styles/Pages/Add/Product';
+import { getProduct } from '../../../store/actions/product/product';
 import Media from '../../../components/UI/Edit/Media/Media';
 import ItemNameDescription from '../../../components/UI/Edit/ItemNameDescription/ItemNameDescription';
 import Pricing from '../../../components/UI/Edit/Pricing/Pricing';
@@ -38,10 +39,10 @@ import Variants from '../../../components/UI/Edit/Variants/Variants';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 
 const mapStateToProps = (state) => {
-  const { user } = state;
+  const { product } = state;
 
   return {
-    user,
+    product,
   };
 };
 
@@ -347,42 +348,46 @@ const EditProduct = (props) => {
   }, [imagesArray, toDeleteImagesArray]);
 
   useEffect(() => {
-    if (!_.isEmpty(product)) {
+    if (!_.isEmpty(product.data)) {
       const imagesObj = [];
-      product.media.map((image) => {
+      product.data.media.map((image) => {
         imagesObj.push({
           data: image,
         });
       });
       handleSetImagesArray(imagesObj);
       setToDeleteImagesArray(imagesObj);
-      setId(product._id);
-      setSlug(product.slug);
-      setProductName(product.productName);
-      setPrice(product.prices.price);
-      setCompareTo(product.prices.compareTo);
-      setTaxableProduct(product.taxableProduct);
-      setDescription(product.description);
-      setSku(product.inventory.sku);
-      setBarcode(product.inventory.barcode);
-      setQuantity(product.inventory.quantity);
-      setAllowPurchaseOutOfStock(product.inventory.allowPurchaseOutOfStock);
-      setPhysicalProduct(product.shipping.physicalProduct);
-      setWeightAmount(product.shipping.weight.amount);
-      setWeightUnit(product.shipping.weight.unit);
-      setVariants(product.variants.values);
-      setVariantsOptionNames(product.variants.variantsOptionNames);
-      setSeoTitle(product.seo.title);
-      setSeoSlug(product.seo.slug);
-      setSeoDescription(product.seo.description);
-      setCategories(categoriesArrayToString(product.organization.categories));
-      setCategoriesArray(
-        editCategoriesToArray(product.organization.categories)
+      setId(product.data._id);
+      setSlug(product.data.slug);
+      setProductName(product.data.productName);
+      setPrice(product.data.prices.price);
+      setCompareTo(product.data.prices.compareTo);
+      setTaxableProduct(product.data.taxableProduct);
+      setDescription(product.data.description);
+      setSku(product.data.inventory.sku);
+      setBarcode(product.data.inventory.barcode);
+      setQuantity(product.data.inventory.quantity);
+      setAllowPurchaseOutOfStock(
+        product.data.inventory.allowPurchaseOutOfStock
       );
-      setTags(tagsArrayToString(product.organization.tags));
-      setTagsArray(editTagsToArray(product.organization.tags));
-      setExtraInfo(product.extraInfo);
-      handleGetExtraInfo(product.extraInfo);
+      setPhysicalProduct(product.data.shipping.physicalProduct);
+      setWeightAmount(product.data.shipping.weight.amount);
+      setWeightUnit(product.data.shipping.weight.unit);
+      setVariants(product.data.variants.values);
+      setVariantsOptionNames(product.data.variants.variantsOptionNames);
+      setSeoTitle(product.data.seo.title);
+      setSeoSlug(product.data.seo.slug);
+      setSeoDescription(product.data.seo.description);
+      setCategories(
+        categoriesArrayToString(product.data.organization.categories)
+      );
+      setCategoriesArray(
+        editCategoriesToArray(product.data.organization.categories)
+      );
+      setTags(tagsArrayToString(product.data.organization.tags));
+      setTagsArray(editTagsToArray(product.data.organization.tags));
+      setExtraInfo(product.data.extraInfo);
+      handleGetExtraInfo(product.data.extraInfo);
     }
   }, [product]);
 
@@ -539,7 +544,7 @@ const EditProduct = (props) => {
           <MainGrid className='main'>
             <ItemNameDescription
               MainIcon={<FaBox className='mainIcon' />}
-              PlusIcon={<FaPlus className='plus' />}
+              PlusIcon={<FaPen className='plus' />}
               title='Edit Product'
               itemName='Product Name'
               itemNameInput={productName}
@@ -627,32 +632,17 @@ const EditProduct = (props) => {
   );
 };
 
-EditProduct.getInitialProps = async (props) => {
-  const { asPath } = props.ctx;
+EditProduct.getInitialProps = async ({ ctx }) => {
+  const { asPath, store, isServer } = ctx;
 
   const slug = asPath.substring(14, asPath.length);
 
-  const res = await fetch(
-    `${process.env.MAIN_API_ENDPOINT}/admin/products/${slug}`,
-    {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
-  const data = await res.json();
-  return {
-    product: data,
-  };
+  store.dispatch(getProduct(slug));
+  return { isServer };
 };
 
 EditProduct.propTypes = {
   product: PropTypes.shape().isRequired,
-  user: PropTypes.shape().isRequired,
 };
 
 export default connect(mapStateToProps)(EditProduct);

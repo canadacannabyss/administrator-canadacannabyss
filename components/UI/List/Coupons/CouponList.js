@@ -65,8 +65,8 @@ const CouponList = (props) => {
           </div>
           <div className='buttons'>
             <Link
-              href='/coupons/edit/[slug]'
-              as={`/coupons/edit/${coupon.slug}`}
+              href='/edit/coupon/[slug]'
+              as={`/edit/coupon/${coupon.slug}`}
             >
               <EditLink>
                 <FaEdit />

@@ -19,6 +19,7 @@ const BannerNameDescription = (props) => {
     PlusIcon,
     title,
     itemName,
+    itemNameInput,
     onChangeItemName,
     description,
     onChangeDescription,
@@ -45,6 +46,7 @@ const BannerNameDescription = (props) => {
             type='text'
             autoComplete='off'
             onChange={onChangeItemName}
+            value={itemNameInput}
           />
           <br />
           <FeaturedCheckbox
@@ -53,6 +55,7 @@ const BannerNameDescription = (props) => {
           />
           <Label htmlFor='productDescription'>Description</Label>
           <div>
+            {description && (
             <Editor
               apiKey='z1imaefgqfqi5gkj9tp9blogndyf2gp0aj3fgubdtz73p658'
               name='description'
@@ -66,10 +69,11 @@ const BannerNameDescription = (props) => {
                   'insertdatetime media table paste code help wordcount'
                 ],
                 toolbar:
-            'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
+                        'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
               }}
               onChange={onChangeDescription}
             />
+            )}
           </div>
         </Content>
       </ContentContainer>
@@ -82,6 +86,7 @@ BannerNameDescription.propTypes = {
   PlusIcon: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
   itemName: PropTypes.string.isRequired,
+  itemNameInput: PropTypes.string.isRequired,
   onChangeItemName: PropTypes.func.isRequired,
   description: PropTypes.string.isRequired,
   onChangeDescription: PropTypes.func.isRequired,

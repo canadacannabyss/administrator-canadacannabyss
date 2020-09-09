@@ -74,6 +74,8 @@ export default function* asyncLoginAdminUser(action) {
     }
   } catch (err) {
     console.error(err);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     yield put({ type: 'FAILURE_FETCH_LOGIN_RESELLER_USER' });
   }
 }

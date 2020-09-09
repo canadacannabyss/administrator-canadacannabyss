@@ -1,10 +1,11 @@
 /* eslint-disable global-require */
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { createWrapper } from 'next-redux-wrapper';
 
-import rootReducer from './reducers';
-import rootSaga from './sagas';
+import rootReducer from './reducers/index';
+import rootSaga from './sagas/index';
+
+import exampleInitialState from './reducers/initialState';
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -14,13 +15,17 @@ const bindMiddleware = (middleware) => {
   return applyMiddleware(...middleware);
 };
 
-export const makeStore = (context) => {
+function configureStore(initialState = exampleInitialState) {
   const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(rootReducer, bindMiddleware([sagaMiddleware]));
+  const store = createStore(
+    rootReducer,
+    initialState,
+    bindMiddleware([sagaMiddleware])
+  );
 
   store.sagaTask = sagaMiddleware.run(rootSaga);
 
   return store;
-};
+}
 
-export const wrapper = createWrapper(makeStore, { debug: true });
+export default configureStore;

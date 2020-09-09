@@ -48,12 +48,13 @@ const ListLiContent = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    justify-self: self-end;
     width: 70px;
   }
   @media (max-width: 1199px) {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
   @media (max-width: 991px) {
     .price,
@@ -110,12 +111,13 @@ const SpansDiv = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    justify-self: self-end;
     width: 70px;
   }
   @media (max-width: 1199px) {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
   @media (max-width: 991px) {
     .price,

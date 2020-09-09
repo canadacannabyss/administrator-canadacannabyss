@@ -42,6 +42,9 @@ const OrderList = (props) => {
             Purchased At
           </span>
         </div>
+        <div className='buttons'>
+          <span>Edit / Delete</span>
+        </div>
       </SpansDiv>
       {orders.map((order) => (
         <ListLiContent>
@@ -75,6 +78,22 @@ const OrderList = (props) => {
             <p>
               {dateFormatter.formatDateFullDate(order.purchasedAt)}
             </p>
+          </div>
+          <div className='buttons'>
+            <Link
+              href='/edit/order/[id]'
+              as={`/edit/order/${order._id}`}
+            >
+              <EditLink>
+                <FaEdit />
+              </EditLink>
+            </Link>
+            <DeleteButton onClick={(e) => {
+              // handleSelectProduct(e);
+            }}
+            >
+              <FaTrashAlt />
+            </DeleteButton>
           </div>
         </ListLiContent>
       ))}

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React, { useState, useRef, useEffect } from 'react';
-import { FaTags, FaPlus, FaSpinner } from 'react-icons/fa';
+import { FaTags, FaPen, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -470,7 +470,7 @@ const EditPromotion = (props) => {
           <MainGrid className='main'>
             <ItemNameDescription
               MainIcon={<FaTags className='mainIcon' />}
-              PlusIcon={<FaPlus className='plus' />}
+              PlusIcon={<FaPen className='plus' />}
               title='Edit Promotion'
               itemName='Promotion Name'
               itemNameInput={promotionName}

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FaBoxes, FaPlus, FaSpinner } from 'react-icons/fa';
+import { FaBoxes, FaPen, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -417,7 +417,7 @@ const EditBundle = (props) => {
           <MainGrid className='main'>
             <ItemNameDescription
               MainIcon={<FaBoxes className='mainIcon' />}
-              PlusIcon={<FaPlus className='plus' />}
+              PlusIcon={<FaPen className='plus' />}
               title='Edit Bundle'
               itemName='Bundle Name'
               itemNameInput={bundleName}

@@ -80,6 +80,7 @@ const Reseller = (props) => {
       email,
       createdBy: user.data._id
     };
+    console.log('resellerUserObj:', resellerUserObj);
     fetchNewResellerUser(resellerUserObj);
     setEmail('');
   };

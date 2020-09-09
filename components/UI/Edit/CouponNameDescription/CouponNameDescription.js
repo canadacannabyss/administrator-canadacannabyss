@@ -25,12 +25,18 @@ const BannerNameDescription = (props) => {
     PlusIcon,
     title,
     itemName,
+    itemNameInput,
     onChangeItemName,
     onChangeDiscountAmount,
+    discountAmountInput,
     onChangeDiscountType,
+    discountTypeInput,
     onChangeAvailableAt,
+    availableAtInput,
     onChangeApplyOn,
+    applyCouponOnInput,
     onChangeQuantity,
+    quantityInput,
     description,
     onChangeDescription,
     handleCheckFeatured,
@@ -57,6 +63,7 @@ const BannerNameDescription = (props) => {
             id='itemName'
             type='text'
             autoComplete='off'
+            value={itemNameInput}
             onChange={onChangeItemName}
           />
           <br />
@@ -72,9 +79,10 @@ const BannerNameDescription = (props) => {
                 min='0'
                 step='0.1'
                 autoComplete='off'
+                value={discountAmountInput}
                 onChange={onChangeDiscountAmount}
               />
-              <WeightUnitSelect onChange={onChangeDiscountType}>
+              <WeightUnitSelect onChange={onChangeDiscountType} value={discountTypeInput}>
                 <option value='percent'>Percent</option>
                 <option value='cash'>Cash</option>
               </WeightUnitSelect>
@@ -90,6 +98,7 @@ const BannerNameDescription = (props) => {
                 min='0'
                 step='0.1'
                 autoComplete='off'
+                value={quantityInput}
                 onChange={onChangeQuantity}
               />
             </div>
@@ -98,14 +107,14 @@ const BannerNameDescription = (props) => {
             <div>
               <WeightLabel>Available At</WeightLabel>
               <br />
-              <Select onChange={onChangeAvailableAt}>
+              <Select onChange={onChangeAvailableAt} value={availableAtInput}>
                 <option value='canada'>Canadawide</option>
               </Select>
             </div>
             <div>
               <WeightLabel>Applied On</WeightLabel>
               <br />
-              <Select onChange={onChangeApplyOn}>
+              <Select onChange={onChangeApplyOn} value={applyCouponOnInput}>
                 <option value='items'>All Items</option>
                 <option value='products'>Products</option>
                 <option value='bundles'>Bundles</option>
@@ -129,6 +138,7 @@ const BannerNameDescription = (props) => {
           </HalfGrid>
           <Label htmlFor='productDescription'>Description</Label>
           <div>
+            {description && (
             <Editor
               apiKey='z1imaefgqfqi5gkj9tp9blogndyf2gp0aj3fgubdtz73p658'
               name='description'
@@ -142,10 +152,11 @@ const BannerNameDescription = (props) => {
                   'insertdatetime media table paste code help wordcount'
                 ],
                 toolbar:
-            'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
+                        'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
               }}
               onChange={onChangeDescription}
             />
+            )}
           </div>
         </Content>
       </ContentContainer>
@@ -169,7 +180,13 @@ BannerNameDescription.propTypes = {
   handleCheckFeatured: PropTypes.func.isRequired,
   handleCheckFreeShipping: PropTypes.func.isRequired,
   featured: PropTypes.bool.isRequired,
-  freeShipping: PropTypes.bool.isRequired
+  freeShipping: PropTypes.bool.isRequired,
+  itemNameInput: PropTypes.string.isRequired,
+  discountAmountInput: PropTypes.number.isRequired,
+  discountTypeInput: PropTypes.string.isRequired,
+  availableAtInput: PropTypes.string.isRequired,
+  applyCouponOnInput: PropTypes.string.isRequired,
+  quantityInput: PropTypes.number.isRequired
 };
 
 export default BannerNameDescription;

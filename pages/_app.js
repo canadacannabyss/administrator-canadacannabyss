@@ -1,11 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import App from 'next/app';
+import withReduxSaga from 'next-redux-saga';
+import withRedux from 'next-redux-wrapper';
 import Head from 'next/head';
 import React from 'react';
+import { Provider } from 'react-redux';
 import Logo from '../assets/img/canada-cannabyss-logo.svg';
 import Layout from '../components/Layout';
 import '../styles/_app.css';
-import { wrapper } from '../store/index';
+import createStore from '../store';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -15,13 +18,15 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps({ ctx });
     }
 
-    return { pageProps };
+    const { store } = ctx;
+
+    return { pageProps, store };
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, store } = this.props;
     return (
-      <>
+      <Provider store={store}>
         <Head>
           <link rel='icon' type='image/png' href={Logo} />
           <meta charset='utf-8' />
@@ -29,9 +34,9 @@ class MyApp extends App {
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </>
+      </Provider>
     );
   }
 }
 
-export default wrapper.withRedux(MyApp);
+export default withRedux(createStore)(withReduxSaga(MyApp));

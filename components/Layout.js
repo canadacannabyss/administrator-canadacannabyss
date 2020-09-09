@@ -9,7 +9,7 @@ import Navbar from './UI/Navbar/NavigationBar';
 import Footer from './UI/Footer/Footer';
 import Sidebar from './UI/Sidebar/Sidebar';
 
-import { fetchLoginUser } from '../store/actions/user/user';
+import { fetchLoginAdminUser } from '../store/actions/user/user';
 
 const mapStateToProps = (state) => {
   const {
@@ -35,7 +35,7 @@ const Layout = (props) => {
 
   useEffect(() => {
     if (count === 0) {
-      dispatch(fetchLoginUser());
+      dispatch(fetchLoginAdminUser());
       count += 1;
     }
   }, []);

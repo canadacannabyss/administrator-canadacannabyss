@@ -67,8 +67,8 @@ const ResellerList = (props) => {
           </div>
           <div className='buttons'>
             <Link
-              href='/reseller/edit/[slug]'
-              as={`/reseller/edit/${reseller.slug}`}
+              href='/edit/reseller/[username]'
+              as={`/edit/reseller/${reseller.username}`}
             >
               <EditLink>
                 <FaEdit />
