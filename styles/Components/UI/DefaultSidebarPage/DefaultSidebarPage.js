@@ -35,6 +35,13 @@ const BackgroundLogin = styled.div`
   position: relative;
 `;
 
+const BackgroundMap = styled.div`
+  background: #f1f1f1;
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+`;
+
 export {
-  PageContainer, Background, BackgroundLogin, BackgroundAdd, BackgroundDashboard
+  PageContainer, Background, BackgroundLogin, BackgroundAdd, BackgroundDashboard, BackgroundMap
 };

@@ -1,20 +1,20 @@
 import React from 'react';
 import {
   CheckboxDiv,
-  CheckboxDivChecked
+  CheckboxDivChecked,
 } from '../../../../styles/Components/UI/Buttons/Checkbox/PhysicalProduct';
 
-const PhysicalProduct = (props) => {
-  const { handleCheckPhysicalProduct, physicalProduct } = props;
+const IsCanadaCannabyss = (props) => {
+  const { handleCheckCanadaCannabyssTeam, isCanadaCannabyssTeam } = props;
 
-  const handleTogglePhysicalProduct = () => {
-    const toggle = handleCheckPhysicalProduct;
+  const handleToggleCanadaCannabyssTeam = () => {
+    const toggle = handleCheckCanadaCannabyssTeam;
     toggle();
   };
 
   return (
     <>
-      {physicalProduct ? (
+      {isCanadaCannabyssTeam ? (
         <CheckboxDivChecked>
           <ul className='unstyled centered'>
             <li>
@@ -27,9 +27,9 @@ const PhysicalProduct = (props) => {
               />
               <label
                 htmlFor='styled-checkbox-6'
-                onClick={handleTogglePhysicalProduct}
+                onClick={handleToggleCanadaCannabyssTeam}
               >
-                This is a physical product
+                Canada Cannabyss Team
               </label>
             </li>
           </ul>
@@ -47,9 +47,9 @@ const PhysicalProduct = (props) => {
               />
               <label
                 htmlFor='styled-checkbox-6'
-                onClick={handleTogglePhysicalProduct}
+                onClick={handleToggleCanadaCannabyssTeam}
               >
-                This is a physical product
+                Canada Cannabyss Team
               </label>
             </li>
           </ul>
@@ -59,4 +59,4 @@ const PhysicalProduct = (props) => {
   );
 };
 
-export default PhysicalProduct;
+export default IsCanadaCannabyss;

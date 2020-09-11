@@ -9,11 +9,13 @@ import {
   Label,
   Input,
   Submit,
-  BlurredBackground
+  BlurredBackground,
+  Warning
 } from '../../styles/Pages/Login/Login';
 import Logo from '../../assets/img/canada-cannabyss-logo.svg';
 import BackgroundImg from '../../assets/img/bg-create-reseller.jpg';
 import { BackgroundLogin } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import IsCanadaCannabyssTeamCheckbox from '../../components/UI/Buttons/Checkbox/IsCanadaCannabyssTeam';
 
 const mapStateToProps = (state) => {
   const { user } = state;
@@ -26,6 +28,8 @@ const mapStateToProps = (state) => {
 const Reseller = (props) => {
   const { user } = props;
   const [email, setEmail] = useState('');
+  // const [isCanadaCannabyssTeam, setIsCanadaCannabyssTeam] = useState(false);
+  const [isCanadaCannabyssTeam, setIsCanadaCannabyssTeam] = useState(true);
   const [sentTo, setSentTo] = useState('');
   const [data, setData] = useState({});
   const [fetched, setFetched] = useState(false);
@@ -37,21 +41,38 @@ const Reseller = (props) => {
     setEmail(e.target.value);
   };
 
-  const fetchNewResellerUser = async (resellerUserObj) => {
+  const handleNewResellerUser = async (resellerUserObj) => {
     console.log('resellerUserObj:', resellerUserObj);
-    const response = await fetch(
-      `${process.env.USER_API_ENDPOINT}/admin/auth/register/reseller/start`,
-      {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(resellerUserObj)
-      }
-    );
+    let response;
+    if (isCanadaCannabyssTeam) {
+      response = await fetch(
+        `${process.env.USER_API_ENDPOINT}/admin/auth/register/main/reseller/start`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(resellerUserObj)
+        }
+      );
+    } else {
+      response = await fetch(
+        `${process.env.USER_API_ENDPOINT}/admin/auth/register/reseller/start`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(resellerUserObj)
+        }
+      );
+    }
     const data = await response.json();
     console.log('data:', data);
     if (Array.isArray(data)) {
@@ -71,6 +92,10 @@ const Reseller = (props) => {
     setLoading(false);
   };
 
+  const handleCheckCanadaCannabyssTeam = () => {
+    // setIsCanadaCannabyssTeam(!isCanadaCannabyssTeam);
+  };
+
   const onSubmitNewResellerUser = (e) => {
     setLoading(true);
     setWarning(false);
@@ -81,7 +106,8 @@ const Reseller = (props) => {
       createdBy: user.data._id
     };
     console.log('resellerUserObj:', resellerUserObj);
-    fetchNewResellerUser(resellerUserObj);
+    handleNewResellerUser(resellerUserObj);
+
     setEmail('');
   };
 
@@ -103,6 +129,12 @@ const Reseller = (props) => {
             </BrandDiv>
             <Label htmlFor='email'>Email</Label>
             <Input type='email' id='email' value={email} onChange={onChangeEmail} />
+            <br />
+            <IsCanadaCannabyssTeamCheckbox
+              handleCheckCanadaCannabyssTeam={handleCheckCanadaCannabyssTeam}
+              isCanadaCannabyssTeam={isCanadaCannabyssTeam}
+            />
+            {warning && <Warning>{warningMsg}</Warning>}
             <Submit type='submit'>Create Reseller</Submit>
           </Form>
         </Container>

@@ -47,13 +47,6 @@ export default class MyDocument extends Document {
             href='https://fonts.googleapis.com/css?family=Montserrat&display=swap'
             rel='stylesheet'
           />
-          {/* <link
-            rel='preload'
-            href='/fonts/Montserrat-Regular.ttf'
-            as='font'
-            crossOrigin=''
-          /> */}
-          {/* {this.props.styleTags} */}
         </Head>
         <body>
           <Main />
