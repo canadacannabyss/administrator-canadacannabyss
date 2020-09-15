@@ -248,6 +248,12 @@ const InputGroupTitle = styled.h3`
   margin-bottom: 1rem;
 `;
 
+const P = styled.p`
+  font-size: 18px;
+  color: #5a5a5a;
+  word-break: break-all;
+`;
+
 const Input = styled.input`
   height: 40px;
   width: 100%;
@@ -506,6 +512,7 @@ export {
   Label,
   InputGroupTitle,
   Input,
+  P,
   Select,
   TextArea,
   OrganizationTextArea,

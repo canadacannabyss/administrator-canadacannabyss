@@ -1,14 +1,11 @@
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
-import {
-  FaSortAmountDownAlt, FaSearch
-} from 'react-icons/fa';
+import { FaSortAmountDownAlt, FaSearch } from 'react-icons/fa';
 import OrderList from '../../components/UI/List/Orders/OrderList';
-import {
-  Background
-} from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import { Background } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import {
   Wrapper,
   Container,
@@ -56,11 +53,7 @@ const Orders = (props) => {
                 {!_.isEmpty(orders.data) &&
                   orders.fetched &&
                   !orders.error &&
-                  !orders.loading && (
-                    <OrderList
-                      orders={orders.data}
-                    />
-                )}
+                  !orders.loading && <OrderList orders={orders.data} />}
               </Content>
             </ContentContainer>
           </Container>
