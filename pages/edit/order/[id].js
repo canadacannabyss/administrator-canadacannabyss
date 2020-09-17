@@ -129,11 +129,15 @@ const EditOrder = (props) => {
       element.style.backgroundColor = '#18840f';
       element.style.border = '1px solid #18840f';
       element.querySelector('.name').style.color = '#fff';
+      element.querySelector('.items-detail').style.display = 'block';
+      element.querySelector('.empty').style.display = 'block';
     } else {
       setItems(removeElementFromArray(items, element.id));
       element.style.backgroundColor = '#efefef';
       element.style.border = '1px solid #efefef';
       element.querySelector('.name').style.color = '#18840f';
+      element.querySelector('.items-detail').style.display = 'none';
+      element.querySelector('.empty').style.display = 'none';
     }
   };
 
@@ -285,7 +289,7 @@ const EditOrder = (props) => {
             !order.loading &&
             !order.error && (
               <OrderedItemsList
-                title='Ordered Items'
+                title='Purchased Items'
                 products={order.data.cart.items}
                 handleGetElement={handleGetElement}
               />
