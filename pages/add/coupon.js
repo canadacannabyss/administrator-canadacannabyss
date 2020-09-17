@@ -2,6 +2,7 @@ import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import { FaPercent, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import {
@@ -18,6 +19,7 @@ import {
 import { roundFloatNumber } from '../../utils/numberConverter';
 
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import ResellerSelector from '../../components/UI/Add/ResellerSelector/ResellerSelector';
 import CouponNameDescription from '../../components/UI/Add/CouponNameDescription/CouponNameDescription';
 import SEO from '../../components/UI/Add/SEO/SEO';
 import Organization from '../../components/UI/Add/Organization/Organization';
@@ -31,9 +33,22 @@ import {
   Loading,
   Warning
 } from '../../styles/Pages/Add/Product';
+import { getResellers } from '../../store/actions/resellers/resellers';
 
-const AddCoupon = () => {
+const mapStateToProps = (state) => {
+  const { resellers } = state;
+
+  return {
+    resellers
+  };
+};
+
+const AddCoupon = (props) => {
+  const { resellers } = props;
+
   const [couponCode, setCouponCode] = useState('');
+
+  const [reseller, setReseller] = useState('');
 
   const [slug, setSlug] = useState('');
 
@@ -336,6 +351,7 @@ const AddCoupon = () => {
       seoDescription.length > 0 &&
       categories.length > 0 &&
       tags.length > 0 &&
+      reseller.length > 0 &&
       !_.isEmpty(tagsArray) &&
       !_.isEmpty(categoriesArray) &&
       (featured || !featured) &&
@@ -368,7 +384,8 @@ const AddCoupon = () => {
     seoDescription,
     categories,
     categoriesArray,
-    tags
+    tags,
+    reseller
   ]);
 
   const fetchNewCoupon = async (couponObj) => {
@@ -396,6 +413,7 @@ const AddCoupon = () => {
       console.log('fetchedValidCouponNameRes:', fetchedValidCouponNameRes);
       if (fetchedValidCouponNameRes) {
         const couponObj = {
+          userId: reseller,
           couponName: couponCode,
           description,
           featured,
@@ -428,6 +446,10 @@ const AddCoupon = () => {
     }
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -453,6 +475,10 @@ const AddCoupon = () => {
               handleCheckFreeShipping={handleCheckFreeShipping}
               featured={featured}
               freeShipping={freeShipping}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <ProductsBundlesList
               title='Items on coupon'
@@ -495,4 +521,10 @@ const AddCoupon = () => {
   );
 };
 
-export default AddCoupon;
+AddCoupon.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getResellers());
+};
+
+export default connect(mapStateToProps)(AddCoupon);

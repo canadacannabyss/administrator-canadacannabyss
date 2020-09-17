@@ -21,6 +21,8 @@ export default function* asyncGetBundle(action) {
   try {
     const response = yield call(getBundle, action.payload.slug);
 
+    console.log('res:', response);
+
     yield put({ type: 'SUCCESS_GET_BUNDLE', payload: { data: response } });
   } catch (err) {
     console.log(err);

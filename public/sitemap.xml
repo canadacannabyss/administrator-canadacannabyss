@@ -89,15 +89,15 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/order/[id]</loc>
-  </url>
-
-  <url>
     <loc>https://canadacannabyss.com/orders/index</loc>
   </url>
 
   <url>
     <loc>https://canadacannabyss.com/orders/map</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/order/[id]</loc>
   </url>
 
   <url>

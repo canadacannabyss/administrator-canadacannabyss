@@ -9,6 +9,7 @@ import { withAdminAuth } from '../../utils/withAdminAuth';
 import { slugifyString } from '../../utils/stringMethods';
 
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import ResellerSelector from '../../components/UI/Add/ResellerSelector/ResellerSelector';
 import BannerNameDescription from '../../components/UI/Add/BannerNameDescription/BannerNameDescription';
 import SEO from '../../components/UI/Add/SEO/SEO';
 import Organization from '../../components/UI/Add/Organization/Organization';
@@ -24,15 +25,17 @@ import {
 } from '../../styles/Pages/Add/Product';
 
 const mapStateToProps = (state) => {
-  const { user } = state;
+  const { resellers } = state;
 
   return {
-    user
+    resellers
   };
 };
 
 const AddBanner = (props) => {
-  const { user } = props;
+  const { resellers } = props;
+
+  const [reseller, setReseller] = useState('');
 
   const childRef = useRef();
 
@@ -87,6 +90,7 @@ const AddBanner = (props) => {
       seoDescription.length > 0 &&
       categories.length > 0 &&
       tags.length > 0 &&
+      reseller.length > 0 &&
       !_.isEmpty(promotionsOnBanner) &&
       !_.isEmpty(tagsArray) &&
       !_.isEmpty(categoriesArray)
@@ -111,7 +115,8 @@ const AddBanner = (props) => {
     categories,
     categoriesArray,
     tags,
-    tagsArray
+    tagsArray,
+    reseller
   ]);
 
   const setGlobalVariable = async () => {
@@ -214,7 +219,7 @@ const AddBanner = (props) => {
     if (allFieldsFilled) {
       const productInfo = {
         isSlugValid,
-        userId: user.data._id,
+        userId: reseller,
         bannerName,
         description,
         featured,
@@ -308,6 +313,10 @@ const AddBanner = (props) => {
     setFeatured(!featured);
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -326,6 +335,10 @@ const AddBanner = (props) => {
               onChangeDescription={onChangeDescription}
               handleCheckFeatured={handleCheckFeatured}
               featured={featured}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <PromotionsList
               title='Promotions on banner'

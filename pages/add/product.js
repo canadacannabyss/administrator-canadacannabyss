@@ -10,6 +10,8 @@ import { slugifyString } from '../../utils/stringMethods';
 import { roundFloatNumber } from '../../utils/numberConverter';
 
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+
+import ResellerSelector from '../../components/UI/Add/ResellerSelector/ResellerSelector';
 import ItemNameDescription from '../../components/UI/Add/ItemNameDescription/ItemNameDescription';
 import Pricing from '../../components/UI/Add/Pricing/Pricing';
 import Media from '../../components/UI/Add/Media/Media';
@@ -28,19 +30,22 @@ import {
   Loading,
   Warning
 } from '../../styles/Pages/Add/Product';
+import { getResellers } from '../../store/actions/resellers/resellers';
 
 const mapStateToProps = (state) => {
-  const { user } = state;
+  const { resellers } = state;
 
   return {
-    user
+    resellers
   };
 };
 
 const AddProduct = (props) => {
-  const { user } = props;
+  const { resellers } = props;
 
   const childRef = useRef();
+
+  const [reseller, setReseller] = useState('');
 
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -170,6 +175,7 @@ const AddProduct = (props) => {
       seoDescription.length > 0 &&
       categories.length > 0 &&
       tags.length > 0 &&
+      reseller.length > 0 &&
       !_.isEmpty(tagsArray) &&
       !_.isEmpty(extraInfo)
     ) {
@@ -202,7 +208,8 @@ const AddProduct = (props) => {
     categoriesArray,
     tags,
     tagsArray,
-    extraInfo
+    extraInfo,
+    reseller
   ]);
 
   const setGlobalVariable = async () => {
@@ -288,7 +295,7 @@ const AddProduct = (props) => {
     if (allFieldsFilled) {
       const productInfo = {
         isSlugValid,
-        userId: user.data._id,
+        userId: reseller,
         media: imagesArrayObj,
         variants: {
           variantsOptionNames,
@@ -400,6 +407,10 @@ const AddProduct = (props) => {
     setCompareTo(roundFloatNumber(e.target.value));
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -416,6 +427,10 @@ const AddProduct = (props) => {
               onChangeItemName={onChangeProductName}
               description={description}
               onChangeDescription={onChangeDescription}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <Media
               childRef={childRef}
@@ -484,6 +499,12 @@ const AddProduct = (props) => {
       )}
     </>
   );
+};
+
+AddProduct.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getResellers());
 };
 
 export default connect(mapStateToProps)(AddProduct);

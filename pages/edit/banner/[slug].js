@@ -18,6 +18,7 @@ import {
   editTagsToArray,
 } from '../../../utils/stringMethods';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import ResellerSelector from '../../../components/UI/Add/ResellerSelector/ResellerSelector';
 import BannerNameDescription from '../../../components/UI/Add/BannerNameDescription/BannerNameDescription';
 import SEO from '../../../components/UI/Add/SEO/SEO';
 import Organization from '../../../components/UI/Add/Organization/Organization';
@@ -32,18 +33,22 @@ import {
   Warning,
 } from '../../../styles/Pages/Add/Product';
 import { getBanner } from '../../../store/actions/banner/banner';
+import { getResellers } from '../../../store/actions/resellers/resellers';
 
 const mapStateToProps = (state) => {
-  const { banner, user } = state;
+  const { banner, user, resellers } = state;
 
   return {
     banner,
     user,
+    resellers,
   };
 };
 
 const EditBanner = (props) => {
-  const { banner } = props;
+  const { banner, resellers } = props;
+
+  const [reseller, setReseller] = useState('');
 
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -316,6 +321,7 @@ const EditBanner = (props) => {
     if (allFieldsFilled) {
       setLoading(true);
       const bannerInfo = {
+        userId: reseller,
         isSlugValid,
         bannerName,
         description,
@@ -347,6 +353,10 @@ const EditBanner = (props) => {
     }
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -366,6 +376,10 @@ const EditBanner = (props) => {
               onChangeDescription={onChangeBannerDescription}
               handleCheckFeatured={handleCheckFeatured}
               featured={featured}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <PromotionsList
               title='Promotions on banner'
@@ -412,11 +426,12 @@ EditBanner.getInitialProps = async ({ ctx }) => {
   const slug = asPath.substring(13, asPath.length);
 
   store.dispatch(getBanner(slug));
+  store.dispatch(getResellers());
 };
 
 EditBanner.propTypes = {
   banner: PropTypes.shape().isRequired,
-  // user: PropTypes.shape().isRequired,
+  resellers: PropTypes.shape().isRequired,
 };
 
 export default connect(mapStateToProps)(EditBanner);

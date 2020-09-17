@@ -41,6 +41,7 @@ const ItemNameDescription = (props) => {
           <br />
           <Label htmlFor='productDescription'>Description</Label>
           <div>
+            {description.length > 0 && (
             <Editor
               apiKey='z1imaefgqfqi5gkj9tp9blogndyf2gp0aj3fgubdtz73p658'
               name='description'
@@ -54,10 +55,11 @@ const ItemNameDescription = (props) => {
                   'insertdatetime media table paste code help wordcount'
                 ],
                 toolbar:
-            'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
+                        'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
               }}
               onChange={onChangeDescription}
             />
+            )}
           </div>
         </Content>
       </ContentContainer>

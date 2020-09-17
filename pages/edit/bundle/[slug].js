@@ -20,6 +20,7 @@ import {
   editTagsToArray,
 } from '../../../utils/stringMethods';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import ResellerSelector from '../../../components/UI/Add/ResellerSelector/ResellerSelector';
 import ItemNameDescription from '../../../components/UI/Edit/ItemNameDescription/ItemNameDescription';
 import ProductsList from '../../../components/UI/List/Add/ProductsList/ProductsList';
 import Pricing from '../../../components/UI/Edit/Pricing/Pricing';
@@ -39,18 +40,22 @@ import {
   Warning,
 } from '../../../styles/Pages/Add/Product';
 import { getBundle } from '../../../store/actions/bundle/bundle';
+import { getResellers } from '../../../store/actions/resellers/resellers';
 
 const mapStateToProps = (state) => {
-  const { bundle, user } = state;
+  const { bundle, user, resellers } = state;
 
   return {
     bundle,
     user,
+    resellers,
   };
 };
 
 const EditBundle = (props) => {
-  const { user, bundle } = props;
+  const { user, bundle, resellers } = props;
+
+  const [reseller, setReseller] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [isSlugValid, setIsSlugValid] = useState(true);
@@ -359,6 +364,7 @@ const EditBundle = (props) => {
       console.log('productOnBundle:', productOnBundle);
       const bundleInfo = {
         products: productOnBundle,
+        userId: reseller,
         isSlugValid,
         variants,
         bundleName,
@@ -420,6 +426,10 @@ const EditBundle = (props) => {
     setSeoSlug(slug);
   }, [slug]);
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -437,6 +447,10 @@ const EditBundle = (props) => {
               onChangeItemName={onChangeBundleName}
               description={description}
               onChangeDescription={onChangeDescription}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <ProductsList
               title='Products on bundles'
@@ -518,6 +532,7 @@ EditBundle.getInitialProps = async ({ ctx }) => {
   const slug = asPath.substring(13, asPath.length);
 
   store.dispatch(getBundle(slug));
+  store.dispatch(getResellers());
 };
 
 EditBundle.propTypes = {

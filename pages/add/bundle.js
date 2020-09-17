@@ -10,6 +10,7 @@ import { slugifyString } from '../../utils/stringMethods';
 import { roundFloatNumber } from '../../utils/numberConverter';
 
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import ResellerSelector from '../../components/UI/Add/ResellerSelector/ResellerSelector';
 import ItemNameDescription from '../../components/UI/Add/ItemNameDescription/ItemNameDescription';
 import ProductsList from '../../components/UI/List/Add/ProductsList/ProductsList';
 import Pricing from '../../components/UI/Add/Pricing/Pricing';
@@ -28,17 +29,20 @@ import {
   Loading,
   Warning
 } from '../../styles/Pages/Add/Product';
+import { getResellers } from '../../store/actions/resellers/resellers';
 
 const mapStateToProps = (state) => {
-  const { user } = state;
+  const { resellers } = state;
 
   return {
-    user
+    resellers
   };
 };
 
 const AddBundle = (props) => {
-  const { user } = props;
+  const { resellers } = props;
+
+  const [reseller, setReseller] = useState('');
 
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -157,6 +161,7 @@ const AddBundle = (props) => {
       seoDescription.length > 0 &&
       categories.length > 0 &&
       tags.length > 0 &&
+      reseller.length > 0 &&
       !_.isEmpty(tagsArray) &&
       !_.isEmpty(extraInfo)
     ) {
@@ -190,7 +195,8 @@ const AddBundle = (props) => {
     categoriesArray,
     tags,
     tagsArray,
-    extraInfo
+    extraInfo,
+    reseller
   ]);
 
   const fetchAllProducts = async () => {
@@ -290,7 +296,7 @@ const AddBundle = (props) => {
     disabledSubmitButton();
     if (allFieldsFilled) {
       const productInfo = {
-        userId: user.data._id,
+        userId: reseller,
         products: productOnBundle,
         isSlugValid,
         variants: {
@@ -415,6 +421,10 @@ const AddBundle = (props) => {
     }
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -431,6 +441,10 @@ const AddBundle = (props) => {
               onChangeItemName={onChangeBundleName}
               description={description}
               onChangeDescription={onChangeDescription}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <ProductsList
               title='Products on bundles'
@@ -493,6 +507,12 @@ const AddBundle = (props) => {
       )}
     </>
   );
+};
+
+AddBundle.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getResellers());
 };
 
 export default connect(mapStateToProps)(AddBundle);

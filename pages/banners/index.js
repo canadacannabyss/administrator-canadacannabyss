@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import {
