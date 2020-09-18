@@ -33,10 +33,7 @@ const ProductsBundlesList = (props) => {
         <ContentContainer>
           <Content>
             <InputGroupTitle>{title}</InputGroupTitle>
-            <List style={{
-              height: '400px'
-            }}
-            >
+            <List>
               {!_.isEmpty(products) && (
               <>
                 {products.map((product) => (

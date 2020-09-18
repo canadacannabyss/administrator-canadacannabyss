@@ -5,7 +5,7 @@ import { BackgroundAdd } from '../styles/Components/UI/DefaultSidebarPage/Defaul
 const Home = () => (
   <BackgroundAdd>
     <Head>
-      <title>Administrator - Canada Cannabyss</title>
+      <title>Homepage | Administrator - Canada Cannabyss</title>
     </Head>
     <h1>Homepage</h1>
   </BackgroundAdd>

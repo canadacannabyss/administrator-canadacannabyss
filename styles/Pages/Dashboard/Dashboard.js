@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   background: #f1f1f1;
-  width: 100%;
+  width: 1200px;
+  margin: 0 auto;
   min-height: 768px;
-  padding: 20px;
+  padding: 0 20px;
   display: grid;
   grid-gap: 15px;
   grid-template-areas: 
@@ -26,7 +27,12 @@ const Wrapper = styled.div`
   .settings {
     grid-area: e;
   }
+  @media (max-width: 1460px) {
+    width: 100%;
+    padding: 0;
+  }
   @media(max-width: 991px) {
+    padding: 20px 0;
     grid-template-areas: 
     'a a a a'
     'a a a a'
@@ -73,6 +79,9 @@ const Container = styled.div`
   /* width: 100%; */
   border-radius: 4px;
   padding: 7px 14px;
+  @media (max-width: 991px) {
+    border-radius: 0px;
+  }
 `;
 
 const ContainerTitle = styled.h2`
@@ -87,5 +96,5 @@ const ContainerTitle = styled.h2`
 `;
 
 export {
-  Wrapper, Container, ContainerTitle,
+  Wrapper, Container, ContainerTitle
 };

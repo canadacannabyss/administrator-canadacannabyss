@@ -336,6 +336,13 @@ const TextArea = styled.textarea`
   }
 `;
 
+const GroupSpan = styled.span`
+  font-size: 17px;
+  color: #777;
+  margin-bottom: 0.5rem;
+  display: block;
+`;
+
 const OrganizationTextArea = styled.textarea`
   height: 100px;
   width: 100%;
@@ -515,6 +522,7 @@ export {
   P,
   Select,
   TextArea,
+  GroupSpan,
   OrganizationTextArea,
   WeightLabel,
   WeightInput,

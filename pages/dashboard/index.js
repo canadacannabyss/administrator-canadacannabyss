@@ -6,9 +6,12 @@ import {
   Container,
   ContainerTitle
 } from '../../styles/Pages/Dashboard/Dashboard';
+import {
+  Background
+} from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 
 const Dashboard = () => (
-  <>
+  <Background>
     <Head>
       <title>Dashboard | Administrator - Canada Cannabyss</title>
     </Head>
@@ -29,7 +32,7 @@ const Dashboard = () => (
         <ContainerTitle>Settings</ContainerTitle>
       </Container>
     </Wrapper>
-  </>
+  </Background>
 );
 
 Dashboard.getInitialProps = async (props) => {

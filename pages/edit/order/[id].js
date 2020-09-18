@@ -32,6 +32,7 @@ import {
   PlusIconSign,
   Label,
   Input,
+  GroupSpan,
   HalfGrid,
   P,
   Select,
@@ -39,6 +40,7 @@ import {
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import { getOrder } from '../../../store/actions/order/order';
 import OrderedItemsList from '../../../components/UI/List/Order/OrderedItemsList';
+import DateFormatter from '../../../utils/dateFormatter';
 
 const mapStateToProps = (state) => {
   const { order } = state;
@@ -56,9 +58,11 @@ const EditOrder = (props) => {
   const [shipped, setShipped] = useState(false);
   const [paid, setPaid] = useState(false);
 
+  const dateFormatter = new DateFormatter();
+
   const editOrder = async (product) => {
     const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/orders/update/${id}`,
+      `${process.env.MAIN_API_ENDPOINT}/admin/orders/update/${order.data._id}`,
       {
         method: 'PUT',
         mode: 'cors',
@@ -161,9 +165,33 @@ const EditOrder = (props) => {
                     <h1>Edit Order</h1>
                   </TitleDiv>
                 </TitleSearchBarAddButtonDiv>
-                <Label for='orderId'>Order ID</Label>
-                <P>{order.data._id}</P>
+                <HalfGrid>
+                  <div>
+                    <Label for='orderId'>Order ID</Label>
+                    {!_.isEmpty(order.data) &&
+                      order.fetched &&
+                      !order.loading &&
+                      !order.error && <P>{order.data._id}</P>}
+                  </div>
+                  <div>
+                    <Label>Purchased At</Label>
+                    <P>
+                      {!_.isEmpty(order.data) &&
+                        order.fetched &&
+                        !order.loading &&
+                        !order.error && (
+                          <>
+                            {dateFormatter.formatDateFullDate(
+                              order.data.purchasedAt
+                            )}
+                          </>
+                        )}
+                    </P>
+                  </div>
+                </HalfGrid>
                 <br />
+                <br />
+                <GroupSpan>Shipping information</GroupSpan>
                 <HalfGrid>
                   <div>
                     <Label>Shipping Status</Label>
@@ -173,7 +201,7 @@ const EditOrder = (props) => {
                         !order.loading &&
                         !order.error && (
                           <>
-                            {order.data.shipping.shipped ? (
+                            {order.data.shipping.status.shipped ? (
                               <>
                                 <option value={true}>Shipped</option>
                                 <option value={false}>Processing order</option>
@@ -201,6 +229,46 @@ const EditOrder = (props) => {
                   </div>
                 </HalfGrid>
                 <br />
+                <HalfGrid>
+                  <div>
+                    <Label>Shipped at</Label>
+                    <P>
+                      {!_.isEmpty(order.data) &&
+                        order.fetched &&
+                        !order.loading &&
+                        !order.error && (
+                          <>
+                            {order.data.shipping.status.when ? (
+                              <>
+                                {dateFormatter.formatDateFullDate(
+                                  order.data.shipping.status.when
+                                )}
+                              </>
+                            ) : (
+                              'Not Shipped yet'
+                            )}
+                          </>
+                        )}
+                    </P>
+                  </div>
+                </HalfGrid>
+                <br />
+                <br />
+                <GroupSpan>Billing information</GroupSpan>
+                <Label>Billing Address</Label>
+                <P id='shippingAddress'>
+                  {!_.isEmpty(order.data) &&
+                    order.fetched &&
+                    !order.loading &&
+                    !order.error && (
+                      <>
+                        {`${order.data.billingAddress.addressLine1}, ${order.data.billingAddress.city}, ${order.data.billingAddress.provinceState}, ${order.data.billingAddress.country}`}
+                      </>
+                    )}
+                </P>
+                <br />
+                <br />
+                <GroupSpan>Payment information</GroupSpan>
                 <HalfGrid>
                   <div>
                     <Label>Payment Method</Label>
@@ -231,7 +299,6 @@ const EditOrder = (props) => {
                               null && (
                               <>
                                 <Label>
-                                  Crytocurrency{' '}
                                   {order.data.paymentMethod.cryptocurrency
                                     .symbol && 'Ethereum'}{' '}
                                   Wallet
@@ -245,7 +312,10 @@ const EditOrder = (props) => {
                               </>
                             )}
                           {order.data.paymentMethod.eTransfer && (
-                            <P>e-Transfer</P>
+                            <>
+                              <Label>Customer Email</Label>
+                              <P>{order.data.customer.email}</P>
+                            </>
                           )}
                         </>
                       )}
@@ -261,7 +331,7 @@ const EditOrder = (props) => {
                         !order.loading &&
                         !order.error && (
                           <>
-                            {order.data.paymentMethod.paid ? (
+                            {order.data.paid ? (
                               <>
                                 <option value={true}>Paid</option>
                                 <option value={false}>Pending</option>
@@ -278,7 +348,7 @@ const EditOrder = (props) => {
                   </div>
                   <div>
                     <Label>Total</Label>
-                    <P>{order.data.total}</P>
+                    <P>C$ {order.data.total}</P>
                   </div>
                 </HalfGrid>
               </Content>
@@ -297,7 +367,7 @@ const EditOrder = (props) => {
         </MainGrid>
         {/* </Wrapper> */}
         <SubmitButton type='button' onClick={handleSubmit}>
-          Update Product
+          Update Order
         </SubmitButton>
       </BackgroundAdd>
     </>
@@ -308,7 +378,6 @@ EditOrder.getInitialProps = async ({ ctx }) => {
   const { store, asPath } = ctx;
 
   const orderId = asPath.substring(12, asPath.length);
-  console.log('orderId:', orderId);
 
   store.dispatch(getOrder(orderId));
 };

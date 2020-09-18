@@ -40,31 +40,36 @@ const NavigationBar = (props) => {
       <Navbar>
         <NavbarWrapper>
           {!_.isEmpty(user.data) && !user.loading && !user.error ? (
-            <Link href="/dashboard" as="/dashboard">
+            <Link href='/dashboard' as='/dashboard'>
               <Brand>
-                <img src={Logo} alt="Canada Cannabyss Reseller" />
+                <img src={Logo} alt='Canada Cannabyss Reseller' />
                 <p>
-                  Canada <br />
+                  Canada
+                  {' '}
+                  <br />
                   <span>Cannabyss</span>
                 </p>
-                <div className="sep" />
+                <div className='sep' />
                 <h1>Administrator</h1>
               </Brand>
             </Link>
           ) : (
-            <Link href="/" as="/">
+            <Link href='/' as='/'>
               <Brand>
-                <img src={Logo} alt="Canada Cannabyss Reseller" />
+                <img src={Logo} alt='Canada Cannabyss Reseller' />
                 <p>
-                  Canada <br />
+                  Canada
+                  {' '}
+                  <br />
                   <span>Cannabyss</span>
                 </p>
-                <div className="sep" />
+                <div className='sep' />
                 <h1>Administrator</h1>
               </Brand>
             </Link>
           )}
-          {router.asPath !== '/login' &&
+          {router.asPath !== '/' &&
+            router.asPath !== '/login' &&
             !router.asPath.includes('/confirmation/') &&
             !router.asPath.includes('/register/') &&
             !_.isEmpty(user.data) &&
@@ -78,9 +83,9 @@ const NavigationBar = (props) => {
                   img={user.data.profileImage.url}
                 />
               </UserDiv>
-            )}
+          )}
           {_.isEmpty(user.data) && (
-            <Link href="/login" as="/login">
+            <Link href='/login' as='/login'>
               <LoginLink>Login</LoginLink>
             </Link>
           )}
