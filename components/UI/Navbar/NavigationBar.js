@@ -68,8 +68,7 @@ const NavigationBar = (props) => {
               </Brand>
             </Link>
           )}
-          {router.asPath !== '/' &&
-            router.asPath !== '/login' &&
+          {router.asPath !== '/login' &&
             !router.asPath.includes('/confirmation/') &&
             !router.asPath.includes('/register/') &&
             !_.isEmpty(user.data) &&
