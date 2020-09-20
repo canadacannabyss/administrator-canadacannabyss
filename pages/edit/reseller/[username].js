@@ -45,6 +45,7 @@ import Shipping from '../../../components/UI/Edit/Shipping/Shipping';
 import Variants from '../../../components/UI/Edit/Variants/Variants';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import ResellerDetails from '../../../components/UI/Edit/ResellerDetails/ResellerDetails';
+import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { reseller } = state;
@@ -164,7 +165,7 @@ const EditReseller = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Reseller | Administrator - Canada Cannabyss</title>
       </Head>
@@ -194,7 +195,7 @@ const EditReseller = (props) => {
           Update Product
         </SubmitButton>
       </BackgroundAdd>
-    </>
+    </WithAuth>
   );
 };
 

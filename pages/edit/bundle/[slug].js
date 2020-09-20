@@ -5,7 +5,6 @@ import { FaBoxes, FaPen, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { withAdminAuth } from '../../../utils/withAdminAuth';
 
 import { roundFloatNumber } from '../../../utils/numberConverter';
 import {
@@ -41,6 +40,7 @@ import {
 } from '../../../styles/Pages/Add/Product';
 import { getBundle } from '../../../store/actions/bundle/bundle';
 import { getResellers } from '../../../store/actions/resellers/resellers';
+import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { bundle, user, resellers } = state;
@@ -431,7 +431,7 @@ const EditBundle = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Edit Bundle | Administrator - Canada Cannabyss</title>
       </Head>
@@ -522,7 +522,7 @@ const EditBundle = (props) => {
           </LoadingSpinner>
         </Loading>
       )}
-    </>
+    </WithAuth>
   );
 };
 

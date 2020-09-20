@@ -25,6 +25,7 @@ import {
 } from '../../styles/Pages/Categories/Categories';
 import { getCategories } from '../../store/actions/categories/categories';
 import DeleteConfirmation from '../../components/UI/Confirmations/DeleteCategoryConfirmation';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { categories } = state;
@@ -58,7 +59,7 @@ const Categories = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Categories | Administrator - Canada Cannabyss</title>
       </Head>
@@ -107,7 +108,7 @@ const Categories = (props) => {
           </Container>
         </Wrapper>
       </Background>
-    </>
+    </WithAuth>
   );
 };
 

@@ -7,12 +7,12 @@ export const withAdminAuth = (C) => class AuthComponent extends Component {
     const { store, isServer, asPath } = props.ctx;
     const state = store.getState();
     const userInfo = state.user;
+    console.log('userInfo:', userInfo);
     if (_.isEmpty(userInfo.data)) {
       redirect(props.ctx, '/');
     } else if (!userInfo.data.isAdmin) {
       redirect(props.ctx, '/');
     }
-    console.log('userInfo:', userInfo);
     return { isServer, asPath, userInfo };
   }
 

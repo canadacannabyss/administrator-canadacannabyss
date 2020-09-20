@@ -33,6 +33,7 @@ import {
   Warning,
 } from '../../../styles/Pages/Add/Product';
 import { getPromotion } from '../../../store/actions/promotion/promotion';
+import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { user, promotion } = state;
@@ -470,7 +471,7 @@ const EditPromotion = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Edit Promotion | Administrator - Canada Cannabyss</title>
       </Head>
@@ -531,7 +532,7 @@ const EditPromotion = (props) => {
           </LoadingSpinner>
         </Loading>
       )}
-    </>
+    </WithAuth>
   );
 };
 

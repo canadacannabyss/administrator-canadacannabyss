@@ -25,6 +25,7 @@ import {
 } from '../../styles/Pages/Promotions/Promotions';
 import DeleteConfirmation from '../../components/UI/Confirmations/DeletePromotionConfirmation';
 import { getPromotions } from '../../store/actions/promotions/promotions';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { promotions } = state;
@@ -56,7 +57,7 @@ const Promotions = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Promotions | Reseller - Canada Cannabyss</title>
       </Head>
@@ -105,7 +106,7 @@ const Promotions = (props) => {
           </Container>
         </Wrapper>
       </Background>
-    </>
+    </WithAuth>
   );
 };
 

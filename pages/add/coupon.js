@@ -34,6 +34,7 @@ import {
   Warning
 } from '../../styles/Pages/Add/Product';
 import { getResellers } from '../../store/actions/resellers/resellers';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { resellers } = state;
@@ -451,7 +452,7 @@ const AddCoupon = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Add Coupon | Administrator - Canada Cannabyss</title>
       </Head>
@@ -517,7 +518,7 @@ const AddCoupon = (props) => {
           </LoadingSpinner>
         </Loading>
       )}
-    </>
+    </WithAuth>
   );
 };
 

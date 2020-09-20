@@ -37,6 +37,7 @@ import SEO from '../../../components/UI/Edit/SEO/SEO';
 import Shipping from '../../../components/UI/Edit/Shipping/Shipping';
 import Variants from '../../../components/UI/Edit/Variants/Variants';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { product } = state;
@@ -535,7 +536,7 @@ const EditProduct = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Edit Product | Administrator - Canada Cannabyss</title>
       </Head>
@@ -628,7 +629,7 @@ const EditProduct = (props) => {
           </LoadingSpinner>
         </Loading>
       )}
-    </>
+    </WithAuth>
   );
 };
 

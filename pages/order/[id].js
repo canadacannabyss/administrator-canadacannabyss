@@ -33,6 +33,7 @@ import {
 import { getOrder } from '../../store/actions/order/order';
 import OrderedItemsList from '../../components/UI/List/Order/OrderedItemsList';
 import DateFormatter from '../../utils/dateFormatter';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { order } = state;
@@ -108,7 +109,7 @@ const Order = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>{`Order: ${orderId} | Administrator - Canada Cannabyss`}</title>
       </Head>
@@ -310,7 +311,7 @@ const Order = (props) => {
           </MainGrid>
         </Wrapper>
       </Background>
-    </>
+    </WithAuth>
   );
 };
 

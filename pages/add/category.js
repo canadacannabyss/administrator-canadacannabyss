@@ -20,6 +20,7 @@ import {
   Loading,
   Warning
 } from '../../styles/Pages/Add/Product';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const AddCategory = () => {
   const childRef = useRef();
@@ -231,7 +232,7 @@ const AddCategory = () => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Add Category | Administrator - Canada Cannabyss</title>
       </Head>
@@ -279,7 +280,7 @@ const AddCategory = () => {
           </LoadingSpinner>
         </Loading>
       )}
-    </>
+    </WithAuth>
   );
 };
 

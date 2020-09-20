@@ -24,6 +24,7 @@ import {
 import CouponList from '../../components/UI/List/Coupons/CouponList';
 import { getCoupons } from '../../store/actions/coupons/coupons';
 import DeleteConfirmation from '../../components/UI/Confirmations/DeleteCouponConfirmation';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { coupons } = state;
@@ -57,7 +58,7 @@ const Coupons = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Coupons | Administrator - Canada Cannabyss</title>
       </Head>
@@ -106,7 +107,7 @@ const Coupons = (props) => {
           </Container>
         </Wrapper>
       </Background>
-    </>
+    </WithAuth>
   );
 };
 

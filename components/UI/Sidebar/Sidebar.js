@@ -32,6 +32,8 @@ const Sidebar = () => {
   return (
     <>
       {router.asPath !== '/login' &&
+        router.asPath !== '/' &&
+        !router.asPath.includes('/reset-password/') &&
         !router.asPath.includes('/confirmation/') &&
         !router.asPath.includes('/register/') && (
           <>

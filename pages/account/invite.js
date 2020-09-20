@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Head from 'next/head';
 import _ from 'lodash';
-import { withAdminAuth } from '../../utils/withAdminAuth';
 import {
   Wrapper,
   HeaderDiv,
@@ -19,6 +18,7 @@ import {
 } from '../../styles/Pages/Account/Invite';
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import InvitedFriendsList from '../../components/UI/List/Account/InvitedFriends/InvitedFriendsList';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { user } = state;
@@ -68,59 +68,61 @@ const Invite = (props) => {
   };
 
   return (
-    <BackgroundAdd>
-      <Head>
-        <title>Invite Friends | Reseller - Canada Cannabyss</title>
-      </Head>
-      <Container>
-        <ContentContainer>
-          <Content>
-            <HeaderDiv>
-              <div>
-                <Title>Invite Friends</Title>
-                {!_.isEmpty(user.data) && (
-                <ReferralLink>
-                  <p>Share this referral link to a friend:</p>
-                  <span
-                    id='referral'
-                    onClick={() => {
+    <WithAuth>
+      <BackgroundAdd>
+        <Head>
+          <title>Invite Friends | Reseller - Canada Cannabyss</title>
+        </Head>
+        <Container>
+          <ContentContainer>
+            <Content>
+              <HeaderDiv>
+                <div>
+                  <Title>Invite Friends</Title>
+                  {!_.isEmpty(user.data) && (
+                  <ReferralLink>
+                    <p>Share this referral link to a friend:</p>
+                    <span
+                      id='referral'
+                      onClick={() => {
                       onCopyToClipboard();
                     }}
-                  >
-                    {`${process.env.SECURED_MAIN_DOMAIN}/register?referral=${user.data.referral._id}`}
-                  </span>
-                </ReferralLink>
-                )}
-              </div>
-              <Credits>
-                {/* <div className='creditP'>
+                    >
+                      {`${process.env.SECURED_MAIN_DOMAIN}/register?referral=${user.data.referral._id}`}
+                    </span>
+                  </ReferralLink>
+                  )}
+                </div>
+                <Credits>
+                  {/* <div className='creditP'>
                   <p>Credits:</p>
                 </div>
                 <div className='creditSpan'>
                   <span>{user.data.credits}</span>
                 </div> */}
-              </Credits>
-            </HeaderDiv>
-            <InvitedFriendsTitle>Invited Friends:</InvitedFriendsTitle>
-            {loading && (
-            <ContainerLoading>
-              <WrapperLoading />
-              <WrapperLoading />
-              <WrapperLoading />
-              <WrapperLoading />
-            </ContainerLoading>
-            )}
-            {invitedFriends.length === 0 && !loading && fetched && (
-            <NoInvitedFriends>No invited friends</NoInvitedFriends>
-            )}
+                </Credits>
+              </HeaderDiv>
+              <InvitedFriendsTitle>Invited Friends:</InvitedFriendsTitle>
+              {loading && (
+              <ContainerLoading>
+                <WrapperLoading />
+                <WrapperLoading />
+                <WrapperLoading />
+                <WrapperLoading />
+              </ContainerLoading>
+              )}
+              {invitedFriends.length === 0 && !loading && fetched && (
+              <NoInvitedFriends>No invited friends</NoInvitedFriends>
+              )}
 
-            {!_.isEmpty(invitedFriends) && !loading && fetched && (
-            <InvitedFriendsList invitedFriends={invitedFriends} />
-            )}
-          </Content>
-        </ContentContainer>
-      </Container>
-    </BackgroundAdd>
+              {!_.isEmpty(invitedFriends) && !loading && fetched && (
+              <InvitedFriendsList invitedFriends={invitedFriends} />
+              )}
+            </Content>
+          </ContentContainer>
+        </Container>
+      </BackgroundAdd>
+    </WithAuth>
   );
 };
 

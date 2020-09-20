@@ -25,6 +25,7 @@ import {
 } from '../../styles/Pages/Bundles/Bundles';
 import DeleteConfirmation from '../../components/UI/Confirmations/DeleteBundleConfirmation';
 import { getBundles } from '../../store/actions/bundles/bundles';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { bundles } = state;
@@ -56,7 +57,7 @@ const Bundles = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Bundles | Administrator - Canada Cannabyss</title>
       </Head>
@@ -105,7 +106,7 @@ const Bundles = (props) => {
           </Container>
         </Wrapper>
       </Background>
-    </>
+    </WithAuth>
   );
 };
 

@@ -49,7 +49,7 @@ export default function user(state = initialState, action) {
         data: {},
         loading: false,
         fetched: false,
-        error: true
+        error: false
       };
     case 'REQUEST_FETCH_LOGIN_RESELLER_USER':
       console.log('reducer reseller');
@@ -295,6 +295,26 @@ export default function user(state = initialState, action) {
         data: {},
         loading: false,
         fetched: true,
+        error: true
+      };
+    case 'REQUEST_RESET_PASSWORD':
+      return {
+        ...state,
+        loading: true
+      };
+    case 'SUCCESS_RESET_PASSWORD':
+      return update(state, {
+        data: {},
+        loading: { $set: false },
+        fetched: { $set: false },
+        error: { $set: false }
+      });
+    case 'FAILURE_RESET_PASSWORD':
+      return {
+        ...state,
+        data: {},
+        loading: false,
+        fetched: false,
         error: true
       };
     default:

@@ -27,6 +27,7 @@ import LoginUserProviderApi from './user/loginUserProvider';
 import LogoutUserApi from './user/logoutUser';
 import RefreshUserData from './user/refreshUserData';
 import RegisterAdminUserApi from './user/registerAdminUser';
+import ResetPassword from './user/resetPassword';
 
 import GetOrder from './order/getOrder';
 import GetOrders from './orders/getOrders';
@@ -81,6 +82,7 @@ export default function* root() {
     takeLatest('REQUEST_LOGIN_USER_PROVIDER', LoginUserProviderApi),
     takeLatest('REQUEST_LOGOUT_USER', LogoutUserApi),
     takeLatest('REQUEST_REFRESH_USER_DATA', RefreshUserData),
+    takeLatest('REQUEST_RESET_PASSWORD', ResetPassword),
 
     takeLatest('REQUEST_GET_ORDER', GetOrder),
     takeLatest('REQUEST_GET_ORDERS', GetOrders),

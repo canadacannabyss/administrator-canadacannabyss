@@ -41,6 +41,7 @@ import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/
 import { getOrder } from '../../../store/actions/order/order';
 import OrderedItemsList from '../../../components/UI/List/Order/OrderedItemsList';
 import DateFormatter from '../../../utils/dateFormatter';
+import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { order } = state;
@@ -146,7 +147,7 @@ const EditOrder = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Edit Order | Administrator - Canada Cannabyss</title>
       </Head>
@@ -370,7 +371,7 @@ const EditOrder = (props) => {
           Update Order
         </SubmitButton>
       </BackgroundAdd>
-    </>
+    </WithAuth>
   );
 };
 

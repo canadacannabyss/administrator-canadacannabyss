@@ -25,6 +25,7 @@ import {
 } from '../../styles/Pages/Banners/Banners';
 import { getBanners } from '../../store/actions/banners/banners';
 import DeleteConfirmation from '../../components/UI/Confirmations/DeleteBannerConfirmation';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { banners } = state;
@@ -56,7 +57,7 @@ const Banners = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Banners | Administrator - Canada Cannabyss</title>
       </Head>
@@ -105,7 +106,7 @@ const Banners = (props) => {
           </Container>
         </Wrapper>
       </Background>
-    </>
+    </WithAuth>
   );
 };
 

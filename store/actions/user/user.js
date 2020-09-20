@@ -125,3 +125,12 @@ export function registerAdminUser(adminRegisterInfo) {
     }
   };
 }
+
+export function resetPassword(email) {
+  return {
+    type: 'REQUEST_RESET_PASSWORD',
+    payload: {
+      email
+    }
+  };
+}

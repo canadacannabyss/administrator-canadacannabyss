@@ -9,6 +9,9 @@ import Logo from '../assets/img/canada-cannabyss-logo.svg';
 import Layout from '../components/Layout';
 import '../styles/_app.css';
 import createStore from '../store';
+import { fetchLoginAdminUser } from '../store/actions/user/user';
+
+// let count = 0;
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -19,6 +22,11 @@ class MyApp extends App {
     }
 
     const { store } = ctx;
+
+    // if (count === 0) {
+    //   store.dispatch(fetchLoginAdminUser());
+    //   count += 1;
+    // }
 
     return { pageProps, store };
   }

@@ -33,6 +33,7 @@ import {
 } from '../../../styles/Pages/Add/Product';
 
 import { getCategory } from '../../../store/actions/category/category';
+import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { category } = state;
@@ -379,7 +380,7 @@ const EditCategory = (props) => {
   }, [categoryName]);
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Edit Category | Administrator - Canada Cannabyss</title>
       </Head>
@@ -428,7 +429,7 @@ const EditCategory = (props) => {
           </LoadingSpinner>
         </Loading>
       )}
-    </>
+    </WithAuth>
   );
 };
 

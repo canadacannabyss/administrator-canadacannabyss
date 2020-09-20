@@ -1,10 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Background } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
-import { withAdminAuth } from '../../utils/withAdminAuth';
 import DateFormatter from '../../utils/dateFormatter';
 import {
   Container,
@@ -20,6 +20,7 @@ import {
   MenusGrid,
   Menu
 } from '../../styles/Pages/Account/Account';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { user } = state;
@@ -35,7 +36,7 @@ const Account = (props) => {
   const dateFormatter = new DateFormatter();
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Account | Reseller - Canada Cannabyss</title>
       </Head>
@@ -44,14 +45,20 @@ const Account = (props) => {
           <Title>Account</Title>
           <UserFlex>
             <UserDiv>
+              {!_.isEmpty(user) && user.fetched && !user.loading && !user.error && (
               <User
                 img={user.data.profileImage.url}
               />
+              )}
               <ResellerInfo>
-                <ResellerName>{`${user.data.names.firstName} ${user.data.names.lastName}`}</ResellerName>
-                <JoinDate>
-                  {`Since ${dateFormatter.formatDateFullDate(user.data.createdOn)}`}
-                </JoinDate>
+                {!_.isEmpty(user) && user.fetched && !user.loading && !user.error && (
+                <>
+                  <ResellerName>{`${user.data.names.firstName} ${user.data.names.lastName}`}</ResellerName>
+                  <JoinDate>
+                    {`Since ${dateFormatter.formatDateFullDate(user.data.createdOn)}`}
+                  </JoinDate>
+                </>
+                )}
               </ResellerInfo>
             </UserDiv>
             <CreditDiv>
@@ -144,7 +151,7 @@ const Account = (props) => {
           </MenusGrid>
         </Container>
       </Background>
-    </>
+    </WithAuth>
   );
 };
 
@@ -152,6 +159,7 @@ Account.propTypes = {
   user: PropTypes.shape({
     data: PropTypes.shape().isRequired,
     loading: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired
   }).isRequired
 };

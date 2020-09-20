@@ -16,6 +16,7 @@ import Logo from '../../assets/img/canada-cannabyss-logo.svg';
 import BackgroundImg from '../../assets/img/bg-create-reseller.jpg';
 import { BackgroundLogin } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import IsCanadaCannabyssTeamCheckbox from '../../components/UI/Buttons/Checkbox/IsCanadaCannabyssTeam';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { user } = state;
@@ -112,7 +113,7 @@ const Reseller = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Login | Administrator - Canada Cannabyss</title>
       </Head>
@@ -139,7 +140,7 @@ const Reseller = (props) => {
           </Form>
         </Container>
       </BackgroundLogin>
-    </>
+    </WithAuth>
   );
 };
 

@@ -9,7 +9,7 @@ import {
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 
 import ReviewsList from '../../components/UI/List/Account/Reviews/ReviewsList';
-import { withAdminAuth } from '../../utils/withAdminAuth';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { user } = state;
@@ -45,19 +45,21 @@ const Reviews = (props) => {
   }, []);
 
   return (
-    <BackgroundAdd>
-      <Head>
-        <title>Reviews | Reseller - Canada Cannabyss</title>
-      </Head>
-      <Container>
-        <ContentContainer>
-          <Content>
-            <Title>Reviews</Title>
-            {!_.isEmpty(reviews) && <ReviewsList reviews={reviews} />}
-          </Content>
-        </ContentContainer>
-      </Container>
-    </BackgroundAdd>
+    <WithAuth>
+      <BackgroundAdd>
+        <Head>
+          <title>Reviews | Reseller - Canada Cannabyss</title>
+        </Head>
+        <Container>
+          <ContentContainer>
+            <Content>
+              <Title>Reviews</Title>
+              {!_.isEmpty(reviews) && <ReviewsList reviews={reviews} />}
+            </Content>
+          </ContentContainer>
+        </Container>
+      </BackgroundAdd>
+    </WithAuth>
   );
 };
 

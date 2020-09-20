@@ -22,6 +22,7 @@ import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/Def
 import ResellerList from '../../components/UI/List/Resellers/ResellerList';
 import { getResellers } from '../../store/actions/resellers/resellers';
 import DeleteConfirmation from '../../components/UI/Confirmations/DeleteResellerConfirmation';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { resellers } = state;
@@ -54,40 +55,41 @@ const Resellers = (props) => {
   };
 
   return (
-    <BackgroundAdd>
-      <Head>
-        <title>Resellers | Administrator - Canada Cannabyss</title>
-      </Head>
-      {toggleDeleteConfirmation && (
+    <WithAuth>
+      <BackgroundAdd>
+        <Head>
+          <title>Resellers | Administrator - Canada Cannabyss</title>
+        </Head>
+        {toggleDeleteConfirmation && (
         <DeleteConfirmation
           resellerId={selectedResellerId}
           resellerName={selectedResellerName}
           handleCloseDeleteConfirmation={handleCloseDeleteConfirmation}
         />
-      )}
-      <Container>
-        <ContentContainer>
-          <Content>
-            <TitleSearchBarAddButtonDiv>
-              <TitleDiv>
-                <FaUsers />
-                <h1>Resellers</h1>
-              </TitleDiv>
-              <SearchBarAddButtonDiv>
-                <SearchBar>
-                  <input />
-                  <button type='button'>
-                    <FaSearch />
-                  </button>
-                </SearchBar>
-                <Link href='/add/reseller' as='/add/reseller'>
-                  <AddProductLink>
-                    <FaPlus />
-                  </AddProductLink>
-                </Link>
-              </SearchBarAddButtonDiv>
-            </TitleSearchBarAddButtonDiv>
-            {!_.isEmpty(resellers.data) &&
+        )}
+        <Container>
+          <ContentContainer>
+            <Content>
+              <TitleSearchBarAddButtonDiv>
+                <TitleDiv>
+                  <FaUsers />
+                  <h1>Resellers</h1>
+                </TitleDiv>
+                <SearchBarAddButtonDiv>
+                  <SearchBar>
+                    <input />
+                    <button type='button'>
+                      <FaSearch />
+                    </button>
+                  </SearchBar>
+                  <Link href='/add/reseller' as='/add/reseller'>
+                    <AddProductLink>
+                      <FaPlus />
+                    </AddProductLink>
+                  </Link>
+                </SearchBarAddButtonDiv>
+              </TitleSearchBarAddButtonDiv>
+              {!_.isEmpty(resellers.data) &&
             resellers.fetched &&
             !resellers.loading &&
             !resellers.error && (
@@ -95,11 +97,12 @@ const Resellers = (props) => {
                 resellers={resellers.data}
                 handleGetElement={handleGetElement}
               />
-            )}
-          </Content>
-        </ContentContainer>
-      </Container>
-    </BackgroundAdd>
+              )}
+            </Content>
+          </ContentContainer>
+        </Container>
+      </BackgroundAdd>
+    </WithAuth>
   );
 };
 

@@ -4,8 +4,6 @@ import { FaObjectUngroup, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { withAdminAuth } from '../../utils/withAdminAuth';
-
 import { slugifyString } from '../../utils/stringMethods';
 
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
@@ -23,6 +21,7 @@ import {
   Loading,
   Warning
 } from '../../styles/Pages/Add/Product';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { resellers } = state;
@@ -318,7 +317,7 @@ const AddBanner = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Add Banner | Administrator - Canada Cannabyss</title>
       </Head>
@@ -375,7 +374,7 @@ const AddBanner = (props) => {
           </LoadingSpinner>
         </Loading>
       )}
-    </>
+    </WithAuth>
   );
 };
 

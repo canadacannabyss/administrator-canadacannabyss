@@ -18,6 +18,7 @@ import {
 } from '../../styles/Pages/Reseller/Reseller';
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import { getReseller } from '../../store/actions/reseller/reseller';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { reseller } = state;
@@ -46,29 +47,31 @@ const Reseller = (props) => {
   }, [reseller]);
 
   return (
-    <BackgroundAdd>
-      <Head>
-        <title>Reseller | Administrator - Canada Cannabyss</title>
-      </Head>
-      <Container>
-        <ContentContainer>
-          <Content>
-            <TitleSearchBarAddButtonDiv>
-              {!_.isEmpty(reseller.data) &&
-                reseller.fetched &&
-                !reseller.loading &&
-                !reseller.error && (
-                  <>
-                    <TitleDiv>
-                      <h1>{`${firstName} ${lastName}`}</h1>
-                    </TitleDiv>
-                  </>
-                )}
-            </TitleSearchBarAddButtonDiv>
-          </Content>
-        </ContentContainer>
-      </Container>
-    </BackgroundAdd>
+    <WithAuth>
+      <BackgroundAdd>
+        <Head>
+          <title>Reseller | Administrator - Canada Cannabyss</title>
+        </Head>
+        <Container>
+          <ContentContainer>
+            <Content>
+              <TitleSearchBarAddButtonDiv>
+                {!_.isEmpty(reseller.data) &&
+                  reseller.fetched &&
+                  !reseller.loading &&
+                  !reseller.error && (
+                    <>
+                      <TitleDiv>
+                        <h1>{`${firstName} ${lastName}`}</h1>
+                      </TitleDiv>
+                    </>
+                  )}
+              </TitleSearchBarAddButtonDiv>
+            </Content>
+          </ContentContainer>
+        </Container>
+      </BackgroundAdd>
+    </WithAuth>
   );
 };
 

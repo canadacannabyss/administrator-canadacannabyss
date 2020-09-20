@@ -1,10 +1,11 @@
 import React from 'react';
 import MapComponent from '../../components/UI/Map/Map';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const Map = () => (
-  <div>
+  <WithAuth>
     <MapComponent />
-  </div>
+  </WithAuth>
 );
 
 export default Map;

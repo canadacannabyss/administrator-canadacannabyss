@@ -4,7 +4,6 @@ import { FaTags, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { withAdminAuth } from '../../utils/withAdminAuth';
 
 import { slugifyString } from '../../utils/stringMethods';
 
@@ -25,6 +24,7 @@ import {
   Warning
 } from '../../styles/Pages/Add/Product';
 import { getResellers } from '../../store/actions/resellers/resellers';
+import WithAuth from '../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
   const { resellers } = state;
@@ -374,7 +374,7 @@ const AddPromotion = (props) => {
   };
 
   return (
-    <>
+    <WithAuth>
       <Head>
         <title>Add Promotion | Administrator - Canada Cannabyss</title>
       </Head>
@@ -438,7 +438,7 @@ const AddPromotion = (props) => {
           </LoadingSpinner>
         </Loading>
       )}
-    </>
+    </WithAuth>
   );
 };
 
