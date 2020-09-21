@@ -218,7 +218,7 @@ const AddBanner = (props) => {
     if (allFieldsFilled) {
       const productInfo = {
         isSlugValid,
-        userId: reseller,
+        reseller,
         bannerName,
         description,
         featured,

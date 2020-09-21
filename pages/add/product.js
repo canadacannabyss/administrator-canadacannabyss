@@ -295,7 +295,7 @@ const AddProduct = (props) => {
     if (allFieldsFilled) {
       const productInfo = {
         isSlugValid,
-        userId: reseller,
+        reseller,
         media: imagesArrayObj,
         variants: {
           variantsOptionNames,

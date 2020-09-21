@@ -414,7 +414,7 @@ const AddCoupon = (props) => {
       console.log('fetchedValidCouponNameRes:', fetchedValidCouponNameRes);
       if (fetchedValidCouponNameRes) {
         const couponObj = {
-          userId: reseller,
+          reseller,
           couponName: couponCode,
           description,
           featured,

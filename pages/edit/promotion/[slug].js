@@ -17,6 +17,8 @@ import {
   editCategoriesToArray,
   editTagsToArray,
 } from '../../../utils/stringMethods';
+
+import ResellerSelector from '../../../components/UI/Add/ResellerSelector/ResellerSelector';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import ItemNameDescription from '../../../components/UI/Edit/ItemNameDescription/ItemNameDescription';
 import Media from '../../../components/UI/Edit/Media/Media';
@@ -33,21 +35,24 @@ import {
   Warning,
 } from '../../../styles/Pages/Add/Product';
 import { getPromotion } from '../../../store/actions/promotion/promotion';
+import { getResellers } from '../../../store/actions/resellers/resellers';
 import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
-  const { user, promotion } = state;
+  const { promotion, resellers } = state;
 
   return {
-    user,
     promotion,
+    resellers,
   };
 };
 
 const EditPromotion = (props) => {
-  const { promotion } = props;
+  const { promotion, resellers } = props;
 
   const childRef = useRef();
+
+  const [reseller, setReseller] = useState('');
 
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -366,6 +371,7 @@ const EditPromotion = (props) => {
         });
         promotionInfo = {
           isSlugValid,
+          reseller,
           media: imagesArrayObj,
           promotionName,
           description,
@@ -384,6 +390,7 @@ const EditPromotion = (props) => {
       } else {
         promotionInfo = {
           isSlugValid,
+          reseller,
           promotionName,
           description,
           products: productsOnPromotion,
@@ -470,6 +477,10 @@ const EditPromotion = (props) => {
     setTags(e.target.value.toLowerCase());
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <WithAuth>
       <Head>
@@ -487,6 +498,10 @@ const EditPromotion = (props) => {
               onChangeItemName={onChangePromotionName}
               description={description}
               onChangeDescription={onChangeDescription}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <Media
               multipleFiles={false}
@@ -542,11 +557,13 @@ EditPromotion.getInitialProps = async ({ ctx }) => {
   const slug = asPath.substring(16, asPath.length);
 
   store.dispatch(getPromotion(slug));
+  store.dispatch(getResellers());
 };
 
 EditPromotion.propTypes = {
   promotion: PropTypes.shape().isRequired,
   user: PropTypes.shape().isRequired,
+  resellers: PropTypes.shape().isRequired,
 };
 
 export default connect(mapStateToProps)(EditPromotion);

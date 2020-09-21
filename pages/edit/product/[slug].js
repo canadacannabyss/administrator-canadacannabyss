@@ -27,6 +27,9 @@ import {
   Warning,
 } from '../../../styles/Pages/Add/Product';
 import { getProduct } from '../../../store/actions/product/product';
+import { getResellers } from '../../../store/actions/resellers/resellers';
+
+import ResellerSelector from '../../../components/UI/Add/ResellerSelector/ResellerSelector';
 import Media from '../../../components/UI/Edit/Media/Media';
 import ItemNameDescription from '../../../components/UI/Edit/ItemNameDescription/ItemNameDescription';
 import Pricing from '../../../components/UI/Edit/Pricing/Pricing';
@@ -40,17 +43,20 @@ import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/
 import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
-  const { product } = state;
+  const { product, resellers } = state;
 
   return {
     product,
+    resellers,
   };
 };
 
 const EditProduct = (props) => {
-  const { product } = props;
+  const { product, resellers } = props;
 
   const childRef = useRef();
+
+  const [reseller, setReseller] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [isSlugValid, setIsSlugValid] = useState(true);
@@ -158,7 +164,7 @@ const EditProduct = (props) => {
       slug.length > 0 &&
       productName.length > 0 &&
       price > 0 &&
-      compareTo > 0 &&
+      !isNaN(compareTo) &&
       (taxableProduct || !taxableProduct) &&
       description.length > 0 &&
       sku.length > 0 &&
@@ -172,14 +178,39 @@ const EditProduct = (props) => {
       seoDescription.length > 0 &&
       categories.length > 0 &&
       tags.length > 0 &&
-      !_.isEmpty(categoriesArray) &&
-      !_.isEmpty(tagsArray)
+      reseller.length > 0 &&
+      !_.isEmpty(tagsArray) &&
+      !_.isEmpty(extraInfo)
     ) {
       setAllFieldsFilled(true);
     } else {
       setAllFieldsFilled(false);
     }
   };
+
+  useEffect(() => {
+    disabledSubmitButton();
+  }, [
+    isSlugValid,
+    slug,
+    productName,
+    price,
+    compareTo,
+    taxableProduct,
+    description,
+    sku,
+    barcode,
+    quantity,
+    weightAmount,
+    weightUnit,
+    variants,
+    seoTitle,
+    seoSlug,
+    seoDescription,
+    categories,
+    tags,
+    tagsArray,
+  ]);
 
   const editProduct = async (product) => {
     const response = await fetch(
@@ -210,6 +241,7 @@ const EditProduct = (props) => {
         });
         productInfo = {
           isSlugValid,
+          reseller,
           media: imagesArrayObj,
           variants: {
             variantsOptionNames,
@@ -249,6 +281,7 @@ const EditProduct = (props) => {
       } else {
         productInfo = {
           isSlugValid,
+          reseller,
           variants: {
             variantsOptionNames,
             values: variants,
@@ -393,30 +426,6 @@ const EditProduct = (props) => {
   }, [product]);
 
   useEffect(() => {
-    disabledSubmitButton();
-  }, [
-    isSlugValid,
-    slug,
-    productName,
-    price,
-    compareTo,
-    taxableProduct,
-    description,
-    sku,
-    barcode,
-    quantity,
-    weightAmount,
-    weightUnit,
-    variants,
-    seoTitle,
-    seoSlug,
-    seoDescription,
-    categories,
-    tags,
-    tagsArray,
-  ]);
-
-  useEffect(() => {
     if (slug.length > 0) {
       const checkSlugValid = async () => {
         const isSlugValidRes = await verifySlug(slug);
@@ -535,6 +544,10 @@ const EditProduct = (props) => {
     setSlug(slugifyString(productName));
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <WithAuth>
       <Head>
@@ -552,6 +565,10 @@ const EditProduct = (props) => {
               onChangeItemName={onChangeProductName}
               description={description}
               onChangeDescription={onChangeDescription}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <Media
               childRef={childRef}
@@ -639,11 +656,13 @@ EditProduct.getInitialProps = async ({ ctx }) => {
   const slug = asPath.substring(14, asPath.length);
 
   store.dispatch(getProduct(slug));
+  store.dispatch(getResellers());
   return { isServer };
 };
 
 EditProduct.propTypes = {
   product: PropTypes.shape().isRequired,
+  resellers: PropTypes.shape().isRequired,
 };
 
 export default connect(mapStateToProps)(EditProduct);

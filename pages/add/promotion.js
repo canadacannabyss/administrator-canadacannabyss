@@ -253,7 +253,7 @@ const AddPromotion = (props) => {
       });
       const promotionInfo = {
         isSlugValid,
-        userId: reseller,
+        reseller,
         media: imagesArrayObj,
         promotionName,
         description,

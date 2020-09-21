@@ -2,11 +2,13 @@ import Head from 'next/head';
 import React, { useState, useRef, useEffect } from 'react';
 import { FaListUl, FaPlus, FaSpinner } from 'react-icons/fa';
 import Router from 'next/router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { slugifyString } from '../../utils/stringMethods';
 
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import ResellerSelector from '../../components/UI/Add/ResellerSelector/ResellerSelector';
 import BannerNameDescription from '../../components/UI/Add/BannerNameDescription/BannerNameDescription';
 import Media from '../../components/UI/Add/Media/Media';
 import SEO from '../../components/UI/Add/SEO/SEO';
@@ -21,9 +23,22 @@ import {
   Warning
 } from '../../styles/Pages/Add/Product';
 import WithAuth from '../../components/UI/withAuth/withAuth';
+import { getResellers } from '../../store/actions/resellers/resellers';
 
-const AddCategory = () => {
+const mapStateToProps = (state) => {
+  const { resellers } = state;
+
+  return {
+    resellers
+  };
+};
+
+const AddCategory = (props) => {
+  const { resellers } = props;
+
   const childRef = useRef();
+
+  const [reseller, setReseller] = useState('');
 
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -82,6 +97,7 @@ const AddCategory = () => {
       seoTitle.length > 0 &&
       seoSlug.length > 0 &&
       seoDescription.length > 0 &&
+      reseller.length > 0 &&
       !_.isEmpty(imagesArray)
     ) {
       setAllFieldsFilled(true);
@@ -100,7 +116,8 @@ const AddCategory = () => {
     description,
     seoTitle,
     seoSlug,
-    seoDescription
+    seoDescription,
+    reseller
   ]);
 
   const setGlobalVariable = async () => {
@@ -186,6 +203,7 @@ const AddCategory = () => {
       });
       const productInfo = {
         isSlugValid,
+        reseller,
         media: imagesArrayObj,
         categoryName,
         description,
@@ -231,6 +249,10 @@ const AddCategory = () => {
     setFeatured(!featured);
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   return (
     <WithAuth>
       <Head>
@@ -249,6 +271,10 @@ const AddCategory = () => {
               onChangeDescription={onChangeDescription}
               handleCheckFeatured={handleCheckFeatured}
               featured={featured}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <Media
               multipleFiles={false}
@@ -284,4 +310,10 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+AddCategory.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getResellers());
+};
+
+export default connect(mapStateToProps)(AddCategory);

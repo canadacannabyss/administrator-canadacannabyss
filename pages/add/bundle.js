@@ -295,7 +295,7 @@ const AddBundle = (props) => {
     disabledSubmitButton();
     if (allFieldsFilled) {
       const productInfo = {
-        userId: reseller,
+        reseller,
         products: productOnBundle,
         isSlugValid,
         variants: {

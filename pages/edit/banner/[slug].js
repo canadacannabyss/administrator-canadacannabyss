@@ -19,7 +19,7 @@ import {
 } from '../../../utils/stringMethods';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import ResellerSelector from '../../../components/UI/Add/ResellerSelector/ResellerSelector';
-import BannerNameDescription from '../../../components/UI/Add/BannerNameDescription/BannerNameDescription';
+import BannerNameDescription from '../../../components/UI/Edit/BannerNameDescription/BannerNameDescription';
 import SEO from '../../../components/UI/Add/SEO/SEO';
 import Organization from '../../../components/UI/Add/Organization/Organization';
 import PromotionsList from '../../../components/UI/List/Add/PromotionsList/PromotionsList';
@@ -322,7 +322,7 @@ const EditBanner = (props) => {
     if (allFieldsFilled) {
       setLoading(true);
       const bannerInfo = {
-        userId: reseller,
+        reseller,
         isSlugValid,
         bannerName,
         description,

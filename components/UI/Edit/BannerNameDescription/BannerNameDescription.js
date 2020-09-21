@@ -55,7 +55,7 @@ const BannerNameDescription = (props) => {
           />
           <Label htmlFor='productDescription'>Description</Label>
           <div>
-            {description && (
+            {description.length > 0 && (
             <Editor
               apiKey='z1imaefgqfqi5gkj9tp9blogndyf2gp0aj3fgubdtz73p658'
               name='description'

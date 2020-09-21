@@ -55,7 +55,6 @@ const BannerNameDescription = (props) => {
           />
           <Label htmlFor='productDescription'>Description</Label>
           <div>
-            {description.length > 0 && (
             <Editor
               apiKey='z1imaefgqfqi5gkj9tp9blogndyf2gp0aj3fgubdtz73p658'
               name='description'
@@ -73,7 +72,6 @@ const BannerNameDescription = (props) => {
               }}
               onChange={onChangeDescription}
             />
-            )}
           </div>
         </Content>
       </ContentContainer>

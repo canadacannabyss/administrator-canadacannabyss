@@ -18,9 +18,11 @@ import {
 } from '../../../utils/stringMethods';
 
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import ResellerSelector from '../../../components/UI/Add/ResellerSelector/ResellerSelector';
 import BannerNameDescription from '../../../components/UI/Edit/BannerNameDescription/BannerNameDescription';
 import Media from '../../../components/UI/Edit/Media/Media';
 import SEO from '../../../components/UI/Edit/SEO/SEO';
+import { getResellers } from '../../../store/actions/resellers/resellers';
 
 import {
   Wrapper,
@@ -36,17 +38,20 @@ import { getCategory } from '../../../store/actions/category/category';
 import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
-  const { category } = state;
+  const { category, resellers } = state;
 
   return {
     category,
+    resellers,
   };
 };
 
 const EditCategory = (props) => {
-  const { category } = props;
+  const { category, resellers } = props;
 
   const childRef = useRef();
+
+  const [reseller, setReseller] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
@@ -139,6 +144,7 @@ const EditCategory = (props) => {
     seoSlug,
     seoDescription,
     featured,
+    reseller,
   ]);
 
   useEffect(() => {
@@ -280,7 +286,8 @@ const EditCategory = (props) => {
       description.length > 0 &&
       seoTitle.length > 0 &&
       seoSlug.length > 0 &&
-      seoDescription.length > 0
+      seoDescription.length > 0 &&
+      reseller.length > 0
     ) {
       setAllFieldsFilled(true);
     } else {
@@ -328,6 +335,7 @@ const EditCategory = (props) => {
         categoryInfo = {
           id: category._id,
           isSlugValid,
+          reseller,
           slug,
           media: imagesArrayObj,
           categoryName,
@@ -343,6 +351,7 @@ const EditCategory = (props) => {
         categoryInfo = {
           id: category._id,
           isSlugValid,
+          reseller,
           slug,
           categoryName,
           description,
@@ -375,6 +384,10 @@ const EditCategory = (props) => {
     }
   };
 
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
+  };
+
   useEffect(() => {
     setGlobalVariable();
   }, [categoryName]);
@@ -398,6 +411,10 @@ const EditCategory = (props) => {
               onChangeDescription={onChangeDescription}
               handleCheckFeatured={handleCheckFeatured}
               featured={featured}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <Media
               multipleFiles={false}
@@ -443,6 +460,7 @@ EditCategory.getInitialProps = async ({ ctx }) => {
   const slug = asPath.substring(15, asPath.length);
 
   store.dispatch(getCategory(slug));
+  store.dispatch(getResellers());
 };
 
 export default connect(mapStateToProps)(EditCategory);

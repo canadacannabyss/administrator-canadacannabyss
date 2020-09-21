@@ -19,6 +19,7 @@ import {
 
 import { roundFloatNumber } from '../../../utils/numberConverter';
 
+import ResellerSelector from '../../../components/UI/Add/ResellerSelector/ResellerSelector';
 import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import CouponNameDescription from '../../../components/UI/Edit/CouponNameDescription/CouponNameDescription';
 import SEO from '../../../components/UI/Edit/SEO/SEO';
@@ -37,15 +38,18 @@ import { getCoupon } from '../../../store/actions/coupon/coupon';
 import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
-  const { coupon } = state;
+  const { coupon, resellers } = state;
 
   return {
     coupon,
+    resellers,
   };
 };
 
 const EditCoupon = (props) => {
-  const { coupon } = props;
+  const { coupon, resellers } = props;
+
+  const [reseller, setReseller] = useState('');
 
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
   const [warning, setWarning] = useState(false);
@@ -417,6 +421,7 @@ const EditCoupon = (props) => {
       if (fetchedValidCouponNameRes) {
         const couponObj = {
           id: couponId,
+          reseller,
           couponName: couponCode,
           description,
           featured,
@@ -447,6 +452,10 @@ const EditCoupon = (props) => {
     } else {
       setWarning(true);
     }
+  };
+
+  const onChangeSelectReseller = (e) => {
+    setReseller(e.target.value);
   };
 
   return (
@@ -480,6 +489,10 @@ const EditCoupon = (props) => {
               handleCheckFreeShipping={handleCheckFreeShipping}
               featured={featured}
               freeShipping={freeShipping}
+            />
+            <ResellerSelector
+              resellers={resellers}
+              onChangeSelectReseller={onChangeSelectReseller}
             />
             <ProductsBundlesList
               title='Items on coupon'

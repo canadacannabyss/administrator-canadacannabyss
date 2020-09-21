@@ -140,12 +140,12 @@ const EditBundle = (props) => {
 
   const disabledSubmitButton = () => {
     if (
-      !_.isEmpty(productOnBundle) &&
+      productOnBundle.length > 0 &&
       isSlugValid &&
       slug.length > 0 &&
       bundleName.length > 0 &&
       price > 0 &&
-      compareTo > 0 &&
+      !isNaN(compareTo) &&
       (taxableBundle || !taxableBundle) &&
       description.length > 0 &&
       sku.length > 0 &&
@@ -159,9 +159,10 @@ const EditBundle = (props) => {
       seoDescription.length > 0 &&
       categories.length > 0 &&
       tags.length > 0 &&
-      !_.isEmpty(extraInfo) &&
+      reseller.length > 0 &&
       !_.isEmpty(categoriesArray) &&
-      !_.isEmpty(tagsArray)
+      !_.isEmpty(tagsArray) &&
+      !_.isEmpty(extraInfo)
     ) {
       setAllFieldsFilled(true);
     } else {
@@ -291,11 +292,11 @@ const EditBundle = (props) => {
   };
 
   const onChangePrice = (e) => {
-    setPrice(parseFloat(e.target.value).toFixed(2));
+    setPrice(e.target.value);
   };
 
   const onChangeCompareTo = (e) => {
-    setCompareTo(parseFloat(e.target.value).toFixed(2));
+    setCompareTo(e.target.value);
   };
 
   const onChangeSku = (e) => {
@@ -364,7 +365,7 @@ const EditBundle = (props) => {
       console.log('productOnBundle:', productOnBundle);
       const bundleInfo = {
         products: productOnBundle,
-        userId: reseller,
+        reseller,
         isSlugValid,
         variants,
         bundleName,
