@@ -8,12 +8,19 @@ const Wrapper = styled.div`
   padding: 0 20px;
   display: grid;
   grid-gap: 15px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 250px 250px 1fr;
   grid-template-areas: 
   'a a b c'
   'a a b c'
   'd d e e';
   .sales {
     grid-area: a;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: #f1f1f1;
+    }
   }
   .graphs {
     grid-area: b;
