@@ -260,6 +260,7 @@ const Register = () => {
                     id='adminFirstName'
                     value={adminFirstName}
                     onChange={onChangeAdminFirstName}
+                    autoComplete='current-password'
                   />
                 </div>
                 <div>
@@ -273,6 +274,7 @@ const Register = () => {
                     id='adminLastName'
                     value={adminLastName}
                     onChange={onChangeAdminLastName}
+                    autoComplete='current-password'
                   />
                 </div>
               </HalfGrid>
@@ -286,6 +288,7 @@ const Register = () => {
                 id='adminUsername'
                 value={adminUsername}
                 onChange={onChangeAdminUsername}
+                autoComplete='current-password'
               />
               <Label
                 htmlFor='adminEmail'
@@ -297,6 +300,7 @@ const Register = () => {
                 id='adminEmail'
                 value={adminEmail}
                 onChange={onChangeAdminEmail}
+                autoComplete='current-password'
               />
               <Label
                 htmlFor='adminPassword'
@@ -308,6 +312,7 @@ const Register = () => {
                 id='adminPassword'
                 value={adminPassword}
                 onChange={onChangeAdminPassword}
+                autoComplete='current-password'
               />
               <Label
                 htmlFor='adminPassword2'
@@ -319,6 +324,7 @@ const Register = () => {
                 id='adminPassword2'
                 value={adminPassword2}
                 onChange={onChangeAdminPassword2}
+                autoComplete='current-password'
               />
               {!isPasswordsMatching && <Warning>Passwords must match</Warning>}
               {!isAdminUserValid && (
@@ -343,6 +349,7 @@ const Register = () => {
                 id='suUsername'
                 value={suUsername}
                 onChange={onChangeSuUsername}
+                autoComplete='current-password'
               />
               <Label
                 htmlFor='password'
@@ -354,6 +361,7 @@ const Register = () => {
                 id='password'
                 value={suPassword}
                 onChange={onChangeSuPassword}
+                autoComplete='current-password'
               />
               {error && (
               <>

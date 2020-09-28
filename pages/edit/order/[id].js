@@ -18,17 +18,21 @@ import {
 } from '../../../utils/stringMethods';
 import {
   Wrapper,
+  Container,
+  ContentContainer,
+  SearchBarAddButtonDiv,
+  TitleSearchBarAddButtonDiv,
+  SearchBar,
+  TitleDiv,
+  Content,
+} from '../../../styles/Pages/Orders/Orders';
+import {
   StickyDiv,
   MainGrid,
   SubmitButton,
   LoadingSpinner,
   Loading,
   Warning,
-  Container,
-  Content,
-  ContentContainer,
-  TitleSearchBarAddButtonDiv,
-  TitleDiv,
   PlusIconSign,
   Label,
   Input,
@@ -37,9 +41,10 @@ import {
   P,
   Select,
 } from '../../../styles/Pages/Add/Product';
-import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import { Background } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import { getOrder } from '../../../store/actions/order/order';
 import OrderedItemsList from '../../../components/UI/List/Order/OrderedItemsList';
+import PaymentReceiptViewer from '../../../components/UI/Viewer/PaymentReceipt/PaymentReceipt';
 import DateFormatter from '../../../utils/dateFormatter';
 import WithAuth from '../../../components/UI/withAuth/withAuth';
 
@@ -151,226 +156,238 @@ const EditOrder = (props) => {
       <Head>
         <title>Edit Order | Administrator - Canada Cannabyss</title>
       </Head>
-      <BackgroundAdd>
-        {/* <Wrapper> */}
-        <MainGrid>
-          <Container>
-            <ContentContainer>
-              <Content>
-                <TitleSearchBarAddButtonDiv>
-                  <TitleDiv>
-                    <PlusIconSign>
-                      <FaSortAmountDownAlt className='mainIcon' />
-                      <FaPen className='plus' />
-                    </PlusIconSign>
-                    <h1>Edit Order</h1>
-                  </TitleDiv>
-                </TitleSearchBarAddButtonDiv>
-                <HalfGrid>
-                  <div>
-                    <Label for='orderId'>Order ID</Label>
-                    {!_.isEmpty(order.data) &&
-                      order.fetched &&
-                      !order.loading &&
-                      !order.error && <P>{order.data._id}</P>}
-                  </div>
-                  <div>
-                    <Label>Purchased At</Label>
-                    <P>
+      <Background>
+        <Wrapper>
+          <MainGrid>
+            <Container>
+              <ContentContainer>
+                <Content>
+                  <TitleSearchBarAddButtonDiv>
+                    <TitleDiv>
+                      <PlusIconSign>
+                        <FaSortAmountDownAlt className='mainIcon' />
+                        <FaPen className='plus' />
+                      </PlusIconSign>
+                      <h1>Edit Order</h1>
+                    </TitleDiv>
+                  </TitleSearchBarAddButtonDiv>
+                  <HalfGrid>
+                    <div>
+                      <Label for='orderId'>Order ID</Label>
                       {!_.isEmpty(order.data) &&
                         order.fetched &&
                         !order.loading &&
-                        !order.error && (
-                          <>
-                            {dateFormatter.formatDateFullDate(
-                              order.data.purchasedAt
-                            )}
-                          </>
-                        )}
-                    </P>
-                  </div>
-                </HalfGrid>
-                <br />
-                <br />
-                <GroupSpan>Shipping information</GroupSpan>
-                <HalfGrid>
-                  <div>
-                    <Label>Shipping Status</Label>
-                    <Select onChange={onChangeShipped}>
-                      {!_.isEmpty(order.data) &&
-                        order.fetched &&
-                        !order.loading &&
-                        !order.error && (
-                          <>
-                            {order.data.shipping.status.shipped ? (
-                              <>
-                                <option value={true}>Shipped</option>
-                                <option value={false}>Processing order</option>
-                              </>
-                            ) : (
-                              <>
-                                <option value={false}>Processing order</option>
-                                <option value={true}>Shipped</option>
-                              </>
-                            )}
-                          </>
-                        )}
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor='shippingAddress'>Shipping Address</Label>
-                    {!_.isEmpty(order.data) &&
-                      order.fetched &&
-                      !order.loading &&
-                      !order.error && (
-                        <P id='shippingAddress'>
-                          {`${order.data.shippingAddress.addressLine1}, ${order.data.shippingAddress.city}, ${order.data.shippingAddress.provinceState}, ${order.data.shippingAddress.country}`}
-                        </P>
-                      )}
-                  </div>
-                </HalfGrid>
-                <br />
-                <HalfGrid>
-                  <div>
-                    <Label>Shipped at</Label>
-                    <P>
-                      {!_.isEmpty(order.data) &&
-                        order.fetched &&
-                        !order.loading &&
-                        !order.error && (
-                          <>
-                            {order.data.shipping.status.when ? (
-                              <>
-                                {dateFormatter.formatDateFullDate(
-                                  order.data.shipping.status.when
-                                )}
-                              </>
-                            ) : (
-                              'Not Shipped yet'
-                            )}
-                          </>
-                        )}
-                    </P>
-                  </div>
-                </HalfGrid>
-                <br />
-                <br />
-                <GroupSpan>Billing information</GroupSpan>
-                <Label>Billing Address</Label>
-                <P id='shippingAddress'>
-                  {!_.isEmpty(order.data) &&
-                    order.fetched &&
-                    !order.loading &&
-                    !order.error && (
-                      <>
-                        {`${order.data.billingAddress.addressLine1}, ${order.data.billingAddress.city}, ${order.data.billingAddress.provinceState}, ${order.data.billingAddress.country}`}
-                      </>
-                    )}
-                </P>
-                <br />
-                <br />
-                <GroupSpan>Payment information</GroupSpan>
-                <HalfGrid>
-                  <div>
-                    <Label>Payment Method</Label>
-                    {!_.isEmpty(order.data) &&
-                      order.fetched &&
-                      !order.loading &&
-                      !order.error && (
-                        <>
-                          {order.data.paymentMethod.cryptocurrency.symbol !==
-                            null &&
-                            order.data.paymentMethod.cryptocurrency.address !==
-                              null && <P>Cryptocurrency</P>}
-                          {order.data.paymentMethod.eTransfer && (
-                            <P>e-Transfer</P>
-                          )}
-                        </>
-                      )}
-                  </div>
-                  <div>
-                    {!_.isEmpty(order.data) &&
-                      order.fetched &&
-                      !order.loading &&
-                      !order.error && (
-                        <>
-                          {order.data.paymentMethod.cryptocurrency.symbol !==
-                            null &&
-                            order.data.paymentMethod.cryptocurrency.address !==
-                              null && (
-                              <>
-                                <Label>
-                                  {order.data.paymentMethod.cryptocurrency
-                                    .symbol && 'Ethereum'}{' '}
-                                  Wallet
-                                </Label>
-                                <P>
-                                  {
-                                    order.data.paymentMethod.cryptocurrency
-                                      .address
-                                  }
-                                </P>
-                              </>
-                            )}
-                          {order.data.paymentMethod.eTransfer && (
+                        !order.error && <P>{order.data._id}</P>}
+                    </div>
+                    <div>
+                      <Label>Purchased At</Label>
+                      <P>
+                        {!_.isEmpty(order.data) &&
+                          order.fetched &&
+                          !order.loading &&
+                          !order.error && (
                             <>
-                              <Label>Customer Email</Label>
-                              <P>{order.data.customer.email}</P>
+                              {dateFormatter.formatDateFullDate(
+                                order.data.purchasedAt
+                              )}
                             </>
                           )}
+                      </P>
+                    </div>
+                  </HalfGrid>
+                  <br />
+                  <GroupSpan>Shipping information</GroupSpan>
+                  <HalfGrid>
+                    <div>
+                      <Label>Shipping Status</Label>
+                      <Select onChange={onChangeShipped}>
+                        {!_.isEmpty(order.data) &&
+                          order.fetched &&
+                          !order.loading &&
+                          !order.error && (
+                            <>
+                              {order.data.shipping.status.shipped ? (
+                                <>
+                                  <option value={true}>Shipped</option>
+                                  <option value={false}>
+                                    Processing order
+                                  </option>
+                                </>
+                              ) : (
+                                <>
+                                  <option value={false}>
+                                    Processing order
+                                  </option>
+                                  <option value={true}>Shipped</option>
+                                </>
+                              )}
+                            </>
+                          )}
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor='shippingAddress'>Shipping Address</Label>
+                      {!_.isEmpty(order.data) &&
+                        order.fetched &&
+                        !order.loading &&
+                        !order.error && (
+                          <P id='shippingAddress'>
+                            {`${order.data.shippingAddress.addressLine1}, ${order.data.shippingAddress.city}, ${order.data.shippingAddress.provinceState}, ${order.data.shippingAddress.country}`}
+                          </P>
+                        )}
+                    </div>
+                  </HalfGrid>
+                  <br />
+                  <HalfGrid>
+                    <div>
+                      <Label>Shipped at</Label>
+                      <P>
+                        {!_.isEmpty(order.data) &&
+                          order.fetched &&
+                          !order.loading &&
+                          !order.error && (
+                            <>
+                              {order.data.shipping.status.when ? (
+                                <>
+                                  {dateFormatter.formatDateFullDate(
+                                    order.data.shipping.status.when
+                                  )}
+                                </>
+                              ) : (
+                                'Not Shipped yet'
+                              )}
+                            </>
+                          )}
+                      </P>
+                    </div>
+                  </HalfGrid>
+                  <br />
+                  <GroupSpan>Billing information</GroupSpan>
+                  <Label>Billing Address</Label>
+                  <P id='shippingAddress'>
+                    {!_.isEmpty(order.data) &&
+                      order.fetched &&
+                      !order.loading &&
+                      !order.error && (
+                        <>
+                          {`${order.data.billingAddress.addressLine1}, ${order.data.billingAddress.city}, ${order.data.billingAddress.provinceState}, ${order.data.billingAddress.country}`}
                         </>
                       )}
-                  </div>
-                </HalfGrid>
-                <br />
-                <HalfGrid>
-                  <div>
-                    <Label>Payment Status</Label>
-                    <Select onChange={onChangePaid}>
+                  </P>
+                  <br />
+                  <GroupSpan>Payment information</GroupSpan>
+                  <HalfGrid>
+                    <div>
+                      <Label>Payment Method</Label>
                       {!_.isEmpty(order.data) &&
                         order.fetched &&
                         !order.loading &&
                         !order.error && (
                           <>
-                            {order.data.paid ? (
+                            {order.data.paymentMethod.cryptocurrency.symbol !==
+                              null &&
+                              order.data.paymentMethod.cryptocurrency
+                                .address !== null && <P>Cryptocurrency</P>}
+                            {order.data.paymentMethod.eTransfer && (
+                              <P>e-Transfer</P>
+                            )}
+                          </>
+                        )}
+                    </div>
+                    <div>
+                      {!_.isEmpty(order.data) &&
+                        order.fetched &&
+                        !order.loading &&
+                        !order.error && (
+                          <>
+                            {order.data.paymentMethod.cryptocurrency.symbol !==
+                              null &&
+                              order.data.paymentMethod.cryptocurrency
+                                .address !== null && (
+                                <>
+                                  <Label>
+                                    {order.data.paymentMethod.cryptocurrency
+                                      .symbol && 'Ethereum'}{' '}
+                                    Wallet
+                                  </Label>
+                                  <P>
+                                    {
+                                      order.data.paymentMethod.cryptocurrency
+                                        .address
+                                    }
+                                  </P>
+                                </>
+                              )}
+                            {order.data.paymentMethod.eTransfer && (
                               <>
-                                <option value={true}>Paid</option>
-                                <option value={false}>Pending</option>
-                              </>
-                            ) : (
-                              <>
-                                <option value={false}>Pending</option>
-                                <option value={true}>Paid</option>
+                                <Label>Customer Email</Label>
+                                <P>{order.data.customer.email}</P>
                               </>
                             )}
                           </>
                         )}
-                    </Select>
-                  </div>
-                  <div>
-                    <Label>Total</Label>
-                    <P>C$ {order.data.total}</P>
-                  </div>
-                </HalfGrid>
-              </Content>
-            </ContentContainer>
-          </Container>
-          {!_.isEmpty(order.data) &&
-            order.fetched &&
-            !order.loading &&
-            !order.error && (
-              <OrderedItemsList
-                title='Purchased Items'
-                products={order.data.cart.items}
-                handleGetElement={handleGetElement}
-              />
-            )}
-        </MainGrid>
-        {/* </Wrapper> */}
-        <SubmitButton type='button' onClick={handleSubmit}>
+                    </div>
+                  </HalfGrid>
+                  <br />
+                  <HalfGrid>
+                    <div>
+                      <Label>Payment Status</Label>
+                      <Select onChange={onChangePaid}>
+                        {!_.isEmpty(order.data) &&
+                          order.fetched &&
+                          !order.loading &&
+                          !order.error && (
+                            <>
+                              {order.data.paid ? (
+                                <>
+                                  <option value={true}>Paid</option>
+                                  <option value={false}>Pending</option>
+                                </>
+                              ) : (
+                                <>
+                                  <option value={false}>Pending</option>
+                                  <option value={true}>Paid</option>
+                                </>
+                              )}
+                            </>
+                          )}
+                      </Select>
+                    </div>
+                    <div>
+                      <Label>Total</Label>
+                      <P>C$ {order.data.total}</P>
+                    </div>
+                  </HalfGrid>
+                </Content>
+              </ContentContainer>
+            </Container>
+            {!_.isEmpty(order.data) &&
+              order.fetched &&
+              !order.loading &&
+              !order.error && (
+                <>
+                  <OrderedItemsList
+                    title='Purchased Items'
+                    products={order.data.cart.items}
+                    handleGetElement={handleGetElement}
+                  />
+                  <PaymentReceiptViewer
+                    paymentReceipt={order.data.paymentReceipt}
+                  />
+                </>
+              )}
+          </MainGrid>
+        </Wrapper>
+        <SubmitButton
+          type='button'
+          onClick={handleSubmit}
+          style={{
+            marginBottom: '15px',
+          }}
+        >
           Update Order
         </SubmitButton>
-      </BackgroundAdd>
+      </Background>
     </WithAuth>
   );
 };

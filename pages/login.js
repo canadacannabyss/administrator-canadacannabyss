@@ -18,7 +18,7 @@ import {
   EmailSentToMessage,
   SwitchFormButton,
   FormLinkTo,
-  Warning
+  Warning,
 } from '../styles/Pages/Login/Login';
 import Logo from '../assets/img/canada-cannabyss-logo.svg';
 import BackgroundImg from '../assets/img/bg-login.jpg';
@@ -28,7 +28,7 @@ const mapStateToProps = (state) => {
   const { user } = state;
 
   return {
-    user
+    user,
   };
 };
 
@@ -45,7 +45,10 @@ const Login = (props) => {
 
   const [userLoginSubmit, setUserLoginSubmit] = useState(false);
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
-  const [allFieldsFilledResetPassword, setAllFieldsFilledResetPassword] = useState(false);
+  const [
+    allFieldsFilledResetPassword,
+    setAllFieldsFilledResetPassword,
+  ] = useState(false);
 
   const [resetPasswordSent, setResetPasswordSent] = useState(false);
 
@@ -79,7 +82,7 @@ const Login = (props) => {
     if (allFieldsFilled) {
       const userInfoObj = {
         email,
-        password
+        password,
       };
       dispatch(fetchLoginAdminUser(userInfoObj));
     }
@@ -128,52 +131,62 @@ const Login = (props) => {
           <div />
         </BlurredBackground>
         {resetPasswordSent && !user.loading && !user.fetched && !user.error && (
-        <EmailSentToMessage top='20px'>
-          <p>
-            An account verification link has been sent to
-            {' '}
-            <span>{email}</span>
-          </p>
-        </EmailSentToMessage>
+          <EmailSentToMessage top='20px'>
+            <p>
+              An account verification link has been sent to <span>{email}</span>
+            </p>
+          </EmailSentToMessage>
         )}
         <Container>
           {loginForm && (
-          <Form onSubmit={onSubmitLogin}>
-            <BrandDiv>
-              <img src={Logo} alt='Canada Cannabyss' />
-              <div className='sep' />
-              <h1>Login</h1>
-            </BrandDiv>
-            <Label htmlFor='email'>Email</Label>
-            <Input type='email' id='email' value={email} onChange={onChangeEmail} />
-            <Label htmlFor='password'>Password</Label>
-            <Input
-              type='password'
-              id='password'
-              value={password}
-              onChange={onChangePassword}
-            />
-            <Submit type='submit'>Login</Submit>
-
-          </Form>
+            <Form onSubmit={onSubmitLogin}>
+              <BrandDiv>
+                <img src={Logo} alt='Canada Cannabyss' />
+                <div className='sep' />
+                <h1>Login</h1>
+              </BrandDiv>
+              <Label htmlFor='email'>Email</Label>
+              <Input
+                type='email'
+                id='email'
+                value={email}
+                onChange={onChangeEmail}
+              />
+              <Label htmlFor='password'>Password</Label>
+              <Input
+                type='password'
+                id='password'
+                value={password}
+                onChange={onChangePassword}
+                autoComplete='current-password'
+              />
+              <Submit type='submit'>Login</Submit>
+            </Form>
           )}
           {resetPasswordForm && (
-          <Form onSubmit={onSubmitResetPassword}>
-            <BrandDiv>
-              <img src={Logo} alt='Canada Cannabyss' />
-              <div className='sep' />
-              <h1>Reset Password</h1>
-            </BrandDiv>
-            <Label htmlFor='email'>Email</Label>
-            <Input type='email' id='email' value={email} onChange={onChangeEmail} />
-            <Submit type='submit'>Reset Password</Submit>
-          </Form>
+            <Form onSubmit={onSubmitResetPassword}>
+              <BrandDiv>
+                <img src={Logo} alt='Canada Cannabyss' />
+                <div className='sep' />
+                <h1>Reset Password</h1>
+              </BrandDiv>
+              <Label htmlFor='email'>Email</Label>
+              <Input
+                type='email'
+                id='email'
+                value={email}
+                onChange={onChangeEmail}
+                autoComplete='current-password'
+              />
+              <Submit type='submit'>Reset Password</Submit>
+            </Form>
           )}
           {loginForm && (
             <>
-              <SwitchFormButton onClick={() => {
-                onClickResetPasswordForm();
-              }}
+              <SwitchFormButton
+                onClick={() => {
+                  onClickResetPasswordForm();
+                }}
               >
                 Reset Password
               </SwitchFormButton>
@@ -183,18 +196,18 @@ const Login = (props) => {
             </>
           )}
           {resetPasswordForm && (
-          <SwitchFormButton onClick={() => {
-            onClickLoginFormButton();
-          }}
-          >
-            Already have an account?
-          </SwitchFormButton>
+            <SwitchFormButton
+              onClick={() => {
+                onClickLoginFormButton();
+              }}
+            >
+              Already have an account?
+            </SwitchFormButton>
           )}
-          {resetPasswordForm && user.error && !user.loading && !user.fetched && (
-            <Warning>
-              Account not found.
-            </Warning>
-          )}
+          {resetPasswordForm &&
+            user.error &&
+            !user.loading &&
+            !user.fetched && <Warning>Account not found.</Warning>}
         </Container>
       </BackgroundLogin>
     </>
