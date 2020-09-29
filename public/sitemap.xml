@@ -17,26 +17,6 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/account/billing</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/index</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/invite</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/reviews</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/shipping</loc>
-  </url>
-
-  <url>
     <loc>https://canadacannabyss.com/add/banner</loc>
   </url>
 
@@ -65,7 +45,23 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/banners/index</loc>
+    <loc>https://canadacannabyss.com/account/billing</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/account/index</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/account/invite</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/account/reviews</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/account/shipping</loc>
   </url>
 
   <url>
@@ -73,11 +69,15 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/confirmation/[token]</loc>
+    <loc>https://canadacannabyss.com/banners/index</loc>
   </url>
 
   <url>
     <loc>https://canadacannabyss.com/categories/index</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/confirmation/[token]</loc>
   </url>
 
   <url>
@@ -93,6 +93,10 @@
   </url>
 
   <url>
+    <loc>https://canadacannabyss.com/products/index</loc>
+  </url>
+
+  <url>
     <loc>https://canadacannabyss.com/orders/index</loc>
   </url>
 
@@ -101,7 +105,11 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/products/index</loc>
+    <loc>https://canadacannabyss.com/promotions/index</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/register/[token]</loc>
   </url>
 
   <url>
@@ -110,14 +118,6 @@
 
   <url>
     <loc>https://canadacannabyss.com/resellers/index</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/promotions/index</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/register/[token]</loc>
   </url>
 
   <url>
@@ -137,11 +137,11 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/edit/coupon/[slug]</loc>
+    <loc>https://canadacannabyss.com/edit/order/[id]</loc>
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/edit/order/[id]</loc>
+    <loc>https://canadacannabyss.com/edit/coupon/[slug]</loc>
   </url>
 
   <url>

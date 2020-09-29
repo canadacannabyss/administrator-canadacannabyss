@@ -137,6 +137,22 @@ const Order = (props) => {
                         !order.error && <P>{order.data._id}</P>}
                     </div>
                     <div>
+                      <Label>Order Status</Label>
+                      <P>
+                        {!_.isEmpty(order.data) &&
+                          order.fetched &&
+                          !order.loading &&
+                          !order.error && (
+                            <>
+                              {order.data.canceled ? 'Canceled' : 'Fulfilled'}
+                            </>
+                          )}
+                      </P>
+                    </div>
+                  </HalfGrid>
+                  <br />
+                  <HalfGrid>
+                    <div>
                       <Label>Purchased At</Label>
                       <P>
                         {!_.isEmpty(order.data) &&
@@ -151,6 +167,7 @@ const Order = (props) => {
                           )}
                       </P>
                     </div>
+                    <div />
                   </HalfGrid>
                   <br />
                   <GroupSpan>Shipping information</GroupSpan>

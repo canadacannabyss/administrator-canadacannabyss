@@ -62,6 +62,7 @@ const EditOrder = (props) => {
   const [items, setItems] = useState([]);
 
   const [shipped, setShipped] = useState(false);
+  const [canceled, setCanceled] = useState(false);
   const [paid, setPaid] = useState(false);
 
   const dateFormatter = new DateFormatter();
@@ -104,6 +105,14 @@ const EditOrder = (props) => {
     }
   };
 
+  const onChangeOrderStatus = (e) => {
+    if (e.target.value === 'true') {
+      setCanceled(true);
+    } else if (e.target.value === 'false') {
+      setCanceled(false);
+    }
+  };
+
   const onChangePaid = (e) => {
     if (e.target.value === 'true') {
       setPaid(true);
@@ -117,6 +126,7 @@ const EditOrder = (props) => {
     const orderObj = {
       shipped,
       paid,
+      canceled,
     };
     const res = await editOrder(orderObj);
     if (res.ok) {
@@ -180,6 +190,31 @@ const EditOrder = (props) => {
                         !order.error && <P>{order.data._id}</P>}
                     </div>
                     <div>
+                      <Label>Order Status</Label>
+                      <Select onChange={onChangeOrderStatus}>
+                        {!_.isEmpty(order.data) &&
+                          order.fetched &&
+                          !order.loading &&
+                          !order.error && (
+                            <>
+                              {order.data.canceled ? (
+                                <>
+                                  <option value={true}>Canceled</option>
+                                  <option value={false}>Fulfilled</option>
+                                </>
+                              ) : (
+                                <>
+                                  <option value={false}>Fulfilled</option>
+                                  <option value={true}>Canceled</option>
+                                </>
+                              )}
+                            </>
+                          )}
+                      </Select>
+                    </div>
+                  </HalfGrid>
+                  <HalfGrid>
+                    <div>
                       <Label>Purchased At</Label>
                       <P>
                         {!_.isEmpty(order.data) &&
@@ -194,6 +229,7 @@ const EditOrder = (props) => {
                           )}
                       </P>
                     </div>
+                    <div />
                   </HalfGrid>
                   <br />
                   <GroupSpan>Shipping information</GroupSpan>
