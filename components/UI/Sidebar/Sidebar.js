@@ -12,7 +12,8 @@ import {
   FaPlus,
   FaBars,
   FaObjectUngroup,
-  FaUser
+  FaUser,
+  FaCreditCard
 } from 'react-icons/fa';
 import {
   SidebarContainer,
@@ -149,6 +150,17 @@ const Sidebar = () => {
                 >
                   <FaUser />
                   <p>Resellers</p>
+                </SidebarLink>
+              </Link>
+              <Link href='/payment-method' as='/payment-method'>
+                <SidebarLink
+                  toggleSidebar={toggleSidebar}
+                  onClick={() => {
+                    onClickToggleSidebar();
+                  }}
+                >
+                  <FaCreditCard />
+                  <p>Payment Method</p>
                 </SidebarLink>
               </Link>
             </SidebarContainer>

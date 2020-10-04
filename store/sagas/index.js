@@ -53,6 +53,12 @@ import GetPromotions from './promotions/getPromotions';
 import GetBanner from './banner/getBanner';
 import GetBanners from './banners/getBanners';
 
+import getAcceptedCryptocurrenciesPaymentMethod from './acceptedPaymentMethods/getAcceptedCryptocurrenciesPaymentMethod';
+import getAcceptedETransfersPaymentMethod from './acceptedPaymentMethods/getAcceptedETransfersPaymentMethod';
+
+import getAcceptedCryptocurrencyPaymentMethod from './acceptedPaymentMethod/getAcceptedCryptocurrencyPaymentMethod';
+import getAcceptedETransferPaymentMethod from './acceptedPaymentMethod/getAcceptedETransferPaymentMethod';
+
 export default function* root() {
   yield all([
     takeLatest('REQUEST_CREATE_BILLING', CreateBilling),
@@ -106,6 +112,12 @@ export default function* root() {
     takeLatest('REQUEST_GET_PROMOTIONS', GetPromotions),
 
     takeLatest('REQUEST_GET_BANNER', GetBanner),
-    takeLatest('REQUEST_GET_BANNERS', GetBanners)
+    takeLatest('REQUEST_GET_BANNERS', GetBanners),
+
+    takeLatest('REQUEST_GET_CRYPTOCURRECY_PAYMENT_METHOD', getAcceptedCryptocurrencyPaymentMethod),
+    takeLatest('REQUEST_GET_E_TRANSFER_PAYMENT_METHOD', getAcceptedETransferPaymentMethod),
+
+    takeLatest('REQUEST_GET_CRYPTOCURRECIES_PAYMENT_METHODS', getAcceptedCryptocurrenciesPaymentMethod),
+    takeLatest('REQUEST_GET_E_TRANSFERS_PAYMENT_METHODS', getAcceptedETransfersPaymentMethod)
   ]);
 }

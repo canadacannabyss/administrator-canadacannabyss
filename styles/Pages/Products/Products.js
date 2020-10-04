@@ -177,6 +177,12 @@ const SpansDiv = styled.div`
   }
 `;
 
+const ListTitle = styled.h2`
+  color: #18840f;
+  font-size: 15px;
+  margin-bottom: 0.5rem;
+`;
+
 export {
   Wrapper,
   Container,
@@ -188,4 +194,5 @@ export {
   ContentContainer,
   Content,
   SpansDiv,
+  ListTitle
 };

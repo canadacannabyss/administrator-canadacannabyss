@@ -252,6 +252,13 @@ const P = styled.p`
   font-size: 18px;
   color: #5a5a5a;
   word-break: break-all;
+  img {
+    height: 20px;
+    width: 20px;
+    margin-top: -8px;
+    transform: translateY(4px);
+    margin-right: 5px;
+  }
 `;
 
 const Input = styled.input`

@@ -324,7 +324,7 @@ const EditOrder = (props) => {
                               null &&
                               order.data.paymentMethod.cryptocurrency
                                 .address !== null && <P>Cryptocurrency</P>}
-                            {order.data.paymentMethod.eTransfer && (
+                            {order.data.paymentMethod.eTransfer.isETransfer && (
                               <P>e-Transfer</P>
                             )}
                           </>
@@ -338,23 +338,26 @@ const EditOrder = (props) => {
                           <>
                             {order.data.paymentMethod.cryptocurrency.symbol !==
                               null &&
+                              order.data.paymentMethod.cryptocurrency.name !==
+                                null &&
                               order.data.paymentMethod.cryptocurrency
-                                .address !== null && (
+                                .address !== null &&
+                              order.data.paymentMethod.cryptocurrency.logo && (
                                 <>
-                                  <Label>
-                                    {order.data.paymentMethod.cryptocurrency
-                                      .symbol && 'Ethereum'}{' '}
-                                    Wallet
-                                  </Label>
-                                  <P>
-                                    {
-                                      order.data.paymentMethod.cryptocurrency
-                                        .address
-                                    }
+                                  <Label>Cryptocurrency</Label>
+                                  <P className='cryptoLogoSymbolName'>
+                                    <img
+                                      src={
+                                        order.data.paymentMethod.cryptocurrency
+                                          .logo
+                                      }
+                                      alt={`${order.data.paymentMethod.cryptocurrency.symbol} logo`}
+                                    />
+                                    {`${order.data.paymentMethod.cryptocurrency.symbol} - ${order.data.paymentMethod.cryptocurrency.name}`}
                                   </P>
                                 </>
                               )}
-                            {order.data.paymentMethod.eTransfer && (
+                            {order.data.paymentMethod.eTransfer.isETransfer && (
                               <>
                                 <Label>Customer Email</Label>
                                 <P>{order.data.customer.email}</P>
@@ -364,6 +367,72 @@ const EditOrder = (props) => {
                         )}
                     </div>
                   </HalfGrid>
+
+                  {!_.isEmpty(order.data) &&
+                    order.fetched &&
+                    !order.loading &&
+                    !order.error && (
+                      <>
+                        {order.data.paymentMethod.cryptocurrency.symbol !==
+                          null &&
+                          order.data.paymentMethod.cryptocurrency.name !==
+                            null &&
+                          order.data.paymentMethod.cryptocurrency.address !==
+                            null &&
+                          order.data.paymentMethod.cryptocurrency.logo && (
+                            <>
+                              <br />
+                              <HalfGrid>
+                                <div>
+                                  <Label>
+                                    {`Customer ${order.data.paymentMethod.cryptocurrency.name} Wallet`}
+                                  </Label>
+                                  <P>
+                                    {
+                                      order.data.paymentMethod.cryptocurrency
+                                        .customerAddress
+                                    }
+                                  </P>
+                                </div>
+                                <div>
+                                  <Label>
+                                    {`Company ${order.data.paymentMethod.cryptocurrency.name} Wallet`}
+                                  </Label>
+                                  <P>
+                                    {
+                                      order.data.paymentMethod.cryptocurrency
+                                        .companyAddress
+                                    }
+                                  </P>
+                                </div>
+                              </HalfGrid>
+                            </>
+                          )}
+                      </>
+                    )}
+
+                  {!_.isEmpty(order.data) &&
+                    order.fetched &&
+                    !order.loading &&
+                    !order.error && (
+                      <>
+                        {order.data.paymentMethod.eTransfer.recipient !==
+                          null && (
+                          <>
+                            <br />
+                            <HalfGrid>
+                              <div>
+                                <Label>Recipient</Label>
+                                <P>
+                                  {order.data.paymentMethod.eTransfer.recipient}
+                                </P>
+                              </div>
+                              <div></div>
+                            </HalfGrid>
+                          </>
+                        )}
+                      </>
+                    )}
                   <br />
                   <HalfGrid>
                     <div>
@@ -391,9 +460,44 @@ const EditOrder = (props) => {
                     </div>
                     <div>
                       <Label>Total</Label>
-                      <P>C$ {order.data.total}</P>
+                      {!_.isEmpty(order.data) &&
+                        order.fetched &&
+                        !order.loading &&
+                        !order.error && <P>C$ {order.data.total}</P>}
                     </div>
                   </HalfGrid>
+                  {!_.isEmpty(order.data) &&
+                    order.fetched &&
+                    !order.loading &&
+                    !order.error && (
+                      <>
+                        {order.data.paymentMethod.cryptocurrency.symbol !==
+                          null &&
+                          order.data.paymentMethod.cryptocurrency.name !==
+                            null &&
+                          order.data.paymentMethod.cryptocurrency.address !==
+                            null &&
+                          order.data.paymentMethod.cryptocurrency.logo &&
+                          order.data.totalInCryptocurrency !== null && (
+                            <>
+                              <br />
+                              <HalfGrid>
+                                <div>
+                                  <Label>
+                                    Total in{' '}
+                                    {
+                                      order.data.paymentMethod.cryptocurrency
+                                        .symbol
+                                    }
+                                  </Label>
+                                  <P>{order.data.totalInCryptocurrency}</P>
+                                </div>
+                                <div />
+                              </HalfGrid>
+                            </>
+                          )}
+                      </>
+                    )}
                 </Content>
               </ContentContainer>
             </Container>

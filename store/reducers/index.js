@@ -32,7 +32,12 @@ import shippingList from './shipping/shippingList';
 import banner from './banner/banner';
 import banners from './banners/banners';
 
+import acceptedPaymentMethod from './accepted-payment-method/accepted-payment-method';
+import acceptedPaymentMethods from './accepted-payment-methods/accepted-payment-methods';
+
 export default combineReducers({
+  acceptedPaymentMethod,
+  acceptedPaymentMethods,
   banner,
   banners,
   billing,
