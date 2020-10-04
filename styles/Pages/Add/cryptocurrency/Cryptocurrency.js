@@ -7,7 +7,6 @@ export const CryptoWalletDiv = styled.div`
     img {
       height: 25px;
       width: 25px;
-      filter: grayscale(100%);
     }
   }
 `;
