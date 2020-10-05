@@ -33,6 +33,7 @@ import {
 import { getOrder } from '../../store/actions/order/order';
 import OrderedItemsList from '../../components/UI/List/Order/OrderedItemsList';
 import PaymentReceiptViewer from '../../components/UI/Viewer/PaymentReceipt/PaymentReceipt';
+import TrackingNumber from '../../components/UI/Viewer/TrackingNumber/TrackingNumber';
 import DateFormatter from '../../utils/dateFormatter';
 import WithAuth from '../../components/UI/withAuth/withAuth';
 
@@ -426,6 +427,10 @@ const Order = (props) => {
                   <PaymentReceiptViewer
                     paymentReceipt={order.data.paymentReceipt}
                   />
+                  {order.data.tracking.number !== null &&
+                    order.data.tracking.postalService !== null && (
+                      <TrackingNumber tracking={order.data.tracking} />
+                    )}
                 </>
               )}
           </MainGrid>

@@ -59,6 +59,9 @@ import getAcceptedETransfersPaymentMethod from './acceptedPaymentMethods/getAcce
 import getAcceptedCryptocurrencyPaymentMethod from './acceptedPaymentMethod/getAcceptedCryptocurrencyPaymentMethod';
 import getAcceptedETransferPaymentMethod from './acceptedPaymentMethod/getAcceptedETransferPaymentMethod';
 
+import getPostalServices from './postalServices/getPostalServices';
+import getPostalService from './postalService/getPostalService';
+
 export default function* root() {
   yield all([
     takeLatest('REQUEST_CREATE_BILLING', CreateBilling),
@@ -118,6 +121,9 @@ export default function* root() {
     takeLatest('REQUEST_GET_E_TRANSFER_PAYMENT_METHOD', getAcceptedETransferPaymentMethod),
 
     takeLatest('REQUEST_GET_CRYPTOCURRECIES_PAYMENT_METHODS', getAcceptedCryptocurrenciesPaymentMethod),
-    takeLatest('REQUEST_GET_E_TRANSFERS_PAYMENT_METHODS', getAcceptedETransfersPaymentMethod)
+    takeLatest('REQUEST_GET_E_TRANSFERS_PAYMENT_METHODS', getAcceptedETransfersPaymentMethod),
+
+    takeLatest('REQUEST_GET_POSTAL_SERVICES', getPostalServices),
+    takeLatest('REQUEST_GET_POSTAL_SERVICE', getPostalService)
   ]);
 }

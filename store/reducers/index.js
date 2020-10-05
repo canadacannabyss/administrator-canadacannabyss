@@ -35,6 +35,9 @@ import banners from './banners/banners';
 import acceptedPaymentMethod from './accepted-payment-method/accepted-payment-method';
 import acceptedPaymentMethods from './accepted-payment-methods/accepted-payment-methods';
 
+import postalService from './postalService/postalService';
+import postalServices from './postalServices/postalServices';
+
 export default combineReducers({
   acceptedPaymentMethod,
   acceptedPaymentMethods,
@@ -50,6 +53,8 @@ export default combineReducers({
   coupons,
   order,
   orders,
+  postalService,
+  postalServices,
   product,
   products,
   promotion,

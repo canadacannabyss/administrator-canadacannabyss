@@ -43,27 +43,33 @@ import {
 } from '../../../styles/Pages/Add/Product';
 import { Background } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
 import { getOrder } from '../../../store/actions/order/order';
+import { getPostalServices } from '../../../store/actions/postalServices/postalServices';
 import OrderedItemsList from '../../../components/UI/List/Order/OrderedItemsList';
 import PaymentReceiptViewer from '../../../components/UI/Viewer/PaymentReceipt/PaymentReceipt';
+import TrackingNumber from '../../../components/UI/Edit/TrackingNumber/TrackingNumber';
 import DateFormatter from '../../../utils/dateFormatter';
 import WithAuth from '../../../components/UI/withAuth/withAuth';
 
 const mapStateToProps = (state) => {
-  const { order } = state;
+  const { order, postalServices } = state;
 
   return {
     order,
+    postalServices,
   };
 };
 
 const EditOrder = (props) => {
-  const { order } = props;
+  const { order, postalServices } = props;
 
   const [items, setItems] = useState([]);
 
   const [shipped, setShipped] = useState(false);
   const [canceled, setCanceled] = useState(false);
   const [paid, setPaid] = useState(false);
+
+  const [trackingNumber, setTrackingNumber] = useState('');
+  const [postalService, setPostalService] = useState('-');
 
   const dateFormatter = new DateFormatter();
 
@@ -94,6 +100,13 @@ const EditOrder = (props) => {
     ) {
       setShipped(order.data.shipping.status.shipped);
       setPaid(order.data.paid);
+      if (
+        order.data.tracking.number !== null &&
+        order.data.tracking.postalService !== null
+      ) {
+        setTrackingNumber(order.data.tracking.number);
+        setPostalService(order.data.tracking.postalService._id);
+      }
     }
   }, [order]);
 
@@ -127,6 +140,8 @@ const EditOrder = (props) => {
       shipped,
       paid,
       canceled,
+      trackingNumber,
+      postalService,
     };
     const res = await editOrder(orderObj);
     if (res.ok) {
@@ -159,6 +174,14 @@ const EditOrder = (props) => {
       element.querySelector('.items-detail').style.display = 'none';
       element.querySelector('.empty').style.display = 'none';
     }
+  };
+
+  const handleTrackingNumber = (e) => {
+    setTrackingNumber(e.target.value);
+  };
+
+  const handleSelectPostalService = (e) => {
+    setPostalService(e.target.value);
   };
 
   return (
@@ -514,6 +537,12 @@ const EditOrder = (props) => {
                   <PaymentReceiptViewer
                     paymentReceipt={order.data.paymentReceipt}
                   />
+                  <TrackingNumber
+                    trackingNumber={trackingNumber}
+                    handleTrackingNumber={handleTrackingNumber}
+                    postalServices={postalServices}
+                    handleSelectPostalService={handleSelectPostalService}
+                  />
                 </>
               )}
           </MainGrid>
@@ -538,10 +567,12 @@ EditOrder.getInitialProps = async ({ ctx }) => {
   const orderId = asPath.substring(12, asPath.length);
 
   store.dispatch(getOrder(orderId));
+  store.dispatch(getPostalServices());
 };
 
 EditOrder.propTypes = {
   order: PropTypes.shape().isRequired,
+  postalServices: PropTypes.shape().isRequired,
 };
 
 export default connect(mapStateToProps)(EditOrder);

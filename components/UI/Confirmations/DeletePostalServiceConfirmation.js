@@ -9,12 +9,12 @@ import {
   BtnNo,
   BtnYes
 } from '../../../styles/Components/UI/Confirmations/DeleteConfirmation';
-import { getCoupons } from '../../../store/actions/coupons/coupons';
+import { getPostalServices } from '../../../store/actions/postalServices/postalServices';
 
 const DeleteConfirmationModal = (props) => {
   const {
-    couponId,
-    couponName,
+    postalServiceId,
+    postalServiceName,
     handleCloseDeleteConfirmation
   } = props;
 
@@ -27,7 +27,7 @@ const DeleteConfirmationModal = (props) => {
 
   const handleDeleteCoupon = async () => {
     const res = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/coupons/delete/coupon/${couponId}`,
+      `${process.env.MAIN_API_ENDPOINT}/admin/postal-services/delete/postal-service/${postalServiceId}`,
       {
         method: 'PUT',
         mode: 'cors',
@@ -41,7 +41,7 @@ const DeleteConfirmationModal = (props) => {
     const data = await res.json();
 
     if (data.ok) {
-      dispatch(getCoupons());
+      dispatch(getPostalServices());
       handleDeleteConfirmationClose();
     }
   };
@@ -53,7 +53,7 @@ const DeleteConfirmationModal = (props) => {
         <Statement>
           Are sure do you want to permanetly delete
           {' '}
-          <span>{couponName}</span>
+          <span>{postalServiceName}</span>
           ?
         </Statement>
         <BtnsDiv>
