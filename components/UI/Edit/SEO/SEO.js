@@ -4,7 +4,7 @@ import {
   PreviewDescription,
   PreviewTitle,
   PreviewURL,
-  SEOPreview,
+  SEOPreview
 } from '../../../../styles/Components/UI/Add/SEO';
 
 import {
@@ -15,6 +15,7 @@ import {
   Label,
   Input,
   TextArea,
+  Required
 } from '../../../../styles/Pages/Add/Product';
 
 const SEO = (props) => {
@@ -24,7 +25,7 @@ const SEO = (props) => {
     description,
     onChangeSeoTitle,
     onChangeSeoSlug,
-    onChangeSeoDescription,
+    onChangeSeoDescription
   } = props;
 
   return (
@@ -38,6 +39,7 @@ const SEO = (props) => {
             <PreviewDescription>{description}</PreviewDescription>
           </SEOPreview>
           <Label htmlFor='title'>Title</Label>
+          <Required>*</Required>
           <Input
             id='title'
             type='text'
@@ -62,6 +64,7 @@ const SEO = (props) => {
           >
             Description
           </Label>
+          <Required>*</Required>
           <TextArea
             id='seoDescription'
             type='text'
@@ -81,7 +84,7 @@ SEO.propTypes = {
   description: PropTypes.string.isRequired,
   onChangeSeoTitle: PropTypes.func.isRequired,
   onChangeSeoSlug: PropTypes.func.isRequired,
-  onChangeSeoDescription: PropTypes.func.isRequired,
+  onChangeSeoDescription: PropTypes.func.isRequired
 };
 
 export default SEO;

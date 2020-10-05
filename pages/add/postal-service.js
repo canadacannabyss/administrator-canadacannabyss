@@ -19,7 +19,9 @@ import {
   PlusIconSign,
   HalfGrid,
   Label,
-  Input
+  Input,
+  Required,
+  RequiredDescription
 } from '../../styles/Pages/Add/Product';
 import {
   Wrapper
@@ -136,9 +138,16 @@ const AddPostalService = (props) => {
                       <h1>Add Postal Service</h1>
                     </TitleDiv>
                   </TitleSearchBarAddButtonDiv>
+                  <RequiredDescription>
+                    <span>*</span>
+                    {' '}
+                    - Required
+                  </RequiredDescription>
+                  <br />
                   <HalfGrid>
                     <div>
                       <Label>Postal Service</Label>
+                      <Required>*</Required>
                       <Input value={postalService} onChange={handlePostalService} />
                     </div>
                     <div />

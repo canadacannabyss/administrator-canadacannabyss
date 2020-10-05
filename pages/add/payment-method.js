@@ -30,7 +30,9 @@ import {
   Label,
   Input,
   Select,
-  HalfGrid
+  HalfGrid,
+  Required,
+  RequiredDescription
 } from '../../styles/Pages/Add/Product';
 import {
   CryptoWalletDiv,
@@ -249,9 +251,16 @@ const AddPaymentMethod = (props) => {
                       <h1>Add Payment Method</h1>
                     </TitleDiv>
                   </TitleSearchBarAddButtonDiv>
+                  <RequiredDescription>
+                    <span>*</span>
+                    {' '}
+                    - Required
+                  </RequiredDescription>
+                  <br />
                   <HalfGrid>
                     <div>
                       <Label htmlFor='method'>Method</Label>
+                      <Required>*</Required>
                       <Select id='method' onChange={onChangeSelectedPaymentMethod}>
                         <option value='cryptocurrency'>Cryptocurrency</option>
                         <option value='e-transfer'>e-Transfer</option>
@@ -264,6 +273,7 @@ const AddPaymentMethod = (props) => {
                     <HalfGrid>
                       <div>
                         <Label htmlFor='cryptoAsset'>Crypto Asset</Label>
+                        <Required>*</Required>
                         <Select id='cryptoAsset' onChange={onChangeSelectedCryptocurrency}>
                           {!_.isEmpty(cryptocurrencies) && cryptocurrencies.data.length > 0 && (
                             <>
@@ -279,6 +289,7 @@ const AddPaymentMethod = (props) => {
                         {selectedCryptocurrencyName !== '-' && (
                           <>
                             <Label htmlFor='selectedCrypto'>{`${selectedCryptocurrencyName} Wallet`}</Label>
+                            <Required>*</Required>
                             <CryptoWalletDiv>
                               <span>
                                 <img src={selectedCryptocurrencyLogo} alt='Cryptocurrency logo' />
@@ -294,6 +305,7 @@ const AddPaymentMethod = (props) => {
                   <HalfGrid>
                     <div>
                       <Label htmlFor='recipeintEmail'>Recipient email</Label>
+                      <Required>*</Required>
                       <Input type='email' id='recipeintEmail' onChange={onChangeRecipientEmail} value={recipientEmail} />
                     </div>
                     <div />

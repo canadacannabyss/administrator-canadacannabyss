@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const MainGrid = styled.div`
+export const MainGrid = styled.div`
   display: grid;
   grid-gap: 20px;
   @media (max-width: 768px) {
@@ -31,7 +31,7 @@ const MainGrid = styled.div`
   }
 `;
 
-const HalfGrid = styled.div`
+export const HalfGrid = styled.div`
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(2, 1fr);
@@ -40,7 +40,7 @@ const HalfGrid = styled.div`
   }
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   background: #fff;
   width: 100%;
   border-radius: 4px;
@@ -51,7 +51,7 @@ const Container = styled.div`
   }
 `;
 
-const SideContainer = styled.div`
+export const SideContainer = styled.div`
   background: #fff;
   width: 100%;
   border-radius: 4px;
@@ -61,14 +61,14 @@ const SideContainer = styled.div`
   }
 `;
 
-const StickyDiv = styled.div`
+export const StickyDiv = styled.div`
   position: sticky;
   top: 20px;
   width: 100%;
   height: fit-content;
 `;
 
-const ContentContainer = styled.div`
+export const ContentContainer = styled.div`
   height: 100%;
   display: flex;
   flex-wrap: nowrap;
@@ -76,11 +76,11 @@ const ContentContainer = styled.div`
   padding: 10px 14px;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   width: 100%;
 `;
 
-const TitleSearchBarAddButtonDiv = styled.div`
+export const TitleSearchBarAddButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -91,7 +91,7 @@ const TitleSearchBarAddButtonDiv = styled.div`
   }
 `;
 
-const PlusIconSign = styled.div`
+export const PlusIconSign = styled.div`
   .mainIcon {
     margin-right: 10px;
     font-size: 22px;
@@ -104,7 +104,7 @@ const PlusIconSign = styled.div`
   }
 `;
 
-const TitleDiv = styled.div`
+export const TitleDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -119,13 +119,13 @@ const TitleDiv = styled.div`
   }
 `;
 
-const SearchBarAddButtonDiv = styled.div`
+export const SearchBarAddButtonDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
-const SearchBar = styled.div`
+export const SearchBar = styled.div`
   border-radius: 4px;
   border: 1px solid #18440f66;
   width: 100%;
@@ -168,7 +168,7 @@ const SearchBar = styled.div`
   }
 `;
 
-const AddProductLink = styled.a`
+export const AddProductLink = styled.a`
   background: #18840f;
   color: #fff;
   padding: 10px 10px 8px 10px;
@@ -182,7 +182,7 @@ const AddProductLink = styled.a`
   }
 `;
 
-const SpansDiv = styled.div`
+export const SpansDiv = styled.div`
   border-radius: 4px;
   padding: 7px 10px;
   height: 35px;
@@ -235,20 +235,20 @@ const SpansDiv = styled.div`
   }
 `;
 
-const Label = styled.label`
+export const Label = styled.label`
   color: #18840f;
   font-size: 13px;
   font-weight: 900;
 `;
 
-const InputGroupTitle = styled.h3`
+export const InputGroupTitle = styled.h3`
   font-size: 17px;
   color: #18840f;
   font-weight: 900;
   margin-bottom: 1rem;
 `;
 
-const P = styled.p`
+export const P = styled.p`
   font-size: 18px;
   color: #5a5a5a;
   word-break: break-all;
@@ -261,7 +261,7 @@ const P = styled.p`
   }
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   height: 40px;
   width: 100%;
   font-size: 16px;
@@ -283,7 +283,7 @@ const Input = styled.input`
   }
 `;
 
-const Select = styled.select`
+export const Select = styled.select`
   height: 40px;
   width: 100%;
   font-size: 16px;
@@ -305,7 +305,7 @@ const Select = styled.select`
   }
 `;
 
-const TextArea = styled.textarea`
+export const TextArea = styled.textarea`
   height: 200px;
   width: 100%;
   font-size: 16px;
@@ -343,14 +343,14 @@ const TextArea = styled.textarea`
   }
 `;
 
-const GroupSpan = styled.span`
+export const GroupSpan = styled.span`
   font-size: 17px;
   color: #777;
   margin-bottom: 0.5rem;
   display: block;
 `;
 
-const OrganizationTextArea = styled.textarea`
+export const OrganizationTextArea = styled.textarea`
   height: 100px;
   width: 100%;
   font-size: 16px;
@@ -388,19 +388,19 @@ const OrganizationTextArea = styled.textarea`
   }
 `;
 
-const WeightLabel = styled.label`
+export const WeightLabel = styled.label`
   font-size: 14px;
   font-weight: 900;
   color: #18840f;
 `;
 
-const WeightDescription = styled.p`
+export const WeightDescription = styled.p`
   font-size: 15px;
   color: #777777;
   margin-bottom: 0.5rem;
 `;
 
-const WeightInput = styled.input`
+export const WeightInput = styled.input`
   height: 40px;
   width: 100px;
   font-size: 16px;
@@ -421,7 +421,7 @@ const WeightInput = styled.input`
   }
 `;
 
-const WeightUnitSelect = styled.select`
+export const WeightUnitSelect = styled.select`
   height: 40px;
   font-size: 16px;
   margin-bottom: 5px;
@@ -441,7 +441,7 @@ const WeightUnitSelect = styled.select`
   }
 `;
 
-const SubmitButton = styled.button`
+export const SubmitButton = styled.button`
   font-size: 16px;
   display: block;
   margin: 15px auto 0px auto;
@@ -467,7 +467,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const Loading = styled.div`
+export const Loading = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.4);
@@ -477,7 +477,7 @@ const Loading = styled.div`
   z-index: 99999999999;
 `;
 
-const LoadingSpinner = styled.div`
+export const LoadingSpinner = styled.div`
   display: table;
   margin: 15px auto;
   /* animation-name: ${spin}; */
@@ -494,7 +494,7 @@ const LoadingSpinner = styled.div`
   }
 `;
 
-const Warning = styled.div`
+export const Warning = styled.div`
   border: 1px solid #d42626;
   border-radius: 3px;
   padding: 5px 10px;
@@ -507,36 +507,18 @@ const Warning = styled.div`
   text-transform: uppercase;
 `;
 
-export {
-  Wrapper,
-  StickyDiv,
-  MainGrid,
-  HalfGrid,
-  Container,
-  SideContainer,
-  PlusIconSign,
-  SearchBarAddButtonDiv,
-  TitleSearchBarAddButtonDiv,
-  SearchBar,
-  AddProductLink,
-  TitleDiv,
-  ContentContainer,
-  Content,
-  SpansDiv,
-  Label,
-  InputGroupTitle,
-  Input,
-  P,
-  Select,
-  TextArea,
-  GroupSpan,
-  OrganizationTextArea,
-  WeightLabel,
-  WeightInput,
-  WeightUnitSelect,
-  WeightDescription,
-  SubmitButton,
-  Loading,
-  LoadingSpinner,
-  Warning
-};
+export const Required = styled.span`
+  font-size: 18px;
+  color: #b01129;
+  margin-left: 5px;
+`;
+
+export const RequiredDescription = styled.p`
+  span {
+    font-size: 26px;
+    color: #b01129;
+    transform: translateY(25px);
+  }
+  font-size: 16px;
+  margin-bottom: 0.5rem;
+`;

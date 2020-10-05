@@ -10,7 +10,9 @@ import {
   PlusIconSign,
   Label,
   Input,
-  HalfGrid
+  HalfGrid,
+  Required,
+  RequiredDescription,
 } from '../../../../styles/Pages/Add/Product';
 import FeaturedCheckbox from '../../Buttons/Checkbox/Featured';
 
@@ -28,7 +30,7 @@ const ResellerDetails = (props) => {
     resellerEmail,
     onChangeResellerEmail,
     resellerPhone,
-    onChangeResellerPhone
+    onChangeResellerPhone,
   } = props;
 
   return (
@@ -44,9 +46,13 @@ const ResellerDetails = (props) => {
               <h1>{title}</h1>
             </TitleDiv>
           </TitleSearchBarAddButtonDiv>
+          <RequiredDescription>
+            <span>*</span> - Required
+          </RequiredDescription>
           <HalfGrid>
             <div>
               <Label htmlFor='firstName'>First Name</Label>
+              <Required>*</Required>
               <Input
                 id='firstName'
                 type='text'
@@ -57,6 +63,7 @@ const ResellerDetails = (props) => {
             </div>
             <div>
               <Label htmlFor='lastName'>Last Name</Label>
+              <Required>*</Required>
               <Input
                 id='lastName'
                 type='text'
@@ -70,6 +77,7 @@ const ResellerDetails = (props) => {
           <HalfGrid>
             <div>
               <Label htmlFor='username'>Username</Label>
+              <Required>*</Required>
               <Input
                 id='username'
                 type='text'
@@ -80,6 +88,7 @@ const ResellerDetails = (props) => {
             </div>
             <div>
               <Label htmlFor='email'>Email</Label>
+              <Required>*</Required>
               <Input
                 id='email'
                 type='email'
@@ -113,7 +122,7 @@ ResellerDetails.propTypes = {
   MainIcon: PropTypes.element.isRequired,
   PlusIcon: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
-  resellerFirstName: PropTypes.string.isRequired
+  resellerFirstName: PropTypes.string.isRequired,
 };
 
 export default ResellerDetails;

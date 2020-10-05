@@ -8,12 +8,13 @@ import {
   Label,
   InputGroupTitle,
   Input,
+  Required
 } from '../../../../styles/Pages/Add/Product';
 import TaxableProductCheckbox from '../../Buttons/Checkbox/TaxableProductCheckbox';
 
 const Pricing = (props) => {
   const {
-    onChangePrice, onChangeCompareTo, handleCheckTaxableProduct, taxableProduct,
+    onChangePrice, onChangeCompareTo, handleCheckTaxableProduct, taxableProduct
   } = props;
 
   return (
@@ -24,6 +25,7 @@ const Pricing = (props) => {
           <HalfGrid>
             <div>
               <Label htmlFor='price'>Price</Label>
+              <Required>*</Required>
               <br />
               <Input
                 id='price'
@@ -61,7 +63,7 @@ Pricing.propTypes = {
   onChangePrice: PropTypes.func.isRequired,
   onChangeCompareTo: PropTypes.func.isRequired,
   handleCheckTaxableProduct: PropTypes.func.isRequired,
-  taxableProduct: PropTypes.bool.isRequired,
+  taxableProduct: PropTypes.bool.isRequired
 };
 
 export default Pricing;

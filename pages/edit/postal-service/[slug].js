@@ -20,6 +20,8 @@ import {
   HalfGrid,
   Label,
   Input,
+  Required,
+  RequiredDescription,
 } from '../../../styles/Pages/Add/Product';
 import { Wrapper } from '../../../styles/Pages/Banners/Banners';
 import WithAuth from '../../../components/UI/withAuth/withAuth';
@@ -147,9 +149,13 @@ const EditPostalService = (props) => {
                       <h1>Edit Postal Service</h1>
                     </TitleDiv>
                   </TitleSearchBarAddButtonDiv>
+                  <RequiredDescription>
+                    <span>*</span> - Required
+                  </RequiredDescription>
                   <HalfGrid>
                     <div>
                       <Label>Postal Service</Label>
+                      <Required>*</Required>
                       {!_.isEmpty(postalService.data) &&
                         postalService.fetched &&
                         !postalService.loading &&

@@ -9,12 +9,20 @@ import {
   Content,
   PlusIconSign,
   Label,
-  Input
+  Input,
+  Required,
+  RequiredDescription,
 } from '../../../../styles/Pages/Add/Product';
 
 const ItemNameDescription = (props) => {
   const {
-    MainIcon, PlusIcon, title, itemName, onChangeItemName, description, onChangeDescription
+    MainIcon,
+    PlusIcon,
+    title,
+    itemName,
+    onChangeItemName,
+    description,
+    onChangeDescription,
   } = props;
 
   return (
@@ -30,7 +38,11 @@ const ItemNameDescription = (props) => {
               <h1>{title}</h1>
             </TitleDiv>
           </TitleSearchBarAddButtonDiv>
+          <RequiredDescription>
+            <span>*</span> - Required
+          </RequiredDescription>
           <Label htmlFor='itemName'>{itemName}</Label>
+          <Required>*</Required>
           <Input
             id='itemName'
             type='text'
@@ -39,6 +51,7 @@ const ItemNameDescription = (props) => {
           />
           <br />
           <Label htmlFor='productDescription'>Description</Label>
+          <Required>*</Required>
           <div>
             <Editor
               apiKey='z1imaefgqfqi5gkj9tp9blogndyf2gp0aj3fgubdtz73p658'
@@ -50,10 +63,10 @@ const ItemNameDescription = (props) => {
                 plugins: [
                   'advlist autolink lists link image charmap print preview anchor',
                   'searchreplace visualblocks code fullscreen',
-                  'insertdatetime media table paste code help wordcount'
+                  'insertdatetime media table paste code help wordcount',
                 ],
                 toolbar:
-            'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
+                  'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
               }}
               onChange={onChangeDescription}
             />
@@ -71,7 +84,7 @@ ItemNameDescription.propTypes = {
   itemName: PropTypes.string.isRequired,
   onChangeItemName: PropTypes.func.isRequired,
   description: PropTypes.string.isRequired,
-  onChangeDescription: PropTypes.func.isRequired
+  onChangeDescription: PropTypes.func.isRequired,
 };
 
 export default ItemNameDescription;

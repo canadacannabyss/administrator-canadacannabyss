@@ -9,7 +9,8 @@ import {
   Label,
   InputGroupTitle,
   Input,
-  Select
+  Select,
+  Required
 } from '../../../../styles/Pages/Add/Product';
 
 const ResellerSelector = ({ resellers, onChangeSelectReseller }) => (
@@ -20,6 +21,7 @@ const ResellerSelector = ({ resellers, onChangeSelectReseller }) => (
         <HalfGrid>
           <div>
             <Label>Reseller</Label>
+            <Required>*</Required>
             <Select onChange={onChangeSelectReseller}>
               <>
                 <option>-----------------------</option>

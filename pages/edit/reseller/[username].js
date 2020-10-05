@@ -32,6 +32,8 @@ import {
   HalfGrid,
   SubmitButton,
   Warning,
+  Required,
+  RequiredDescription,
 } from '../../../styles/Pages/Add/Product';
 import { getReseller } from '../../../store/actions/reseller/reseller';
 import Media from '../../../components/UI/Edit/Media/Media';

@@ -9,7 +9,9 @@ import {
   Content,
   PlusIconSign,
   Label,
-  Input
+  Input,
+  Required,
+  RequiredDescription,
 } from '../../../../styles/Pages/Add/Product';
 import FeaturedCheckbox from '../../Buttons/Checkbox/Featured';
 
@@ -24,7 +26,7 @@ const BannerNameDescription = (props) => {
     description,
     onChangeDescription,
     handleCheckFeatured,
-    featured
+    featured,
   } = props;
 
   return (
@@ -40,7 +42,11 @@ const BannerNameDescription = (props) => {
               <h1>{title}</h1>
             </TitleDiv>
           </TitleSearchBarAddButtonDiv>
+          <RequiredDescription>
+            <span>*</span> - Required
+          </RequiredDescription>
           <Label htmlFor='itemName'>{itemName}</Label>
+          <Required>*</Required>
           <Input
             id='itemName'
             type='text'
@@ -54,25 +60,26 @@ const BannerNameDescription = (props) => {
             featured={featured}
           />
           <Label htmlFor='productDescription'>Description</Label>
+          <Required>*</Required>
           <div>
             {description.length > 0 && (
-            <Editor
-              apiKey='z1imaefgqfqi5gkj9tp9blogndyf2gp0aj3fgubdtz73p658'
-              name='description'
-              initialValue={description}
-              init={{
-                height: 320,
-                menubar: false,
-                plugins: [
-                  'advlist autolink lists link image charmap print preview anchor',
-                  'searchreplace visualblocks code fullscreen',
-                  'insertdatetime media table paste code help wordcount'
-                ],
-                toolbar:
-                        'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
-              }}
-              onChange={onChangeDescription}
-            />
+              <Editor
+                apiKey='z1imaefgqfqi5gkj9tp9blogndyf2gp0aj3fgubdtz73p658'
+                name='description'
+                initialValue={description}
+                init={{
+                  height: 320,
+                  menubar: false,
+                  plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount',
+                  ],
+                  toolbar:
+                    'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+                }}
+                onChange={onChangeDescription}
+              />
             )}
           </div>
         </Content>
@@ -91,7 +98,7 @@ BannerNameDescription.propTypes = {
   description: PropTypes.string.isRequired,
   onChangeDescription: PropTypes.func.isRequired,
   handleCheckFeatured: PropTypes.func.isRequired,
-  featured: PropTypes.bool.isRequired
+  featured: PropTypes.bool.isRequired,
 };
 
 export default BannerNameDescription;

@@ -7,7 +7,8 @@ import {
   HalfGrid,
   Label,
   InputGroupTitle,
-  Input
+  Input,
+  Required
 } from '../../../../styles/Pages/Add/Product';
 import AllowCustomersPurchaseOutOfStockCheckbox from '../../Buttons/Checkbox/AllowCustomersPurchaseOutOfStockCheckbox';
 
@@ -31,6 +32,7 @@ const Inventory = (props) => {
           <HalfGrid>
             <div>
               <Label htmlFor='sku'>SKU (stock keeping unit)</Label>
+              <Required>*</Required>
               <br />
               <Input
                 id='sku'
@@ -42,6 +44,7 @@ const Inventory = (props) => {
             </div>
             <div>
               <Label htmlFor='barcode'>Barcode (ISBN, UPC, GTIN, etc.)</Label>
+              <Required>*</Required>
               <Input
                 id='barcode'
                 type='text'
@@ -55,6 +58,7 @@ const Inventory = (props) => {
           <HalfGrid>
             <div>
               <Label htmlFor='quantity'>Quantity</Label>
+              <Required>*</Required>
               <br />
               <Input
                 id='quantity'

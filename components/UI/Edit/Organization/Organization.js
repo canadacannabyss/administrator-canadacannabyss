@@ -8,11 +8,12 @@ import {
   TitleSearchBarAddButtonDiv,
   TitleDiv,
   OrganizationTextArea,
+  Required
 } from '../../../../styles/Pages/Add/Product';
 
 const Organization = (props) => {
   const {
-    onChangeCategories, onChangeTags, categories, tags,
+    onChangeCategories, onChangeTags, categories, tags
   } = props;
 
   return (
@@ -25,6 +26,7 @@ const Organization = (props) => {
             </TitleDiv>
           </TitleSearchBarAddButtonDiv>
           <Label htmlFor='category'>Category</Label>
+          <Required>*</Required>
           <OrganizationTextArea
             id='category'
             type='text'
@@ -34,6 +36,7 @@ const Organization = (props) => {
           />
           <br />
           <Label htmlFor='tags'>Tags</Label>
+          <Required>*</Required>
           <OrganizationTextArea
             id='tags'
             type='text'
@@ -51,7 +54,7 @@ Organization.propTypes = {
   onChangeCategories: PropTypes.func.isRequired,
   onChangeTags: PropTypes.func.isRequired,
   categories: PropTypes.string.isRequired,
-  tags: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired
 };
 
 export default Organization;

@@ -27,7 +27,7 @@ import {
   SubmitButton,
   LoadingSpinner,
   Loading,
-  Warning
+  Warning,
 } from '../../styles/Pages/Add/Product';
 import { getResellers } from '../../store/actions/resellers/resellers';
 import WithAuth from '../../components/UI/withAuth/withAuth';

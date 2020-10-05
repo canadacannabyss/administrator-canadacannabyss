@@ -8,7 +8,8 @@ import {
   WeightLabel,
   WeightDescription,
   WeightInput,
-  WeightUnitSelect
+  WeightUnitSelect,
+  Required
 } from '../../../../styles/Pages/Add/Product';
 import PhysicalProduct from '../../Buttons/Checkbox/PhysicalProduct';
 
@@ -28,6 +29,7 @@ const Shipping = (props) => {
           />
           <br />
           <WeightLabel htmlFor='weight'>Weight</WeightLabel>
+          <Required>*</Required>
           <WeightDescription>
             Used to calculate shipping rates at checkout and label prices during fulfillment.
           </WeightDescription>
