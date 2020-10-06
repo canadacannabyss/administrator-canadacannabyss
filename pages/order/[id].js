@@ -50,8 +50,30 @@ const Order = (props) => {
   const [orderId, setOrderId] = useState({});
 
   const [shippingGeolocation, setShippinggeolocation] = useState({});
+  const [trackingNumberSent, setTrackingNumberSent] = useState(false);
 
   const dateFormatter = new DateFormatter();
+
+  const sendTrackingNumberToCustomer = async () => {
+    setTrackingNumberSent(false);
+    const response = await fetch(
+      `${process.env.MAIN_API_ENDPOINT}/admin/orders/send/tracking-number/start`,
+      {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId: order.data._id }),
+      }
+    );
+    const data = await response.json();
+    if (data.ok) {
+      setTrackingNumberSent(true);
+    }
+  };
 
   const fetchShippingGeolocation = async (orderID) => {
     console.log('orderID:', orderID);
@@ -429,7 +451,13 @@ const Order = (props) => {
                   />
                   {order.data.tracking.number !== null &&
                     order.data.tracking.postalService !== null && (
-                      <TrackingNumber tracking={order.data.tracking} />
+                      <TrackingNumber
+                        tracking={order.data.tracking}
+                        sendTrackingNumberToCustomer={
+                          sendTrackingNumberToCustomer
+                        }
+                        trackingNumberSent={trackingNumberSent}
+                      />
                     )}
                 </>
               )}

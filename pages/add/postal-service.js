@@ -40,6 +40,7 @@ const AddPostalService = (props) => {
   const { user } = props;
 
   const [postalService, setPostalService] = useState('');
+  const [trackingWebsite, setTrackingWebsite] = useState('');
 
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
 
@@ -81,6 +82,7 @@ const AddPostalService = (props) => {
   const disabledSubmitButton = () => {
     if (
       postalService.length > 0 &&
+      trackingWebsite.length > 0 &&
       !_.isEmpty(user.data)
     ) {
       setAllFieldsFilled(true);
@@ -93,7 +95,8 @@ const AddPostalService = (props) => {
     disabledSubmitButton();
   }, [
     postalService,
-    user
+    user,
+    trackingWebsite
   ]);
 
   const handleSubmit = async () => {
@@ -104,7 +107,8 @@ const AddPostalService = (props) => {
       if (fetchedValidPostalServiceName.ok) {
         const postalServiceObj = {
           admin: user.data._id,
-          postalServiceName: postalService
+          postalServiceName: postalService,
+          trackingWebsite
         };
         const fetchedCreatedPostalService = await fetchCreatePostalService(postalServiceObj);
         if (fetchedCreatedPostalService.ok === true) {
@@ -116,6 +120,10 @@ const AddPostalService = (props) => {
 
   const handlePostalService = (e) => {
     setPostalService(e.target.value);
+  };
+
+  const handleTrackingWebsite = (e) => {
+    setTrackingWebsite(e.target.value);
   };
 
   return (
@@ -143,14 +151,17 @@ const AddPostalService = (props) => {
                     {' '}
                     - Required
                   </RequiredDescription>
-                  <br />
                   <HalfGrid>
                     <div>
                       <Label>Postal Service</Label>
                       <Required>*</Required>
                       <Input value={postalService} onChange={handlePostalService} />
                     </div>
-                    <div />
+                    <div>
+                      <Label>Tracking Website</Label>
+                      <Required>*</Required>
+                      <Input value={trackingWebsite} onChange={handleTrackingWebsite} />
+                    </div>
                   </HalfGrid>
                 </Content>
               </ContentContainer>

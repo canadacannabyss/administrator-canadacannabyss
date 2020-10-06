@@ -261,6 +261,11 @@ export const P = styled.p`
   }
 `;
 
+export const SentMessage = styled.p`
+  font-size: 18px;
+  color: #18840f;
+`;
+
 export const Input = styled.input`
   height: 40px;
   width: 100%;
@@ -445,6 +450,32 @@ export const SubmitButton = styled.button`
   font-size: 16px;
   display: block;
   margin: 15px auto 0px auto;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  -webkit-letter-spacing: 0.04em;
+  -moz-letter-spacing: 0.04em;
+  -ms-letter-spacing: 0.04em;
+  letter-spacing: 0.04em;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px, rgba(0, 0, 0, 0.15) 0px 0px 2px;
+  color: rgb(24, 132, 15);
+  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(24, 132, 15, 0.4);
+  border-image: initial;
+  border-radius: 4px;
+  background: rgba(24, 132, 15, 0.2);
+  -webkit-transition: all 0.15s ease-in-out 0s;
+  transition: all 0.15s ease-in-out 0s;
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const SendTrackingNumberButton = styled.button`
+  font-size: 16px;
+  display: block;
+  margin-top: 15px;
   padding: 10px 15px;
   box-sizing: border-box;
   -webkit-letter-spacing: 0.04em;

@@ -8,12 +8,16 @@ import {
   InputGroupTitle,
   Label,
   HalfGrid,
-  P
+  P,
+  SentMessage,
+  SendTrackingNumberButton
 } from '../../../../styles/Pages/Add/Product';
 
 const TrackingNumber = (props) => {
   const {
-    tracking
+    tracking,
+    sendTrackingNumberToCustomer,
+    trackingNumberSent
   } = props;
 
   return (
@@ -31,6 +35,25 @@ const TrackingNumber = (props) => {
               <P>{tracking.postalService.name}</P>
             </div>
           </HalfGrid>
+          <HalfGrid>
+            <div>
+              <SendTrackingNumberButton
+                onClick={() => {
+                  sendTrackingNumberToCustomer();
+                }}
+              >
+                Send Tracking Number to Customer
+              </SendTrackingNumberButton>
+            </div>
+            <div>
+              {trackingNumberSent && (
+                <>
+                  <br />
+                  <SentMessage>Tracking Number Sent to Customer</SentMessage>
+                </>
+              )}
+            </div>
+          </HalfGrid>
         </Content>
       </ContentContainer>
     </Container>
@@ -38,7 +61,8 @@ const TrackingNumber = (props) => {
 };
 
 TrackingNumber.propTypes = {
-  tracking: PropTypes.shape().isRequired
+  tracking: PropTypes.shape().isRequired,
+  sendTrackingNumberToCustomer: PropTypes.func.isRequired
 };
 
 export default TrackingNumber;
