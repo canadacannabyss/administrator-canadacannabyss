@@ -23,6 +23,10 @@ const SidebarContainer = styled.div`
   .current {
     background: #18840f33;
   }
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   @media(max-width: 1199px) {
     position: fixed;
     top: 0;
@@ -120,5 +124,5 @@ const ToggleSidebarButton = styled.button`
 `;
 
 export {
-  SidebarContainer, SidebarLink, ToggleSidebarButton, Background,
+  SidebarContainer, SidebarLink, ToggleSidebarButton, Background
 };

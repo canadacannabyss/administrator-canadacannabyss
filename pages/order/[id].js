@@ -29,6 +29,8 @@ import {
   GroupSpan,
   Select,
   PlusIconSign,
+  SendTrackingNumberButton,
+  SentMessage,
 } from '../../styles/Pages/Add/Product';
 import { getOrder } from '../../store/actions/order/order';
 import OrderedItemsList from '../../components/UI/List/Order/OrderedItemsList';
@@ -51,8 +53,30 @@ const Order = (props) => {
 
   const [shippingGeolocation, setShippinggeolocation] = useState({});
   const [trackingNumberSent, setTrackingNumberSent] = useState(false);
+  const [orderPlaceEmailSent, setOrderPlaceEmailSent] = useState(false);
 
   const dateFormatter = new DateFormatter();
+
+  const sendFinishedOrder = async () => {
+    setOrderPlaceEmailSent(false);
+    const res = await fetch(
+      `${process.env.MAIN_API_ENDPOINT}/customers/order/send/finished-order/start`,
+      {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId: order.data._id }),
+      }
+    );
+    const data = await res.json();
+    if (data.ok) {
+      setOrderPlaceEmailSent(true);
+    }
+  };
 
   const sendTrackingNumberToCustomer = async () => {
     setTrackingNumberSent(false);
@@ -431,6 +455,27 @@ const Order = (props) => {
                               </HalfGrid>
                             </>
                           )}
+                        <HalfGrid>
+                          <div>
+                            <SendTrackingNumberButton
+                              onClick={() => {
+                                sendFinishedOrder();
+                              }}
+                            >
+                              Send placed order email to customer
+                            </SendTrackingNumberButton>
+                          </div>
+                          <div>
+                            {orderPlaceEmailSent && (
+                              <>
+                                <br />
+                                <SentMessage>
+                                  Placed order email sent to customer
+                                </SentMessage>
+                              </>
+                            )}
+                          </div>
+                        </HalfGrid>
                       </>
                     )}
                 </Content>
