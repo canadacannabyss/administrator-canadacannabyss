@@ -76,7 +76,7 @@ const Sidebar = () => {
                   <p>Products</p>
                 </SidebarLink>
               </Link>
-              <Link href='/bundles' as='/bundles'>
+              {/* <Link href='/bundles' as='/bundles'>
                 <SidebarLink
                   toggleSidebar={toggleSidebar}
                   onClick={() => {
@@ -86,7 +86,7 @@ const Sidebar = () => {
                   <FaBoxes />
                   <p>Bundles</p>
                 </SidebarLink>
-              </Link>
+              </Link> */}
               <Link href='/promotions' as='/promotions'>
                 <SidebarLink
                   toggleSidebar={toggleSidebar}
