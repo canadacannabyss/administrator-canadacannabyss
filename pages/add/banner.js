@@ -22,6 +22,7 @@ import {
   Warning
 } from '../../styles/Pages/Add/Product';
 import WithAuth from '../../components/UI/withAuth/withAuth';
+import { getResellers } from '../../store/actions/resellers/resellers';
 
 const mapStateToProps = (state) => {
   const { resellers } = state;
@@ -376,6 +377,12 @@ const AddBanner = (props) => {
       )}
     </WithAuth>
   );
+};
+
+AddBanner.getInitialProps = async ({ ctx }) => {
+  const { store } = ctx;
+
+  store.dispatch(getResellers());
 };
 
 export default connect(mapStateToProps)(AddBanner);

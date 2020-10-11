@@ -129,11 +129,11 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/resellers/index</loc>
+    <loc>https://canadacannabyss.com/reseller/[username]</loc>
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/reseller/[username]</loc>
+    <loc>https://canadacannabyss.com/resellers/index</loc>
   </url>
 
   <url>
