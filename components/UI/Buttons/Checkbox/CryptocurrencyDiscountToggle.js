@@ -11,6 +11,7 @@ const CryptocurrencyDiscountToggleCheckbox = (props) => {
     const toggle = handleCheckCryptocurrencyDiscount;
     toggle();
   };
+  
 
   return (
     <>
