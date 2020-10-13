@@ -13,6 +13,7 @@ import { roundFloatNumber } from '../../utils/numberConverter';
 
 import WithAuth from '../../components/UI/withAuth/withAuth';
 import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import CryptocurrencyDiscountToggle from '../../components/UI/Buttons/Checkbox/CryptocurrencyDiscountToggle'
 
 import {
   StickyDiv,
@@ -36,7 +37,9 @@ import {
 } from '../../styles/Pages/Add/Product';
 import {
   CryptoWalletDiv,
-  InputWallet
+  InputWallet,
+  TogglerDiv,
+  InputNumber,
 } from '../../styles/Pages/Add/cryptocurrency/Cryptocurrency';
 
 import {
@@ -62,6 +65,8 @@ const AddPaymentMethod = (props) => {
   const [selectedCryptocurrencyWallet, setSelectedCryptocurrencyWallet] = useState('');
   const [selectedCryptocurrencyLogo, setSelectedCryptocurrencyLogo] = useState('');
   const [selectedCryptocurrencyName, setSelectedCryptocurrencyName] = useState('-');
+  const [cryptocurrencyDiscountToggle, setCryptocurrencyDiscountToggle] = useState(false);
+  const [cryptocurrencyDiscountAmount, setCryptocurrencyDiscountAmount] = useState(0);
 
   const [recipientEmail, setRecipientEmail] = useState('');
 
@@ -184,13 +189,24 @@ const AddPaymentMethod = (props) => {
   };
 
   const disabledSubmitButton = () => {
-    if (
-      (selectedCryptocurrencySymbol.length > 0 &&
-      selectedCryptocurrencyWallet.length > 0) || (recipientEmail.length > 0)
-    ) {
-      setAllFieldsFilled(true);
+    if (cryptocurrencyDiscountToggle) {
+      if (
+        (selectedCryptocurrencySymbol.length > 0 &&
+        selectedCryptocurrencyWallet.length > 0 && !isNaN(cryptocurrencyDiscountAmount)) || (recipientEmail.length > 0)
+      ) {
+        setAllFieldsFilled(true);
+      } else {
+        setAllFieldsFilled(false);
+      }
     } else {
-      setAllFieldsFilled(false);
+      if (
+        (selectedCryptocurrencySymbol.length > 0 &&
+        selectedCryptocurrencyWallet.length > 0) || (recipientEmail.length > 0)
+      ) {
+        setAllFieldsFilled(true);
+      } else {
+        setAllFieldsFilled(false);
+      }
     }
   };
 
@@ -201,7 +217,10 @@ const AddPaymentMethod = (props) => {
     selectedCryptocurrencyWallet,
     recipientEmail,
     selectedPaymentMethod,
-    selectedCryptocurrencyWallet
+    selectedCryptocurrencyWallet,
+    cryptocurrencyDiscountToggle,
+    cryptocurrencyDiscountAmount
+
   ]);
 
   const handleSubmit = async () => {
@@ -220,6 +239,11 @@ const AddPaymentMethod = (props) => {
         paymentMethodObj.name = selectedCryptocurrencyName;
         paymentMethodObj.address = selectedCryptocurrencyWallet;
         paymentMethodObj.admin = user.data._id;
+        if (cryptocurrencyDiscountToggle) {
+          paymentMethodObj.discount = {};
+          paymentMethodObj.discount.type = 'percentage';
+          paymentMethodObj.discount.amount = cryptocurrencyDiscountAmount;
+        }
       } else if (selectedPaymentMethod === 'e-transfer') {
         paymentMethodObj.recipient = recipientEmail;
         paymentMethodObj.admin = user.data._id;
@@ -230,6 +254,14 @@ const AddPaymentMethod = (props) => {
       }
     }
   };
+
+  const handleCheckCryptocurrencyDiscount = () => {
+    setCryptocurrencyDiscountToggle(!cryptocurrencyDiscountToggle);
+  };
+
+  const handleCryptocurrencyDiscountAmount = (e) => {
+    setCryptocurrencyDiscountAmount(parseFloat(e.target.value));
+  }
 
   return (
     <WithAuth>
@@ -266,7 +298,18 @@ const AddPaymentMethod = (props) => {
                         <option value='e-transfer'>e-Transfer</option>
                       </Select>
                     </div>
-                    <div />
+                    <div>
+                      {selectedPaymentMethod === 'cryptocurrency' && (
+                        <>
+                          <TogglerDiv>
+                            <CryptocurrencyDiscountToggle
+                              cryptocurrencyDiscount={cryptocurrencyDiscountToggle}
+                              handleCheckCryptocurrencyDiscount={handleCheckCryptocurrencyDiscount}
+                            />
+                          </TogglerDiv>
+                        </>
+                      )}
+                    </div>
                   </HalfGrid>
                   <br />
                   {selectedPaymentMethod === 'cryptocurrency' && (
@@ -302,14 +345,33 @@ const AddPaymentMethod = (props) => {
                     </HalfGrid>
                   )}
                   {selectedPaymentMethod === 'e-transfer' && (
-                  <HalfGrid>
-                    <div>
-                      <Label htmlFor='recipeintEmail'>Recipient email</Label>
-                      <Required>*</Required>
-                      <Input type='email' id='recipeintEmail' onChange={onChangeRecipientEmail} value={recipientEmail} />
-                    </div>
-                    <div />
-                  </HalfGrid>
+                    <HalfGrid>
+                      <div>
+                        <Label htmlFor='recipeintEmail'>Recipient email</Label>
+                        <Required>*</Required>
+                        <Input type='email' id='recipeintEmail' onChange={onChangeRecipientEmail} value={recipientEmail} />
+                      </div>
+                      <div />
+                    </HalfGrid>
+                  )}
+                  {cryptocurrencyDiscountToggle && (
+                    <>
+                      <br />
+                      <HalfGrid>
+                        <div>
+                          <Label>Discount in percentage</Label>
+                          <InputNumber 
+                            type='number'
+                            step='0.1'
+                            min='0'
+                            max='100'
+                            onChange={handleCryptocurrencyDiscountAmount}
+                            value={cryptocurrencyDiscountAmount}
+                          />
+                        </div>
+                        <div />
+                      </HalfGrid>
+                    </>
                   )}
                 </Content>
               </ContentContainer>

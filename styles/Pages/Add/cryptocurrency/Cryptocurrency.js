@@ -32,3 +32,32 @@ export const InputWallet = styled.input`
     outline: none;
   }
 `;
+
+export const TogglerDiv = styled.div`
+  margin-top: 32px;
+  @media (max-width: 500px) {
+    margin-top: 16px;
+  }
+`;
+
+export const InputNumber = styled.input`
+  height: 40px;
+  width: 150px;
+  font-size: 16px;
+  display: block;
+  margin-top: 5px;
+  padding-left: 12px;
+  box-sizing: border-box;
+  letter-spacing: 0.04em;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(184, 196, 194);
+  border-image: initial;
+  border-radius: 4px;
+  background: #fff;
+  transition: all 0.2s ease-in-out 0s;
+  &:focus {
+    border-color: #18840f;
+    outline: none;
+  }
+`;
