@@ -326,7 +326,7 @@ const EditPromotion = (props) => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/promotions/delete/cover/${imageId}`,
       {
-        method: 'DELETE',
+        method: 'PUT',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',

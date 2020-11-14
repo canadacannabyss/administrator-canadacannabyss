@@ -29,7 +29,7 @@ const DeleteConfirmationModal = (props) => {
     const res = await fetch(
       `${process.env.USER_API_ENDPOINT}/admin/resellers/delete/reseller/${resellerId}`,
       {
-        method: 'DELETE',
+        method: 'PUT',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',

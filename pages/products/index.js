@@ -61,7 +61,7 @@ const Products = (props) => {
   return (
     <WithAuth>
       <Head>
-        <title>Products | Reseller - Canada Cannabyss</title>
+        <title>Products | Administrator - Canada Cannabyss</title>
       </Head>
       {toggleDeleteConfirmation && (
         <DeleteConfirmation

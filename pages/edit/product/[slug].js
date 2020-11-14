@@ -145,7 +145,7 @@ const EditProduct = (props) => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/products/delete/cover/${imageId}`,
       {
-        method: 'DELETE',
+        method: 'PUT',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',

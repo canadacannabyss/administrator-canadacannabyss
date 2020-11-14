@@ -129,6 +129,10 @@
   </url>
 
   <url>
+    <loc>https://canadacannabyss.com/reseller/[username]</loc>
+  </url>
+
+  <url>
     <loc>https://canadacannabyss.com/resellers/index</loc>
   </url>
 
@@ -138,10 +142,6 @@
 
   <url>
     <loc>https://canadacannabyss.com/edit/banner/[slug]</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/reseller/[username]</loc>
   </url>
 
   <url>

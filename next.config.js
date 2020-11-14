@@ -12,6 +12,7 @@ module.exports = withImage(
       cssModules: true,
       serverRuntimeConfig,
       publicRuntimeConfig,
+      target: "serverless",
       webpack: (config, { isServer }) => {
         if (isServer) {
           require('./scripts/generate-sitemap');

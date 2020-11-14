@@ -29,7 +29,7 @@ const DeleteConfirmationModal = (props) => {
     const res = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/promotions/banners/delete/banner/${bannerId}`,
       {
-        method: 'DELETE',
+        method: 'PUT',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
