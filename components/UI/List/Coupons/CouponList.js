@@ -1,15 +1,15 @@
-import React from 'react';
-import Link from 'next/link';
-import PropTypes from 'prop-types';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import DateFormatter from '../../../../utils/dateFormatter';
+import React from "react";
+import Link from "next/link";
+import PropTypes from "prop-types";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import DateFormatter from "../../../../utils/dateFormatter";
 import {
   List,
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv
-} from '../../../../styles/Components/UI/List/Coupons/CouponList';
+  SpansDiv,
+} from "../../../../styles/Components/UI/List/Coupons/CouponList";
 
 const CouponList = (props) => {
   const { coupons, handleGetElement } = props;
@@ -24,62 +24,60 @@ const CouponList = (props) => {
   return (
     <List>
       <SpansDiv>
-        <div className='couponName'>
+        <div className="couponName">
           <span>Coupon Name</span>
         </div>
-        <div className='createdOn'>
-          <span>
-            Created On
-          </span>
+        <div className="createdAt">
+          <span>Created On</span>
         </div>
-        <div className='updatedOn'>
-          <span>
-            Updated On
-          </span>
+        <div className="updatedAt">
+          <span>Updated On</span>
         </div>
-        <div className='featured'>
+        <div className="featured">
           <span>Featured</span>
         </div>
-        <div className='buttons'>
+        <div className="buttons">
           <span>Edit / Delete</span>
         </div>
       </SpansDiv>
       {coupons.map((coupon) => (
         <ListLiContent id={coupon._id}>
-          <div className='couponName'>
-            <a href={`${process.env.SECURED_MAIN_DOMAIN}/coupon/${coupon.slug}`}>
+          <div className="couponName">
+            <a
+              href={`${process.env.SECURED_MAIN_DOMAIN}/coupon/${coupon.slug}`}
+            >
               {coupon.couponName}
             </a>
           </div>
-          <div className='createdOn'>
+          <div className="createdAt">
+            <p>{dateFormatter.formatDateFullDate(coupon.createdAt)}</p>
+          </div>
+          <div className="updatedAt">
             <p>
-              {dateFormatter.formatDateFullDate(coupon.createdOn)}
+              {coupon.updatedAt ? (
+                <>{dateFormatter.formatDateFullDate(coupon.updatedAt)}</>
+              ) : (
+                "Not updated"
+              )}
             </p>
           </div>
-          <div className='updatedOn'>
-            <p>
-              {coupon.updatedOn ? (
-                <>
-                  {dateFormatter.formatDateFullDate(coupon.updatedOn)}
-                </>
-              ) : ('Not updated')}
-            </p>
+          <div className="featured">
+            {coupon.featured ? (
+              <input type="checkbox" checked />
+            ) : (
+              <input type="checkbox" />
+            )}
           </div>
-          <div className='featured'>
-            {coupon.featured ? <input type='checkbox' checked /> : <input type='checkbox' />}
-          </div>
-          <div className='buttons'>
-            <Link
-              href='/edit/coupon/[slug]'
-              as={`/edit/coupon/${coupon.slug}`}
-            >
+          <div className="buttons">
+            <Link href="/edit/coupon/[slug]" as={`/edit/coupon/${coupon.slug}`}>
               <EditLink>
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton onClick={(e) => {
-              handleSelectProduct(e);
-            }}
+            <DeleteButton
+              onClick={(e) => {
+                handleSelectProduct(e);
+              }}
             >
               <FaTrashAlt />
             </DeleteButton>
@@ -91,7 +89,7 @@ const CouponList = (props) => {
 };
 
 CouponList.propTypes = {
-  coupons: PropTypes.shape().isRequired
+  coupons: PropTypes.shape().isRequired,
 };
 
 export default CouponList;

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const List = styled.div`
   width: 100%;
@@ -35,7 +35,7 @@ const ListLiContent = styled.div`
     align-items: center;
     display: flex;
     align-self: center;
-          border-radius: 4px;
+    border-radius: 4px;
     img {
       width: 60px;
       height: 35px;
@@ -44,7 +44,7 @@ const ListLiContent = styled.div`
   }
   .productName {
     display: flex;
-    align-content: center;  
+    align-content: center;
     @media (max-width: 1190px) {
       width: 300px;
     }
@@ -61,7 +61,7 @@ const ListLiContent = styled.div`
     display: flex;
     flex-direction: row;
     justify-self: center;
-  } 
+  }
   .buttons {
     display: flex;
     flex-direction: row;
@@ -78,8 +78,8 @@ const ListLiContent = styled.div`
     .compareTo {
       width: 100px;
     }
-    .createdOn,
-    .updatedOn {
+    .createdAt,
+    .updatedAt {
       width: 220px;
     }
     .featured {
@@ -132,7 +132,7 @@ const SpansDiv = styled.div`
     display: flex;
     flex-direction: row;
     justify-self: center;
-  } 
+  }
   .buttons {
     display: flex;
     flex-direction: row;
@@ -149,8 +149,8 @@ const SpansDiv = styled.div`
     .compareTo {
       width: 100px;
     }
-    .createdOn,
-    .updatedOn {
+    .createdAt,
+    .updatedAt {
       width: 220px;
     }
     .featured {
@@ -175,10 +175,4 @@ const DeleteButton = styled.button`
   }
 `;
 
-export {
-  List,
-  ListLiContent,
-  EditLink,
-  DeleteButton,
-  SpansDiv
-};
+export { List, ListLiContent, EditLink, DeleteButton, SpansDiv };

@@ -1,16 +1,12 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
-import React, { useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import {
-  FaBox, FaSearch, FaPlus
-} from 'react-icons/fa';
-import ProductList from '../../components/UI/List/Products/ProductList';
-import {
-  Background
-} from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import Head from "next/head";
+import Link from "next/link";
+import PropTypes from "prop-types";
+import _ from "lodash";
+import React, { useState, useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
+import { FaBox, FaSearch, FaPlus } from "react-icons/fa";
+import ProductList from "../../components/UI/List/Products/ProductList";
+import { Background } from "../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage";
 import {
   Wrapper,
   Container,
@@ -20,16 +16,14 @@ import {
   SearchBar,
   AddProductLink,
   TitleDiv,
-  Content
-} from '../../styles/Pages/Products/Products';
-import DeleteConfirmation from '../../components/UI/Confirmations/DeleteProductConfirmation';
-import { getProducts } from '../../store/actions/products/products';
-import WithAuth from '../../components/UI/withAuth/withAuth';
+  Content,
+} from "../../styles/Pages/Products/Products";
+import DeleteConfirmation from "../../components/UI/Confirmations/DeleteProductConfirmation";
+import { getProducts } from "../../store/actions/products/products";
+import WithAuth from "../../components/UI/withAuth/withAuth";
 
 const mapStateToProps = (state) => {
-  const {
-    products
-  } = state;
+  const { products } = state;
 
   return { products };
 };
@@ -39,8 +33,8 @@ const Products = (props) => {
 
   const dispatch = useDispatch();
 
-  const [selectedProductId, setSelectedProductId] = useState('');
-  const [selectedProductName, setSelectedProductName] = useState('');
+  const [selectedProductId, setSelectedProductId] = useState("");
+  const [selectedProductName, setSelectedProductName] = useState("");
   const [toggleDeleteConfirmation, setToggleDeleteConfirmation] = useState(
     false
   );
@@ -83,11 +77,11 @@ const Products = (props) => {
                   <SearchBarAddButtonDiv>
                     <SearchBar>
                       <input />
-                      <button type='button'>
+                      <button type="button">
                         <FaSearch />
                       </button>
                     </SearchBar>
-                    <Link href='/add/product' as='/add/product'>
+                    <Link href="/add/product" as="/add/product">
                       <AddProductLink>
                         <FaPlus />
                       </AddProductLink>
@@ -108,7 +102,7 @@ const Products = (props) => {
 };
 
 Products.propTypes = {
-  products: PropTypes.shape().isRequired
+  products: PropTypes.shape().isRequired,
 };
 
 Products.getInitialProps = async ({ ctx }) => {

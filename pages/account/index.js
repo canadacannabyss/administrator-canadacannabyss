@@ -1,11 +1,11 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import _ from 'lodash';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Background } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
-import DateFormatter from '../../utils/dateFormatter';
+import React from "react";
+import Head from "next/head";
+import Link from "next/link";
+import _ from "lodash";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Background } from "../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage";
+import DateFormatter from "../../utils/dateFormatter";
 import {
   Container,
   Title,
@@ -18,15 +18,15 @@ import {
   CreditDiv,
   Credit,
   MenusGrid,
-  Menu
-} from '../../styles/Pages/Account/Account';
-import WithAuth from '../../components/UI/withAuth/withAuth';
+  Menu,
+} from "../../styles/Pages/Account/Account";
+import WithAuth from "../../components/UI/withAuth/withAuth";
 
 const mapStateToProps = (state) => {
   const { user } = state;
 
   return {
-    user
+    user,
   };
 };
 
@@ -45,26 +45,30 @@ const Account = (props) => {
           <Title>Account</Title>
           <UserFlex>
             <UserDiv>
-              {!_.isEmpty(user) && user.fetched && !user.loading && !user.error && (
-              <User
-                img={user.data.profileImage.url}
-              />
-              )}
+              {!_.isEmpty(user) &&
+                user.fetched &&
+                !user.loading &&
+                !user.error && <User img={user.data.profileImage.url} />}
               <ResellerInfo>
-                {!_.isEmpty(user) && user.fetched && !user.loading && !user.error && (
-                <>
-                  <ResellerName>{`${user.data.names.firstName} ${user.data.names.lastName}`}</ResellerName>
-                  <JoinDate>
-                    {`Since ${dateFormatter.formatDateFullDate(user.data.createdOn)}`}
-                  </JoinDate>
-                </>
-                )}
+                {!_.isEmpty(user) &&
+                  user.fetched &&
+                  !user.loading &&
+                  !user.error && (
+                    <>
+                      <ResellerName>{`${user.data.names.firstName} ${user.data.names.lastName}`}</ResellerName>
+                      <JoinDate>
+                        {`Since ${dateFormatter.formatDateFullDate(
+                          user.data.createdAt
+                        )}`}
+                      </JoinDate>
+                    </>
+                  )}
               </ResellerInfo>
             </UserDiv>
             <CreditDiv>
               <Credit>
                 Credits
-                <span id='colon'>:</span>
+                <span id="colon">:</span>
                 <span>{user.data.credits}</span>
               </Credit>
             </CreditDiv>
@@ -74,12 +78,12 @@ const Account = (props) => {
               <h3>Billings & Shipping</h3>
               <ul>
                 <li>
-                  <Link href='/account/billing' as='/account/billing'>
+                  <Link href="/account/billing" as="/account/billing">
                     <a>Billing List</a>
                   </Link>
                 </li>
                 <li>
-                  <Link href='/account/shipping' as='/account/shipping'>
+                  <Link href="/account/shipping" as="/account/shipping">
                     <a>Shipping List</a>
                   </Link>
                 </li>
@@ -93,17 +97,17 @@ const Account = (props) => {
                   href='/account/payment/credit-card'
                   as='/account/credit-card'
                 > */}
-                  <a className='disabled'>Credit Card</a>
+                  <a className="disabled">Credit Card</a>
                   {/* </Link> */}
                 </li>
                 <li>
                   {/* <Link href='/account/payment/cryptocurrency' as='/account/payment/cryptocurrency'> */}
-                  <a className='disabled'>Cryptocurrency</a>
+                  <a className="disabled">Cryptocurrency</a>
                   {/* </Link> */}
                 </li>
                 <li>
                   {/* <Link href='/account/payment/e-transfer' as='/account/payment/e-transfer'> */}
-                  <a className='disabled'>e-Tranfer</a>
+                  <a className="disabled">e-Tranfer</a>
                   {/* </Link> */}
                 </li>
               </ul>
@@ -112,13 +116,13 @@ const Account = (props) => {
               <h3>Orders</h3>
               <ul>
                 <li>
-                  <Link href='/account/orders' as='/account/orders'>
+                  <Link href="/account/orders" as="/account/orders">
                     <a>Orders</a>
                   </Link>
                 </li>
                 <li>
                   {/* <Link href='/account/returns' as='/account/returns'> */}
-                  <a className='disabled'>Returns</a>
+                  <a className="disabled">Returns</a>
                   {/* </Link> */}
                 </li>
               </ul>
@@ -127,12 +131,12 @@ const Account = (props) => {
               <h3>Miscellaneous</h3>
               <ul>
                 <li>
-                  <Link href='/account/reviews' as='/account/reviews'>
+                  <Link href="/account/reviews" as="/account/reviews">
                     <a>Reviews</a>
                   </Link>
                 </li>
                 <li>
-                  <Link href='/account/invite' as='/account/invite'>
+                  <Link href="/account/invite" as="/account/invite">
                     <a>Invite friend</a>
                   </Link>
                 </li>
@@ -143,7 +147,7 @@ const Account = (props) => {
               <ul>
                 <li>
                   {/* <Link href='/account/orders' as='/account/orders'> */}
-                  <a className='disabled'>Message support</a>
+                  <a className="disabled">Message support</a>
                   {/* </Link> */}
                 </li>
               </ul>
@@ -160,8 +164,8 @@ Account.propTypes = {
     data: PropTypes.shape().isRequired,
     loading: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired
-  }).isRequired
+    error: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(Account);

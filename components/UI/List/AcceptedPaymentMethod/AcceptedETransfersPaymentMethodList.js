@@ -1,15 +1,15 @@
-import React from 'react';
-import Link from 'next/link';
-import PropTypes from 'prop-types';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import DateFormatter from '../../../../utils/dateFormatter';
+import React from "react";
+import Link from "next/link";
+import PropTypes from "prop-types";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import DateFormatter from "../../../../utils/dateFormatter";
 import {
   List,
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv
-} from '../../../../styles/Components/UI/List/Products/ProductList';
+  SpansDiv,
+} from "../../../../styles/Components/UI/List/Products/ProductList";
 
 const AcceptedPaymentMethodList = (props) => {
   const { eTransfers, handleGetElement } = props;
@@ -24,48 +24,41 @@ const AcceptedPaymentMethodList = (props) => {
   return (
     <List>
       <SpansDiv>
-        <div className='productName'>
+        <div className="productName">
           <span>Email</span>
         </div>
-        <div className='createdOn'>
-          <span>
-            Created On
-          </span>
+        <div className="createdAt">
+          <span>Created On</span>
         </div>
-        <div className='updatedOn'>
-          <span>
-            Updated On
-          </span>
+        <div className="updatedAt">
+          <span>Updated On</span>
         </div>
-        <div className='buttons'>
+        <div className="buttons">
           <span>Delete</span>
         </div>
       </SpansDiv>
       {eTransfers.map((eTransfer) => (
         <ListLiContent id={eTransfer._id}>
-          <div className='productName'>
-            <a>
-              {eTransfer.eTransfer.recipient}
-            </a>
+          <div className="productName">
+            <a>{eTransfer.eTransfer.recipient}</a>
           </div>
-          <div className='createdOn'>
+          <div className="createdAt">
+            <p>{dateFormatter.formatDateFullDate(eTransfer.createdAt)}</p>
+          </div>
+          <div className="updatedAt">
             <p>
-              {dateFormatter.formatDateFullDate(eTransfer.createdOn)}
+              {eTransfer.updatedAt ? (
+                <>{dateFormatter.formatDateFullDate(eTransfer.updatedAt)}</>
+              ) : (
+                "Not updated"
+              )}
             </p>
           </div>
-          <div className='updatedOn'>
-            <p>
-              {eTransfer.updatedOn ? (
-                <>
-                  {dateFormatter.formatDateFullDate(eTransfer.updatedOn)}
-                </>
-              ) : ('Not updated')}
-            </p>
-          </div>
-          <div className='buttons'>
-            <DeleteButton onClick={(e) => {
-              handleSelectProduct(e);
-            }}
+          <div className="buttons">
+            <DeleteButton
+              onClick={(e) => {
+                handleSelectProduct(e);
+              }}
             >
               <FaTrashAlt />
             </DeleteButton>
@@ -77,7 +70,7 @@ const AcceptedPaymentMethodList = (props) => {
 };
 
 AcceptedPaymentMethodList.propTypes = {
-  eTransfers: PropTypes.shape().isRequired
+  eTransfers: PropTypes.shape().isRequired,
 };
 
 export default AcceptedPaymentMethodList;

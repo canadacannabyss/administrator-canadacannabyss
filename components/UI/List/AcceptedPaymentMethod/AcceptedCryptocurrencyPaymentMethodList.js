@@ -1,20 +1,20 @@
-import React from 'react';
-import Link from 'next/link';
-import PropTypes from 'prop-types';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import DateFormatter from '../../../../utils/dateFormatter';
+import React from "react";
+import Link from "next/link";
+import PropTypes from "prop-types";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import DateFormatter from "../../../../utils/dateFormatter";
 import {
   List,
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv
-} from '../../../../styles/Components/UI/List/Products/ProductList';
+  SpansDiv,
+} from "../../../../styles/Components/UI/List/Products/ProductList";
 
 const AcceptedPaymentMethodList = (props) => {
   const { cryptocurrencies, handleGetElement } = props;
 
-  console.log('cryptocurrencies on list:', cryptocurrencies);
+  console.log("cryptocurrencies on list:", cryptocurrencies);
 
   const dateFormatter = new DateFormatter();
 
@@ -26,58 +26,51 @@ const AcceptedPaymentMethodList = (props) => {
   return (
     <List>
       <SpansDiv>
-        <div className='productName'>
+        <div className="productName">
           <span>Symbol - Name</span>
         </div>
-        <div className='price'>
-          <span>
-            Address
-          </span>
+        <div className="price">
+          <span>Address</span>
         </div>
-        <div className='createdOn'>
-          <span>
-            Created On
-          </span>
+        <div className="createdAt">
+          <span>Created On</span>
         </div>
-        <div className='updatedOn'>
-          <span>
-            Updated On
-          </span>
+        <div className="updatedAt">
+          <span>Updated On</span>
         </div>
-        <div className='buttons'>
+        <div className="buttons">
           <span>Delete</span>
         </div>
       </SpansDiv>
       {cryptocurrencies.map((cryptocurrency) => (
         <ListLiContent id={cryptocurrency._id}>
-          <div className='productName'>
+          <div className="productName">
             <a>
               {`${cryptocurrency.cryptocurrency.symbol} - ${cryptocurrency.cryptocurrency.name}`}
             </a>
           </div>
-          <div className='price'>
-            <p>
-              {cryptocurrency.cryptocurrency.address}
-            </p>
+          <div className="price">
+            <p>{cryptocurrency.cryptocurrency.address}</p>
           </div>
-          <div className='createdOn'>
-            <p>
-              {dateFormatter.formatDateFullDate(cryptocurrency.createdOn)}
-            </p>
+          <div className="createdAt">
+            <p>{dateFormatter.formatDateFullDate(cryptocurrency.createdAt)}</p>
           </div>
-          <div className='updatedOn'>
+          <div className="updatedAt">
             <p>
-              {cryptocurrency.updatedOn ? (
+              {cryptocurrency.updatedAt ? (
                 <>
-                  {dateFormatter.formatDateFullDate(cryptocurrency.updatedOn)}
+                  {dateFormatter.formatDateFullDate(cryptocurrency.updatedAt)}
                 </>
-              ) : ('Not updated')}
+              ) : (
+                "Not updated"
+              )}
             </p>
           </div>
-          <div className='buttons'>
-            <DeleteButton onClick={(e) => {
-              handleSelectProduct(e);
-            }}
+          <div className="buttons">
+            <DeleteButton
+              onClick={(e) => {
+                handleSelectProduct(e);
+              }}
             >
               <FaTrashAlt />
             </DeleteButton>
@@ -89,7 +82,7 @@ const AcceptedPaymentMethodList = (props) => {
 };
 
 AcceptedPaymentMethodList.propTypes = {
-  cryptocurrencies: PropTypes.shape().isRequired
+  cryptocurrencies: PropTypes.shape().isRequired,
 };
 
 export default AcceptedPaymentMethodList;

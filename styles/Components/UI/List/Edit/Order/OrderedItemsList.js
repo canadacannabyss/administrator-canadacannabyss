@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const List = styled.div`
   width: 100%;
@@ -44,7 +44,7 @@ const ListLiContent = styled.div`
   }
   .productName {
     display: flex;
-    align-content: center;  
+    align-content: center;
     @media (max-width: 1190px) {
       width: 300px;
     }
@@ -61,18 +61,18 @@ const ListLiContent = styled.div`
     display: flex;
     flex-direction: row;
     justify-self: center;
-  } 
+  }
   .buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 70px;
   }
-  
+
   .empty {
     display: none;
   }
-  
+
   .items-detail {
     display: none;
   }
@@ -86,8 +86,8 @@ const ListLiContent = styled.div`
     .compareTo {
       width: 100px;
     }
-    .createdOn,
-    .updatedOn {
+    .createdAt,
+    .updatedAt {
       width: 220px;
     }
     .featured {
@@ -105,7 +105,8 @@ const ProductDetail = styled.div`
 
 const ProductDetailList = styled.div`
   /* display: grid;
-  grid-template-columns: ${(props) => `repeat(${props.productsLength}, 1fr)`}; */
+  grid-template-columns: ${(props) =>
+    `repeat(${props.productsLength}, 1fr)`}; */
   display: flex;
   flex-direction: row;
   div {
@@ -170,7 +171,7 @@ const SpansDiv = styled.div`
     display: flex;
     flex-direction: row;
     justify-self: center;
-  } 
+  }
   .buttons {
     display: flex;
     flex-direction: row;
@@ -187,8 +188,8 @@ const SpansDiv = styled.div`
     .compareTo {
       width: 100px;
     }
-    .createdOn,
-    .updatedOn {
+    .createdAt,
+    .updatedAt {
       width: 220px;
     }
     .featured {
@@ -221,5 +222,5 @@ export {
   ProductDetailQuantity,
   EditLink,
   DeleteButton,
-  SpansDiv
+  SpansDiv,
 };

@@ -1,15 +1,15 @@
-import React from 'react';
-import Link from 'next/link';
-import PropTypes from 'prop-types';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import DateFormatter from '../../../../utils/dateFormatter';
+import React from "react";
+import Link from "next/link";
+import PropTypes from "prop-types";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import DateFormatter from "../../../../utils/dateFormatter";
 import {
   List,
   ListLiContent,
   EditLink,
   DeleteButton,
-  SpansDiv
-} from '../../../../styles/Components/UI/List/Promotions/PromotionList';
+  SpansDiv,
+} from "../../../../styles/Components/UI/List/Promotions/PromotionList";
 
 const PromotionList = (props) => {
   const { promotions, handleGetElement } = props;
@@ -24,56 +24,54 @@ const PromotionList = (props) => {
   return (
     <List>
       <SpansDiv>
-        <div className='promotionName'>
+        <div className="promotionName">
           <span>Promotion Name</span>
         </div>
-        <div className='createdOn'>
-          <span>
-            Created On
-          </span>
+        <div className="createdAt">
+          <span>Created On</span>
         </div>
-        <div className='updatedOn'>
-          <span>
-            Updated On
-          </span>
+        <div className="updatedAt">
+          <span>Updated On</span>
         </div>
-        <div className='buttons'>
+        <div className="buttons">
           <span>Edit / Delete</span>
         </div>
       </SpansDiv>
       {promotions.map((promotion) => (
         <ListLiContent id={promotion._id}>
-          <div className='promotionName'>
-            <a href={`${process.env.SECURED_MAIN_DOMAIN}/promotion/${promotion.slug}`} target='_blank'>
+          <div className="promotionName">
+            <a
+              href={`${process.env.SECURED_MAIN_DOMAIN}/promotion/${promotion.slug}`}
+              target="_blank"
+            >
               {promotion.promotionName}
             </a>
           </div>
-          <div className='createdOn'>
+          <div className="createdAt">
+            <p>{dateFormatter.formatDateFullDate(promotion.createdAt)}</p>
+          </div>
+          <div className="updatedAt">
             <p>
-              {dateFormatter.formatDateFullDate(promotion.createdOn)}
+              {promotion.updatedAt ? (
+                <>{dateFormatter.formatDateFullDate(promotion.updatedAt)}</>
+              ) : (
+                "Not updated"
+              )}
             </p>
           </div>
-          <div className='updatedOn'>
-            <p>
-              {promotion.updatedOn ? (
-                <>
-                  {dateFormatter.formatDateFullDate(promotion.updatedOn)}
-                </>
-              ) : ('Not updated')}
-            </p>
-          </div>
-          <div className='buttons'>
+          <div className="buttons">
             <Link
-              href='/edit/promotion/[slug]'
+              href="/edit/promotion/[slug]"
               as={`/edit/promotion/${promotion.slug}`}
             >
               <EditLink>
                 <FaEdit />
               </EditLink>
             </Link>
-            <DeleteButton onClick={(e) => {
-              handleSelectProduct(e);
-            }}
+            <DeleteButton
+              onClick={(e) => {
+                handleSelectProduct(e);
+              }}
             >
               <FaTrashAlt />
             </DeleteButton>
@@ -85,7 +83,7 @@ const PromotionList = (props) => {
 };
 
 PromotionList.propTypes = {
-  promotions: PropTypes.shape().isRequired
+  promotions: PropTypes.shape().isRequired,
 };
 
 export default PromotionList;
