@@ -6335,10 +6335,10 @@ pnp-webpack-plugin@1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
-portrait-load@1.0.23:
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/portrait-load/-/portrait-load-1.0.23.tgz#d4f402c6f179a92eb3f23ff059609a64769f6dab"
-  integrity sha512-i5sAB1MC/g2PmCrHm6s2x6BtznuVVIWrhz6nN8BkDCGFCDiuODzO7r4umufDlMKH4N6m0ceWazqMAGl/LFZNIw==
+portrait-load@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/portrait-load/-/portrait-load-1.1.1.tgz#cc1befed0529beaea31516aeb10abfd744eef542"
+  integrity sha512-FeDh5Y8E2viUvJ8NkrvLsMUclmjeVx5NqR3HMRjCsyoGu+fvx7nlWsRENyKcTN29HmlpRr0//TBZA5asvvZoFg==
   dependencies:
     axios "^0.19.2"
     filesize "^6.1.0"

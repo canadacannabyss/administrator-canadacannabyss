@@ -1,25 +1,25 @@
-import Head from 'next/head';
-import React, { useState, useRef, useEffect } from 'react';
-import { FaBox, FaPlus, FaSpinner } from 'react-icons/fa';
-import Router from 'next/router';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import Head from "next/head";
+import React, { useState, useRef, useEffect } from "react";
+import { FaBox, FaPlus, FaSpinner } from "react-icons/fa";
+import Router from "next/router";
+import { connect } from "react-redux";
+import _ from "lodash";
 
-import { slugifyString } from '../../utils/stringMethods';
-import { roundFloatNumber } from '../../utils/numberConverter';
+import { slugifyString } from "../../utils/stringMethods";
+import { roundFloatNumber } from "../../utils/numberConverter";
 
-import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
+import { BackgroundAdd } from "../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage";
 
-import ResellerSelector from '../../components/UI/Add/ResellerSelector/ResellerSelector';
-import ItemNameDescription from '../../components/UI/Add/ItemNameDescription/ItemNameDescription';
-import Pricing from '../../components/UI/Add/Pricing/Pricing';
-import Media from '../../components/UI/Add/Media/Media';
-import ExtraInfo from '../../components/UI/Add/ExtraInfo/ExtraInfo';
-import Inventory from '../../components/UI/Add/Inventory/Inventory';
-import Shipping from '../../components/UI/Add/Shipping/Shipping';
-import Variants from '../../components/UI/Add/Variants/Variants';
-import SEO from '../../components/UI/Add/SEO/SEO';
-import Organization from '../../components/UI/Add/Organization/Organization';
+import ResellerSelector from "../../components/UI/Add/ResellerSelector/ResellerSelector";
+import ItemNameDescription from "../../components/UI/Add/ItemNameDescription/ItemNameDescription";
+import Pricing from "../../components/UI/Add/Pricing/Pricing";
+import Media from "../../components/UI/Add/Media/Media";
+import ExtraInfo from "../../components/UI/Add/ExtraInfo/ExtraInfo";
+import Inventory from "../../components/UI/Add/Inventory/Inventory";
+import Shipping from "../../components/UI/Add/Shipping/Shipping";
+import Variants from "../../components/UI/Add/Variants/Variants";
+import SEO from "../../components/UI/Add/SEO/SEO";
+import Organization from "../../components/UI/Add/Organization/Organization";
 import {
   Wrapper,
   StickyDiv,
@@ -28,15 +28,15 @@ import {
   LoadingSpinner,
   Loading,
   Warning,
-} from '../../styles/Pages/Add/Product';
-import { getResellers } from '../../store/actions/resellers/resellers';
-import WithAuth from '../../components/UI/withAuth/withAuth';
+} from "../../styles/Pages/Add/Product";
+import { getResellers } from "../../store/actions/resellers/resellers";
+import WithAuth from "../../components/UI/withAuth/withAuth";
 
 const mapStateToProps = (state) => {
   const { resellers } = state;
 
   return {
-    resellers
+    resellers,
   };
 };
 
@@ -45,17 +45,17 @@ const AddProduct = (props) => {
 
   const childRef = useRef();
 
-  const [reseller, setReseller] = useState('');
+  const [reseller, setReseller] = useState("");
 
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSlugValid, setIsSlugValid] = useState(true);
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
 
-  const [productName, setProductName] = useState('');
-  const [description, setDescription] = useState('');
+  const [productName, setProductName] = useState("");
+  const [description, setDescription] = useState("");
 
-  const [slug, setSlug] = useState('');
+  const [slug, setSlug] = useState("");
 
   const [imagesArray, setImagesArray] = useState([]);
   const [imagesArrayLength, setImagesArrayLength] = useState(0);
@@ -64,27 +64,27 @@ const AddProduct = (props) => {
   const [compareTo, setCompareTo] = useState(0);
   const [taxableProduct, setTaxableProduct] = useState(false);
 
-  const [sku, setSku] = useState('');
-  const [barcode, setBarcode] = useState('');
+  const [sku, setSku] = useState("");
+  const [barcode, setBarcode] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [allowPurchaseOutOfStock, setAllowPurchaseOutOfStock] = useState(false);
 
   const [physicalProduct, setPhysicalProduct] = useState(false);
   const [weightAmount, setWeightAmount] = useState(0.0);
-  const [weightUnit, setWeightUnit] = useState('kg');
+  const [weightUnit, setWeightUnit] = useState("kg");
 
   const [extraInfo, setExtraInfo] = useState([]);
 
   const [variants, setVariants] = useState([]);
   const [variantsOptionNames, setVariantsOptionNames] = useState([]);
 
-  const [seoTitle, setSeoTitle] = useState('');
-  const [seoSlug, setSeoSlug] = useState('');
-  const [seoDescription, setSeoDescription] = useState('');
+  const [seoTitle, setSeoTitle] = useState("");
+  const [seoSlug, setSeoSlug] = useState("");
+  const [seoDescription, setSeoDescription] = useState("");
 
-  const [categories, setCategories] = useState('');
+  const [categories, setCategories] = useState("");
   const [categoriesArray, setCategoriesArray] = useState([]);
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
 
   const handleSetImagesArray = (images) => {
@@ -169,7 +169,7 @@ const AddProduct = (props) => {
       quantity > 0 &&
       weightAmount > 0 &&
       weightUnit.length > 0 &&
-      (weightUnit === 'kg' || weightUnit === 'lbs') &&
+      (weightUnit === "kg" || weightUnit === "lbs") &&
       seoTitle.length > 0 &&
       seoSlug.length > 0 &&
       seoDescription.length > 0 &&
@@ -209,25 +209,25 @@ const AddProduct = (props) => {
     tags,
     tagsArray,
     extraInfo,
-    reseller
+    reseller,
   ]);
 
   const setGlobalVariable = async () => {
     const bodyRequest = {
-      type: 'products',
-      title: productName
+      type: "products",
+      title: productName,
     };
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/products/set/global-variable`,
       {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(bodyRequest)
+        body: JSON.stringify(bodyRequest),
       }
     );
     return response;
@@ -237,13 +237,13 @@ const AddProduct = (props) => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/products/validation/slug/${slug}`,
       {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       }
     );
     const data = await response.json();
@@ -254,14 +254,14 @@ const AddProduct = (props) => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/products/publish`,
       {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(product)
+        body: JSON.stringify(product),
       }
     );
     const data = await response.json();
@@ -299,12 +299,12 @@ const AddProduct = (props) => {
         media: imagesArrayObj,
         variants: {
           variantsOptionNames,
-          values: variants
+          values: variants,
         },
         productName,
         prices: {
           price,
-          compareTo
+          compareTo,
         },
         taxableProduct,
         description,
@@ -313,31 +313,31 @@ const AddProduct = (props) => {
           sku,
           barcode,
           quantity,
-          allowPurchaseOutOfStock
+          allowPurchaseOutOfStock,
         },
         shipping: {
           physicalProduct,
           weight: {
             unit: weightUnit,
-            amount: weightAmount
-          }
+            amount: weightAmount,
+          },
         },
         seo: {
           title: seoTitle,
           slug: seoSlug,
-          description: seoDescription
+          description: seoDescription,
         },
         organization: {
           categories: categoriesArray,
-          tags: tagsArray
-        }
+          tags: tagsArray,
+        },
       };
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
         const res = await publishProduct(productInfo);
-        Router.push('/products');
+        Router.push("/products");
       } else {
-        console.log('Slug is invalid');
+        console.log("Slug is invalid");
         setIsSlugValid(false);
       }
     } else {
@@ -346,7 +346,7 @@ const AddProduct = (props) => {
   };
 
   const categoriesToArray = () => {
-    const tempCategories = categories.split(',');
+    const tempCategories = categories.split(",");
     tempCategories.map((category, i) => {
       tempCategories[i] = tempCategories[i].trim();
     });
@@ -358,7 +358,7 @@ const AddProduct = (props) => {
   }, [categories]);
 
   const tagsToArray = () => {
-    const tempTags = tags.split(',');
+    const tempTags = tags.split(",");
     tempTags.map((tag, i) => {
       tempTags[i] = tempTags[i].trim();
     });
@@ -418,12 +418,12 @@ const AddProduct = (props) => {
       </Head>
       <BackgroundAdd>
         <Wrapper>
-          <MainGrid className='main'>
+          <MainGrid className="main">
             <ItemNameDescription
-              MainIcon={<FaBox className='mainIcon' />}
-              PlusIcon={<FaPlus className='plus' />}
-              title='Add Product'
-              itemName='Product Name'
+              MainIcon={<FaBox className="mainIcon" />}
+              PlusIcon={<FaPlus className="plus" />}
+              title="Add Product"
+              itemName="Product Name"
               onChangeItemName={onChangeProductName}
               description={description}
               onChangeDescription={onChangeDescription}
@@ -438,6 +438,8 @@ const AddProduct = (props) => {
               imagesArray={imagesArray}
               multipleFiles
               apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/products/publish/media`}
+              type="products"
+              destinationFolder={productName}
             />
             <Pricing
               price={price}
@@ -486,7 +488,7 @@ const AddProduct = (props) => {
           </StickyDiv>
         </Wrapper>
         {warning && <Warning>Fill all fields before submit</Warning>}
-        <SubmitButton type='button' onClick={handleSubmit}>
+        <SubmitButton type="button" onClick={handleSubmit}>
           Add Product
         </SubmitButton>
       </BackgroundAdd>
