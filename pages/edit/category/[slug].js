@@ -1,28 +1,28 @@
-import Head from 'next/head';
-import React, { useState, useEffect, useRef } from 'react';
-import { FaPen, FaSpinner, FaListUl } from 'react-icons/fa';
-import PropTypes from 'prop-types';
-import Router from 'next/router';
-import _ from 'lodash';
-import { connect } from 'react-redux';
+import Head from "next/head";
+import React, { useState, useEffect, useRef } from "react";
+import { FaPen, FaSpinner, FaListUl } from "react-icons/fa";
+import PropTypes from "prop-types";
+import Router from "next/router";
+import _ from "lodash";
+import { connect } from "react-redux";
 import {
   categoriesArrayToString,
   tagsArrayToString,
-} from '../../../utils/arrayMethods';
+} from "../../../utils/arrayMethods";
 import {
   slugifyString,
   categoriesToArray,
   tagsToArray,
   editCategoriesToArray,
   editTagsToArray,
-} from '../../../utils/stringMethods';
+} from "../../../utils/stringMethods";
 
-import { BackgroundAdd } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
-import ResellerSelector from '../../../components/UI/Add/ResellerSelector/ResellerSelector';
-import BannerNameDescription from '../../../components/UI/Edit/BannerNameDescription/BannerNameDescription';
-import Media from '../../../components/UI/Edit/Media/Media';
-import SEO from '../../../components/UI/Edit/SEO/SEO';
-import { getResellers } from '../../../store/actions/resellers/resellers';
+import { BackgroundAdd } from "../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage";
+import ResellerSelector from "../../../components/UI/Add/ResellerSelector/ResellerSelector";
+import BannerNameDescription from "../../../components/UI/Edit/BannerNameDescription/BannerNameDescription";
+import Media from "../../../components/UI/Edit/Media/Media";
+import SEO from "../../../components/UI/Edit/SEO/SEO";
+import { getResellers } from "../../../store/actions/resellers/resellers";
 
 import {
   Wrapper,
@@ -32,10 +32,10 @@ import {
   LoadingSpinner,
   Loading,
   Warning,
-} from '../../../styles/Pages/Add/Product';
+} from "../../../styles/Pages/Add/Product";
 
-import { getCategory } from '../../../store/actions/category/category';
-import WithAuth from '../../../components/UI/withAuth/withAuth';
+import { getCategory } from "../../../store/actions/category/category";
+import WithAuth from "../../../components/UI/withAuth/withAuth";
 
 const mapStateToProps = (state) => {
   const { category, resellers } = state;
@@ -51,7 +51,7 @@ const EditCategory = (props) => {
 
   const childRef = useRef();
 
-  const [reseller, setReseller] = useState('');
+  const [reseller, setReseller] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
@@ -59,12 +59,12 @@ const EditCategory = (props) => {
   const [warning, setWarning] = useState(false);
   const [isSlugValid, setIsSlugValid] = useState(true);
 
-  const [categoryName, setCategoryName] = useState('');
+  const [categoryName, setCategoryName] = useState("");
 
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
 
-  const [slug, setSlug] = useState('');
-  const [categoryId, setCategoryId] = useState('');
+  const [slug, setSlug] = useState("");
+  const [categoryId, setCategoryId] = useState("");
 
   const [featured, setFeatured] = useState(false);
 
@@ -73,9 +73,9 @@ const EditCategory = (props) => {
   const [toDeleteImagesArray, setToDeleteImagesArray] = useState([]);
   const [isNewImagesUploaded, setIsNewImagesUploaded] = useState(false);
 
-  const [seoTitle, setSeoTitle] = useState('');
-  const [seoSlug, setSeoSlug] = useState('');
-  const [seoDescription, setSeoDescription] = useState('');
+  const [seoTitle, setSeoTitle] = useState("");
+  const [seoSlug, setSeoSlug] = useState("");
+  const [seoDescription, setSeoDescription] = useState("");
 
   const handleSetImagesArray = (images) => {
     setImagesArray(images);
@@ -153,7 +153,6 @@ const EditCategory = (props) => {
         const isSlugValidRes = await verifySlug(slug);
       };
       checkSlugValid();
-      setGlobalVariable();
     }
   }, [categoryName]);
 
@@ -205,37 +204,16 @@ const EditCategory = (props) => {
     setSeoDescription(e.target.value);
   };
 
-  const setGlobalVariable = async () => {
-    const bodyRequest = {
-      type: 'categories',
-      title: categoryName,
-    };
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/category/set/global-variable`,
-      {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bodyRequest),
-      }
-    );
-    return response;
-  };
-
   const verifySlug = async () => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/category/validation/slug/${slug}`,
       {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
@@ -247,12 +225,12 @@ const EditCategory = (props) => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/category/update/${categoryId}`,
       {
-        method: 'PUT',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "PUT",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(category),
       }
@@ -265,12 +243,12 @@ const EditCategory = (props) => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/category/delete/media/${imageId}`,
       {
-        method: 'DELETE',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "DELETE",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
@@ -304,7 +282,7 @@ const EditCategory = (props) => {
       setTimeout(() => {
         setEnableCoverUploader(true);
       }, 0);
-    } else if (categoryName.length === 0 || categoryName === '') {
+    } else if (categoryName.length === 0 || categoryName === "") {
       setTimeout(() => {
         setEnableCoverUploader(false);
       }, 0);
@@ -376,7 +354,7 @@ const EditCategory = (props) => {
         // }
         Router.push(`/`);
       } else {
-        console.log('Slug is invalid');
+        console.log("Slug is invalid");
         setIsSlugValid(false);
       }
     } else {
@@ -399,12 +377,12 @@ const EditCategory = (props) => {
       </Head>
       <BackgroundAdd>
         <Wrapper>
-          <MainGrid className='main'>
+          <MainGrid className="main">
             <BannerNameDescription
-              MainIcon={<FaListUl className='mainIcon' />}
-              PlusIcon={<FaPen className='plus' />}
-              title='Edit Category'
-              itemName='Category Name'
+              MainIcon={<FaListUl className="mainIcon" />}
+              PlusIcon={<FaPen className="plus" />}
+              title="Edit Category"
+              itemName="Category Name"
               itemNameInput={categoryName}
               onChangeItemName={onChangeCategoryName}
               description={description}
@@ -422,6 +400,8 @@ const EditCategory = (props) => {
               handleSetImagesArray={handleSetImagesArray}
               imagesArray={imagesArray}
               apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/category/publish/media`}
+              type="categories"
+              destinationFolder={categoryName}
             />
             <SEO
               onChangeSeoTitle={onChangeSeoTitle}
@@ -435,7 +415,7 @@ const EditCategory = (props) => {
           <StickyDiv />
         </Wrapper>
         {warning && <Warning>Fill all fields before submit</Warning>}
-        <SubmitButton type='button' onClick={handleSubmit}>
+        <SubmitButton type="button" onClick={handleSubmit}>
           Edit Category
         </SubmitButton>
       </BackgroundAdd>

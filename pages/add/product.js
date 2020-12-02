@@ -212,27 +212,6 @@ const AddProduct = (props) => {
     reseller,
   ]);
 
-  const setGlobalVariable = async () => {
-    const bodyRequest = {
-      type: "products",
-      title: productName,
-    };
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/products/set/global-variable`,
-      {
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bodyRequest),
-      }
-    );
-    return response;
-  };
-
   const verifySlug = async () => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/products/validation/slug/${slug}`,
@@ -282,7 +261,6 @@ const AddProduct = (props) => {
         await verifySlug(slug);
       };
       checkSlugValid();
-      setGlobalVariable();
     }
   }, [productName]);
 
