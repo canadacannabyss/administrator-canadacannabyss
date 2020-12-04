@@ -145,11 +145,11 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/edit/category/[slug]</loc>
+    <loc>https://canadacannabyss.com/edit/bundle/[slug]</loc>
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/edit/bundle/[slug]</loc>
+    <loc>https://canadacannabyss.com/edit/category/[slug]</loc>
   </url>
 
   <url>
@@ -165,11 +165,11 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/edit/postal-service/[slug]</loc>
+    <loc>https://canadacannabyss.com/edit/promotion/[slug]</loc>
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/edit/promotion/[slug]</loc>
+    <loc>https://canadacannabyss.com/edit/postal-service/[slug]</loc>
   </url>
 
   <url>
