@@ -1,17 +1,17 @@
-import Head from 'next/head';
-import React, { useState, useRef, useEffect } from 'react';
-import { FaObjectUngroup, FaPlus, FaSpinner } from 'react-icons/fa';
-import Router from 'next/router';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import { slugifyString } from '../../utils/stringMethods';
+import Head from "next/head";
+import React, { useState, useRef, useEffect } from "react";
+import { FaObjectUngroup, FaPlus, FaSpinner } from "react-icons/fa";
+import Router from "next/router";
+import { connect } from "react-redux";
+import _ from "lodash";
+import { slugifyString } from "../../utils/stringMethods";
 
-import { BackgroundAdd } from '../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
-import ResellerSelector from '../../components/UI/Add/ResellerSelector/ResellerSelector';
-import BannerNameDescription from '../../components/UI/Add/BannerNameDescription/BannerNameDescription';
-import SEO from '../../components/UI/Add/SEO/SEO';
-import Organization from '../../components/UI/Add/Organization/Organization';
-import PromotionsList from '../../components/UI/List/Add/PromotionsList/PromotionsList';
+import { BackgroundAdd } from "../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage";
+import ResellerSelector from "../../components/UI/Add/ResellerSelector/ResellerSelector";
+import BannerNameDescription from "../../components/UI/Add/BannerNameDescription/BannerNameDescription";
+import SEO from "../../components/UI/Add/SEO/SEO";
+import Organization from "../../components/UI/Add/Organization/Organization";
+import PromotionsList from "../../components/UI/List/Add/PromotionsList/PromotionsList";
 import {
   Wrapper,
   StickyDiv,
@@ -19,23 +19,23 @@ import {
   SubmitButton,
   LoadingSpinner,
   Loading,
-  Warning
-} from '../../styles/Pages/Add/Product';
-import WithAuth from '../../components/UI/withAuth/withAuth';
-import { getResellers } from '../../store/actions/resellers/resellers';
+  Warning,
+} from "../../styles/Pages/Add/Product";
+import WithAuth from "../../components/UI/withAuth/withAuth";
+import { getResellers } from "../../store/actions/resellers/resellers";
 
 const mapStateToProps = (state) => {
   const { resellers } = state;
 
   return {
-    resellers
+    resellers,
   };
 };
 
 const AddBanner = (props) => {
   const { resellers } = props;
 
-  const [reseller, setReseller] = useState('');
+  const [reseller, setReseller] = useState("");
 
   const childRef = useRef();
 
@@ -44,23 +44,23 @@ const AddBanner = (props) => {
   const [isSlugValid, setIsSlugValid] = useState(true);
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
 
-  const [bannerName, setBannerName] = useState('');
-  const [description, setDescription] = useState('');
+  const [bannerName, setBannerName] = useState("");
+  const [description, setDescription] = useState("");
 
   const [promotionsOnBanner, setPromotionsOnBanner] = useState([]);
   const [promotionsList, setPromotionsList] = useState([]);
 
   const [featured, setFeatured] = useState(false);
 
-  const [slug, setSlug] = useState('');
+  const [slug, setSlug] = useState("");
 
-  const [seoTitle, setSeoTitle] = useState('');
-  const [seoSlug, setSeoSlug] = useState('');
-  const [seoDescription, setSeoDescription] = useState('');
+  const [seoTitle, setSeoTitle] = useState("");
+  const [seoSlug, setSeoSlug] = useState("");
+  const [seoDescription, setSeoDescription] = useState("");
 
-  const [categories, setCategories] = useState('');
+  const [categories, setCategories] = useState("");
   const [categoriesArray, setCategoriesArray] = useState([]);
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
 
   const onChangeSeoTitle = (e) => {
@@ -116,41 +116,20 @@ const AddBanner = (props) => {
     categoriesArray,
     tags,
     tagsArray,
-    reseller
+    reseller,
   ]);
-
-  const setGlobalVariable = async () => {
-    const bodyRequest = {
-      type: 'banners',
-      title: bannerName
-    };
-    const response = await fetch(
-      `${process.env.MAIN_API_ENDPOINT}/admin/promotions/banners/set/global-variable`,
-      {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(bodyRequest)
-      }
-    );
-    return response;
-  };
 
   const verifySlug = async () => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/promotions/banners/validation/slug/${slug}`,
       {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       }
     );
     const data = await response.json();
@@ -161,14 +140,14 @@ const AddBanner = (props) => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/promotions/banners/publish`,
       {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(product)
+        body: JSON.stringify(product),
       }
     );
     const data = await response.json();
@@ -179,13 +158,13 @@ const AddBanner = (props) => {
     const res = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/promotions/get/all`,
       {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       }
     );
     const data = await res.json();
@@ -210,7 +189,6 @@ const AddBanner = (props) => {
         await verifySlug(slug);
       };
       checkSlugValid();
-      setGlobalVariable();
     }
   }, [bannerName]);
 
@@ -227,17 +205,17 @@ const AddBanner = (props) => {
         seo: {
           title: seoTitle,
           slug: seoSlug,
-          description: seoDescription
+          description: seoDescription,
         },
         organization: {
           categories: categoriesArray,
-          tags: tagsArray
-        }
+          tags: tagsArray,
+        },
       };
       const isSlugValidRes = await verifySlug(slug);
       if (isSlugValidRes.valid) {
         const res = await publishProduct(productInfo);
-        Router.push('/banners');
+        Router.push("/banners");
       } else {
         setIsSlugValid(false);
       }
@@ -247,7 +225,7 @@ const AddBanner = (props) => {
   };
 
   const categoriesToArray = () => {
-    const tempCategories = categories.split(',');
+    const tempCategories = categories.split(",");
     tempCategories.map((category, i) => {
       tempCategories[i] = tempCategories[i].trim();
     });
@@ -259,7 +237,7 @@ const AddBanner = (props) => {
   }, [categories]);
 
   const tagsToArray = () => {
-    const tempTags = tags.split(',');
+    const tempTags = tags.split(",");
     tempTags.map((tag, i) => {
       tempTags[i] = tempTags[i].trim();
     });
@@ -297,15 +275,19 @@ const AddBanner = (props) => {
   const handleGetElement = (el) => {
     const element = el;
     if (!promotionsOnBanner.includes(element.id)) {
-      setPromotionsOnBanner((bannerOnBundle) => bannerOnBundle.concat(element.id));
-      element.style.backgroundColor = '#18840f';
-      element.style.border = '1px solid #18840f';
-      element.querySelector('.name').style.color = '#fff';
+      setPromotionsOnBanner((bannerOnBundle) =>
+        bannerOnBundle.concat(element.id)
+      );
+      element.style.backgroundColor = "#18840f";
+      element.style.border = "1px solid #18840f";
+      element.querySelector(".name").style.color = "#fff";
     } else {
-      setPromotionsOnBanner(removeElementFromArray(promotionsOnBanner, element.id));
-      element.style.backgroundColor = '#efefef';
-      element.style.border = '1px solid #efefef';
-      element.querySelector('.name').style.color = '#18840f';
+      setPromotionsOnBanner(
+        removeElementFromArray(promotionsOnBanner, element.id)
+      );
+      element.style.backgroundColor = "#efefef";
+      element.style.border = "1px solid #efefef";
+      element.querySelector(".name").style.color = "#18840f";
     }
   };
 
@@ -324,12 +306,12 @@ const AddBanner = (props) => {
       </Head>
       <BackgroundAdd>
         <Wrapper>
-          <MainGrid className='main'>
+          <MainGrid className="main">
             <BannerNameDescription
-              MainIcon={<FaObjectUngroup className='mainIcon' />}
-              PlusIcon={<FaPlus className='plus' />}
-              title='Add Banner'
-              itemName='Banner Name'
+              MainIcon={<FaObjectUngroup className="mainIcon" />}
+              PlusIcon={<FaPlus className="plus" />}
+              title="Add Banner"
+              itemName="Banner Name"
               onChangeItemName={onChangeProductName}
               description={description}
               onChangeDescription={onChangeDescription}
@@ -341,7 +323,7 @@ const AddBanner = (props) => {
               onChangeSelectReseller={onChangeSelectReseller}
             />
             <PromotionsList
-              title='Promotions on banner'
+              title="Promotions on banner"
               promotions={promotionsList}
               handleGetElement={handleGetElement}
             />
@@ -364,7 +346,7 @@ const AddBanner = (props) => {
           </StickyDiv>
         </Wrapper>
         {warning && <Warning>Fill all fields before submit</Warning>}
-        <SubmitButton type='button' onClick={onSubmit}>
+        <SubmitButton type="button" onClick={onSubmit}>
           Add Banner
         </SubmitButton>
       </BackgroundAdd>

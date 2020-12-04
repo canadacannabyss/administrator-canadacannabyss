@@ -366,10 +366,6 @@ const EditCategory = (props) => {
     setReseller(e.target.value);
   };
 
-  useEffect(() => {
-    setGlobalVariable();
-  }, [categoryName]);
-
   return (
     <WithAuth>
       <Head>
@@ -402,6 +398,10 @@ const EditCategory = (props) => {
               apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/category/publish/media`}
               type="categories"
               destinationFolder={categoryName}
+              fileDimensions={{
+                width: "540px",
+                height: "960px",
+              }}
             />
             <SEO
               onChangeSeoTitle={onChangeSeoTitle}

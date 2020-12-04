@@ -262,6 +262,10 @@ const AddCategory = (props) => {
               apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/category/publish/media`}
               type="categories"
               destinationFolder={categoryName}
+              fileDimensions={{
+                width: "540px",
+                height: "960px",
+              }}
             />
             <SEO
               onChangeSeoTitle={onChangeSeoTitle}

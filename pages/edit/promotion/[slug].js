@@ -489,6 +489,10 @@ const EditPromotion = (props) => {
               apiEndpoint={`${process.env.MAIN_API_ENDPOINT}/admin/promotions/publish/media`}
               type="promotions"
               destinationFolder={promotionName}
+              fileDimensions={{
+                width: "960px",
+                height: "540px",
+              }}
             />
             <ProductsBundlesList
               title="Items on promotion"

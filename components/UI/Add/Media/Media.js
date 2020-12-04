@@ -16,6 +16,7 @@ const Media = (props) => {
     apiEndpoint,
     type,
     destinationFolder,
+    fileDimensions,
   } = props;
 
   return (
@@ -35,10 +36,7 @@ const Media = (props) => {
             textSize="18px"
             onDragMessage="Drop the files here"
             defaultMessage="Allowed files dimensions"
-            fileDimensions={{
-              width: "640px",
-              height: "640px",
-            }}
+            fileDimensions={fileDimensions}
             multipleFiles={multipleFiles}
             apiEndpoint={apiEndpoint}
             destinationFolder={`${type}/${destinationFolder}`}
