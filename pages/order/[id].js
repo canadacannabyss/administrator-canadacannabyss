@@ -170,14 +170,14 @@ const Order = (props) => {
                   <TitleSearchBarAddButtonDiv>
                     <TitleDiv>
                       <PlusIconSign>
-                        <FaSortAmountDownAlt className='mainIcon' />
+                        <FaSortAmountDownAlt className="mainIcon" />
                       </PlusIconSign>
                       <h1>Order</h1>
                     </TitleDiv>
                   </TitleSearchBarAddButtonDiv>
                   <HalfGrid>
                     <div>
-                      <Label for='orderId'>Order ID</Label>
+                      <Label for="orderId">Order ID</Label>
                       {!_.isEmpty(order.data) &&
                         order.fetched &&
                         !order.loading &&
@@ -191,7 +191,7 @@ const Order = (props) => {
                           !order.loading &&
                           !order.error && (
                             <>
-                              {order.data.canceled ? 'Canceled' : 'Fulfilled'}
+                              {order.data.canceled ? "Canceled" : "Fulfilled"}
                             </>
                           )}
                       </P>
@@ -228,19 +228,19 @@ const Order = (props) => {
                           !order.error && (
                             <>
                               {order.data.shipping.status.shipped
-                                ? 'Shipped'
-                                : 'Processing order'}
+                                ? "Shipped"
+                                : "Processing order"}
                             </>
                           )}
                       </P>
                     </div>
                     <div>
-                      <Label htmlFor='shippingAddress'>Shipping Address</Label>
+                      <Label htmlFor="shippingAddress">Shipping Address</Label>
                       {!_.isEmpty(order.data) &&
                         order.fetched &&
                         !order.loading &&
                         !order.error && (
-                          <P id='shippingAddress'>
+                          <P id="shippingAddress">
                             {`${order.data.shippingAddress.addressLine1}, ${order.data.shippingAddress.city}, ${order.data.shippingAddress.provinceState}, ${order.data.shippingAddress.country}`}
                           </P>
                         )}
@@ -263,17 +263,32 @@ const Order = (props) => {
                                   )}
                                 </>
                               ) : (
-                                'Not Shipped yet'
+                                "Not Shipped yet"
                               )}
                             </>
                           )}
                       </P>
                     </div>
+                    {!_.isEmpty(order.data) &&
+                      order.fetched &&
+                      !order.loading &&
+                      !order.error && (
+                        <>
+                          {order.coupon ? (
+                            <div>
+                              <Label>Coupon applied</Label>
+                              <Status>{order.coupon.couponName}</Status>
+                            </div>
+                          ) : (
+                            <div />
+                          )}
+                        </>
+                      )}
                   </HalfGrid>
                   <br />
                   <GroupSpan>Billing information</GroupSpan>
                   <Label>Billing Address</Label>
-                  <P id='shippingAddress'>
+                  <P id="shippingAddress">
                     {!_.isEmpty(order.data) &&
                       order.fetched &&
                       !order.loading &&
@@ -318,7 +333,7 @@ const Order = (props) => {
                               order.data.paymentMethod.cryptocurrency.logo && (
                                 <>
                                   <Label>Cryptocurrency</Label>
-                                  <P className='cryptoLogoSymbolName'>
+                                  <P className="cryptoLogoSymbolName">
                                     <img
                                       src={
                                         order.data.paymentMethod.cryptocurrency
@@ -414,7 +429,7 @@ const Order = (props) => {
                         order.fetched &&
                         !order.loading &&
                         !order.error && (
-                          <P>{order.data.paid ? 'Paid' : 'Pending'}</P>
+                          <P>{order.data.paid ? "Paid" : "Pending"}</P>
                         )}
                     </div>
                     <div>
@@ -443,7 +458,7 @@ const Order = (props) => {
                               <HalfGrid>
                                 <div>
                                   <Label>
-                                    Total in{' '}
+                                    Total in{" "}
                                     {
                                       order.data.paymentMethod.cryptocurrency
                                         .symbol
@@ -487,7 +502,7 @@ const Order = (props) => {
               !order.error && (
                 <>
                   <OrderedItemsList
-                    title='Purchased Items'
+                    title="Purchased Items"
                     products={order.data.cart.items}
                     handleGetElement={handleGetElement}
                   />

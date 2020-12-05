@@ -1,21 +1,21 @@
-import _ from 'lodash';
-import Head from 'next/head';
-import Router from 'next/router';
-import React, { useEffect, useState, useRef } from 'react';
-import { connect } from 'react-redux';
-import { FaSortAmountDownAlt, FaPen } from 'react-icons/fa';
-import PropTypes from 'prop-types';
+import _ from "lodash";
+import Head from "next/head";
+import Router from "next/router";
+import React, { useEffect, useState, useRef } from "react";
+import { connect } from "react-redux";
+import { FaSortAmountDownAlt, FaPen } from "react-icons/fa";
+import PropTypes from "prop-types";
 import {
   categoriesArrayToString,
   tagsArrayToString,
-} from '../../../utils/arrayMethods';
+} from "../../../utils/arrayMethods";
 import {
   slugifyString,
   categoriesToArray,
   tagsToArray,
   editCategoriesToArray,
   editTagsToArray,
-} from '../../../utils/stringMethods';
+} from "../../../utils/stringMethods";
 import {
   Wrapper,
   Container,
@@ -25,7 +25,7 @@ import {
   SearchBar,
   TitleDiv,
   Content,
-} from '../../../styles/Pages/Orders/Orders';
+} from "../../../styles/Pages/Orders/Orders";
 import {
   StickyDiv,
   MainGrid,
@@ -40,15 +40,15 @@ import {
   HalfGrid,
   P,
   Select,
-} from '../../../styles/Pages/Add/Product';
-import { Background } from '../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage';
-import { getOrder } from '../../../store/actions/order/order';
-import { getPostalServices } from '../../../store/actions/postalServices/postalServices';
-import OrderedItemsList from '../../../components/UI/List/Order/OrderedItemsList';
-import PaymentReceiptViewer from '../../../components/UI/Viewer/PaymentReceipt/PaymentReceipt';
-import TrackingNumber from '../../../components/UI/Edit/TrackingNumber/TrackingNumber';
-import DateFormatter from '../../../utils/dateFormatter';
-import WithAuth from '../../../components/UI/withAuth/withAuth';
+} from "../../../styles/Pages/Add/Product";
+import { Background } from "../../../styles/Components/UI/DefaultSidebarPage/DefaultSidebarPage";
+import { getOrder } from "../../../store/actions/order/order";
+import { getPostalServices } from "../../../store/actions/postalServices/postalServices";
+import OrderedItemsList from "../../../components/UI/List/Order/OrderedItemsList";
+import PaymentReceiptViewer from "../../../components/UI/Viewer/PaymentReceipt/PaymentReceipt";
+import TrackingNumber from "../../../components/UI/Edit/TrackingNumber/TrackingNumber";
+import DateFormatter from "../../../utils/dateFormatter";
+import WithAuth from "../../../components/UI/withAuth/withAuth";
 
 const mapStateToProps = (state) => {
   const { order, postalServices } = state;
@@ -68,8 +68,8 @@ const EditOrder = (props) => {
   const [canceled, setCanceled] = useState(false);
   const [paid, setPaid] = useState(false);
 
-  const [trackingNumber, setTrackingNumber] = useState('');
-  const [postalService, setPostalService] = useState('-');
+  const [trackingNumber, setTrackingNumber] = useState("");
+  const [postalService, setPostalService] = useState("-");
 
   const dateFormatter = new DateFormatter();
 
@@ -77,12 +77,12 @@ const EditOrder = (props) => {
     const response = await fetch(
       `${process.env.MAIN_API_ENDPOINT}/admin/orders/update/${order.data._id}`,
       {
-        method: 'PUT',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        method: "PUT",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(product),
       }
@@ -111,25 +111,25 @@ const EditOrder = (props) => {
   }, [order]);
 
   const onChangeShipped = (e) => {
-    if (e.target.value === 'true') {
+    if (e.target.value === "true") {
       setShipped(true);
-    } else if (e.target.value === 'false') {
+    } else if (e.target.value === "false") {
       setShipped(false);
     }
   };
 
   const onChangeOrderStatus = (e) => {
-    if (e.target.value === 'true') {
+    if (e.target.value === "true") {
       setCanceled(true);
-    } else if (e.target.value === 'false') {
+    } else if (e.target.value === "false") {
       setCanceled(false);
     }
   };
 
   const onChangePaid = (e) => {
-    if (e.target.value === 'true') {
+    if (e.target.value === "true") {
       setPaid(true);
-    } else if (e.target.value === 'false') {
+    } else if (e.target.value === "false") {
       setPaid(false);
     }
   };
@@ -145,7 +145,7 @@ const EditOrder = (props) => {
     };
     const res = await editOrder(orderObj);
     if (res.ok) {
-      Router.push('/orders');
+      Router.push("/orders");
     }
   };
 
@@ -161,18 +161,18 @@ const EditOrder = (props) => {
     const element = el;
     if (!items.includes(element.id)) {
       setItems((pOnBundle) => pOnBundle.concat(element.id));
-      element.style.backgroundColor = '#18840f';
-      element.style.border = '1px solid #18840f';
-      element.querySelector('.name').style.color = '#fff';
-      element.querySelector('.items-detail').style.display = 'block';
-      element.querySelector('.empty').style.display = 'block';
+      element.style.backgroundColor = "#18840f";
+      element.style.border = "1px solid #18840f";
+      element.querySelector(".name").style.color = "#fff";
+      element.querySelector(".items-detail").style.display = "block";
+      element.querySelector(".empty").style.display = "block";
     } else {
       setItems(removeElementFromArray(items, element.id));
-      element.style.backgroundColor = '#efefef';
-      element.style.border = '1px solid #efefef';
-      element.querySelector('.name').style.color = '#18840f';
-      element.querySelector('.items-detail').style.display = 'none';
-      element.querySelector('.empty').style.display = 'none';
+      element.style.backgroundColor = "#efefef";
+      element.style.border = "1px solid #efefef";
+      element.querySelector(".name").style.color = "#18840f";
+      element.querySelector(".items-detail").style.display = "none";
+      element.querySelector(".empty").style.display = "none";
     }
   };
 
@@ -198,15 +198,15 @@ const EditOrder = (props) => {
                   <TitleSearchBarAddButtonDiv>
                     <TitleDiv>
                       <PlusIconSign>
-                        <FaSortAmountDownAlt className='mainIcon' />
-                        <FaPen className='plus' />
+                        <FaSortAmountDownAlt className="mainIcon" />
+                        <FaPen className="plus" />
                       </PlusIconSign>
                       <h1>Edit Order</h1>
                     </TitleDiv>
                   </TitleSearchBarAddButtonDiv>
                   <HalfGrid>
                     <div>
-                      <Label for='orderId'>Order ID</Label>
+                      <Label for="orderId">Order ID</Label>
                       {!_.isEmpty(order.data) &&
                         order.fetched &&
                         !order.loading &&
@@ -285,12 +285,12 @@ const EditOrder = (props) => {
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor='shippingAddress'>Shipping Address</Label>
+                      <Label htmlFor="shippingAddress">Shipping Address</Label>
                       {!_.isEmpty(order.data) &&
                         order.fetched &&
                         !order.loading &&
                         !order.error && (
-                          <P id='shippingAddress'>
+                          <P id="shippingAddress">
                             {`${order.data.shippingAddress.addressLine1}, ${order.data.shippingAddress.city}, ${order.data.shippingAddress.provinceState}, ${order.data.shippingAddress.country}`}
                           </P>
                         )}
@@ -313,17 +313,32 @@ const EditOrder = (props) => {
                                   )}
                                 </>
                               ) : (
-                                'Not Shipped yet'
+                                "Not Shipped yet"
                               )}
                             </>
                           )}
                       </P>
                     </div>
+                    {!_.isEmpty(order.data) &&
+                      order.fetched &&
+                      !order.loading &&
+                      !order.error && (
+                        <>
+                          {order.coupon ? (
+                            <div>
+                              <Label>Coupon applied</Label>
+                              <Status>{order.coupon.couponName}</Status>
+                            </div>
+                          ) : (
+                            <div />
+                          )}
+                        </>
+                      )}
                   </HalfGrid>
                   <br />
                   <GroupSpan>Billing information</GroupSpan>
                   <Label>Billing Address</Label>
-                  <P id='shippingAddress'>
+                  <P id="shippingAddress">
                     {!_.isEmpty(order.data) &&
                       order.fetched &&
                       !order.loading &&
@@ -368,7 +383,7 @@ const EditOrder = (props) => {
                               order.data.paymentMethod.cryptocurrency.logo && (
                                 <>
                                   <Label>Cryptocurrency</Label>
-                                  <P className='cryptoLogoSymbolName'>
+                                  <P className="cryptoLogoSymbolName">
                                     <img
                                       src={
                                         order.data.paymentMethod.cryptocurrency
@@ -507,7 +522,7 @@ const EditOrder = (props) => {
                               <HalfGrid>
                                 <div>
                                   <Label>
-                                    Total in{' '}
+                                    Total in{" "}
                                     {
                                       order.data.paymentMethod.cryptocurrency
                                         .symbol
@@ -530,7 +545,7 @@ const EditOrder = (props) => {
               !order.error && (
                 <>
                   <OrderedItemsList
-                    title='Purchased Items'
+                    title="Purchased Items"
                     products={order.data.cart.items}
                     handleGetElement={handleGetElement}
                   />
@@ -548,10 +563,10 @@ const EditOrder = (props) => {
           </MainGrid>
         </Wrapper>
         <SubmitButton
-          type='button'
+          type="button"
           onClick={handleSubmit}
           style={{
-            marginBottom: '15px',
+            marginBottom: "15px",
           }}
         >
           Update Order
