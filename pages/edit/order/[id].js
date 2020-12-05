@@ -327,7 +327,7 @@ const EditOrder = (props) => {
                           {order.data.coupon ? (
                             <div>
                               <Label>Coupon applied</Label>
-                              <Status>{order.data.coupon.couponName}</Status>
+                              <P>{order.data.coupon.couponName}</P>
                             </div>
                           ) : (
                             <div />
