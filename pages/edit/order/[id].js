@@ -324,10 +324,10 @@ const EditOrder = (props) => {
                       !order.loading &&
                       !order.error && (
                         <>
-                          {order.coupon ? (
+                          {order.data.coupon ? (
                             <div>
                               <Label>Coupon applied</Label>
-                              <Status>{order.coupon.couponName}</Status>
+                              <Status>{order.data.coupon.couponName}</Status>
                             </div>
                           ) : (
                             <div />
