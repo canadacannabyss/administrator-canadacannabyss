@@ -17,6 +17,26 @@
   </url>
 
   <url>
+    <loc>https://canadacannabyss.com/account/billing</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/account/index</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/account/invite</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/account/reviews</loc>
+  </url>
+
+  <url>
+    <loc>https://canadacannabyss.com/account/shipping</loc>
+  </url>
+
+  <url>
     <loc>https://canadacannabyss.com/add/banner</loc>
   </url>
 
@@ -50,26 +70,6 @@
 
   <url>
     <loc>https://canadacannabyss.com/add/reseller</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/billing</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/index</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/invite</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/reviews</loc>
-  </url>
-
-  <url>
-    <loc>https://canadacannabyss.com/account/shipping</loc>
   </url>
 
   <url>
@@ -161,11 +161,11 @@
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/edit/postal-service/[slug]</loc>
+    <loc>https://canadacannabyss.com/edit/product/[slug]</loc>
   </url>
 
   <url>
-    <loc>https://canadacannabyss.com/edit/product/[slug]</loc>
+    <loc>https://canadacannabyss.com/edit/postal-service/[slug]</loc>
   </url>
 
   <url>
